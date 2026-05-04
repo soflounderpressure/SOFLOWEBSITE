@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Before & After Gallery | SoFlo UnderPressure Pressure Washing Miami</title>
+  <meta name="description" content="See the results — before and after pressure washing photos from real jobs in Miami-Dade and Broward County. Driveways, roofs, patios, and more.">
+  <meta name="keywords" content="pressure washing before after Miami, driveway cleaning results, roof soft wash before after, pressure washing gallery Miami-Dade">
+  <meta name="geo.region" content="US-FL">
+  <meta name="geo.placename" content="Miami, Florida">
+  <link rel="canonical" href="https://soflounderprssure.com/gallery.html">
+  <meta property="og:title" content="Before & After Gallery | SoFlo UnderPressure">
+  <meta property="og:description" content="Real results. Driveways, roofs, patios — see what a difference a proper pressure wash makes.">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "SoFlo UnderPressure Pressure Washing",
+    "url": "https://soflounderprssure.com",
+    "telephone": "+13058946336",
+    "address": { "@type": "PostalAddress", "addressLocality": "Miami", "addressRegion": "FL", "addressCountry": "US" },
+    "areaServed": ["Miami-Dade County", "Broward County"]
+  }
+  </script>
+
+  <style>
+    /* ── Gallery page styles ───────────────────────────────────────────────── */
+
+    .gallery-hero {
+      background: var(--sky);
+      padding: 9rem 3rem 4rem;
+      text-align: center;
+    }
+    .gallery-hero .section-eyebrow { justify-content: center; }
+
+    /* Filters */
+    .filter-bar {
+      background: var(--white);
+      padding: 1.5rem 3rem;
+      border-bottom: 1.5px solid rgba(28,43,58,.06);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .filter-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .filter-label {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: .75rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      flex-shrink: 0;
+    }
+    .filter-btn {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: .78rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .5rem 1.1rem;
+      border-radius: 100px;
+      border: 2px solid rgba(28,43,58,.14);
+      color: var(--text-mid);
+      background: transparent;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: var(--white);
+    }
+
+    /* Gallery grid */
+    .gallery-section { background: var(--off-white); padding: 4rem 3rem; }
+    .gallery-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5rem;
+    }
+
+    /* Slider card */
+    .slider-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      transition: transform .3s, box-shadow .3s;
+    }
+    .slider-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lift); }
+    .slider-card.hidden { display: none; }
+
+    .slider-wrap {
+      position: relative;
+      height: 320px;
+      overflow: hidden;
+      cursor: ew-resize;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .slider-after,
+    .slider-before {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .slider-before {
+      /* Reveal only the left portion — clipped by the divider position */
+      clip-path: inset(0 50% 0 0);
+      z-index: 2;
+    }
+
+    /* Divider line + handle */
+    .slider-divider {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 3px;
+      background: var(--white);
+      z-index: 10;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+    .slider-handle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--white);
+      box-shadow: 0 4px 16px rgba(28,43,58,.25);
+      z-index: 11;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--navy);
+    }
+
+    /* Labels */
+    .slider-label-before,
+    .slider-label-after {
+      position: absolute;
+      bottom: 1rem;
+      z-index: 12;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      padding: .35rem .85rem;
+      border-radius: 100px;
+      pointer-events: none;
+    }
+    .slider-label-before { left: 1rem; background: rgba(28,43,58,.75); color: #fff; }
+    .slider-label-after  { right: 1rem; background: var(--periwinkle); color: #fff; }
+
+    /* Card footer */
+    .slider-info {
+      padding: 1.2rem 1.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .slider-info-left {}
+    .slider-info-tag {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: .68rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--periwinkle-dk);
+      margin-bottom: .2rem;
+    }
+    .slider-info-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: -.01em;
+      color: var(--navy);
+    }
+    .slider-info-loc {
+      font-size: .8rem;
+      color: var(--text-light);
+      margin-top: .15rem;
+    }
+    .slider-cta-sm {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: .75rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      background: var(--sky);
+      color: var(--navy);
+      padding: .6rem 1.1rem;
+      border-radius: 100px;
+      white-space: nowrap;
+      transition: background .2s;
+    }
+    .slider-cta-sm:hover { background: var(--periwinkle); color: var(--white); }
+
+    /* Placeholder card (for slots without real photos yet) */
+    .placeholder-wrap {
+      height: 320px;
+      background: linear-gradient(135deg, var(--sky) 0%, var(--sky-mid) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+      cursor: default;
+    }
+    .placeholder-icon { font-size: 3rem; opacity: .35; }
+    .placeholder-text {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: .78rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--navy);
+      opacity: .45;
+    }
+
+    /* CTA bottom */
+    .gallery-cta { background: var(--sky); padding: 4rem 3rem; text-align: center; }
+    .gallery-cta h2.section-title { margin-bottom: 1rem; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-section { padding: 3rem 1.5rem; }
+      .gallery-cta { padding: 3rem 1.5rem; }
+      .gallery-hero { padding: 7rem 1.5rem 3rem; }
+      .filter-bar { padding: 1rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ──────────────────────────────────────────────────────────────────── -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <span class="nav-logo__main">SoFlo</span>
+    <span class="nav-logo__accent">UnderPressure</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="services.html">Services</a></li>
+    <li><a href="gallery.html" class="active">Gallery</a></li>
+    <li><a href="membership.html">Plans</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="quote.html" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <a href="quote.html" class="nav-mobile-cta">Quote</a>
+</nav>
+
+<!-- ── Hero ─────────────────────────────────────────────────────────────────── -->
+<section class="gallery-hero">
+  <div class="section-eyebrow reveal">Real Results</div>
+  <h1 class="page-title reveal reveal-delay-1">Before<br><em>&amp; After</em></h1>
+  <p class="page-sub reveal reveal-delay-2">Drag the slider on each photo to see the transformation. These are real jobs, real properties — right here in South Florida.</p>
+</section>
+
+<!-- ── Filter Bar ────────────────────────────────────────────────────────────── -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <span class="filter-label">Filter:</span>
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="driveway">Driveways</button>
+    <button class="filter-btn" data-filter="patio">Patios</button>
+    <button class="filter-btn" data-filter="roof">Roofs</button>
+    <button class="filter-btn" data-filter="fence">Fences</button>
+    <button class="filter-btn" data-filter="house">House</button>
+    <button class="filter-btn" data-filter="commercial">Commercial</button>
+  </div>
+</div>
+
+<!-- ── Gallery Grid ──────────────────────────────────────────────────────────── -->
+<section class="gallery-section">
+  <div class="gallery-grid" id="galleryGrid">
+
+    <!-- Card 1: Driveway -->
+    <div class="slider-card reveal" data-category="driveway">
+      <div class="slider-wrap" data-slider>
+        <!-- After (visible bottom layer) -->
+        <img class="slider-after" src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=900&q=85" alt="After: Clean driveway" draggable="false">
+        <!-- Before (clipped top layer) -->
+        <img class="slider-before" src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d3e?w=900&q=85" alt="Before: Dirty driveway" draggable="false">
+        <div class="slider-divider"></div>
+        <div class="slider-handle">⇔</div>
+        <span class="slider-label-before">Before</span>
+        <span class="slider-label-after">After</span>
+      </div>
+      <div class="slider-info">
+        <div class="slider-info-left">
+          <div class="slider-info-tag">Driveway</div>
+          <div class="slider-info-title">Concrete Driveway Restore</div>
+          <div class="slider-info-loc">Kendall, Miami-Dade</div>
+        </div>
+        <a href="quote.html" class="slider-cta-sm">Book This</a>
+      </div>
+    </div>
+
+    <!-- Card 2: Patio -->
+    <div class="slider-card reveal reveal-delay-1" data-category="patio">
+      <div class="slider-wrap" data-slider>
+        <img class="slider-after" src="https://images.unsplash.com/photo-1575429198097-0414ec08e8cd?w=900&q=85" alt="After: Clean travertine patio" draggable="false">
+        <img class="slider-before" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=85" alt="Before: Dirty patio" draggable="false">
+        <div class="slider-divider"></div>
+        <div class="slider-handle">⇔</div>
+        <span class="slider-label-before">Before</span>
+        <span class="slider-label-after">After</span>
+      </div>
+      <div class="slider-info">
+        <div class="slider-info-left">
+          <div class="slider-info-tag">Patio / Pool Deck</div>
+          <div class="slider-info-title">Travertine Pool Deck</div>
+          <div class="slider-info-loc">Coral Gables, Miami-Dade</div>
+        </div>
+        <a href="quote.html" class="slider-cta-sm">Book This</a>
+      </div>
+    </div>
+
+    <!-- Card 3: Roof -->
+    <div class="slider-card reveal" data-category="roof">
+      <div class="slider-wrap" data-slider>
+        <img class="slider-after" src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=900&q=85" alt="After: Clean barrel tile roof" draggable="false">
+        <img class="slider-before" src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&q=85" alt="Before: Dirty roof with algae" draggable="false">
+        <div class="slider-divider"></div>
+        <div class="slider-handle">⇔</div>
+        <span class="slider-label-before">Before</span>
+        <span class="slider-label-after">After</span>
+      </div>
+      <div class="slider-info">
+        <div class="slider-info-left">
+          <div class="slider-info-tag">Roof Soft Wash</div>
+          <div class="slider-info-title">Barrel Tile Roof</div>
+          <div class="slider-info-loc">Doral, Miami-Dade</div>
+        </div>
+        <a href="quote.html" class="slider-cta-sm">Book This</a>
+      </div>
+    </div>
+
+    <!-- Card 4: Fence -->
+    <div class="slider-card reveal reveal-delay-1" data-category="fence">
+      <div class="slider-wrap" data-slider>
+        <img class="slider-after" src="https://images.unsplash.com/photo-1558036117-15d82a90b9b1?w=900&q=85" alt="After: Clean fence" draggable="false">
+        <img class="slider-before" src="https://images.unsplash.com/photo-1471943311424-646960669fbc?w=900&q=85" alt="Before: Dirty fence with mold" draggable="false">
+        <div class="slider-divider"></div>
+        <div class="slider-handle">⇔</div>
+        <span class="slider-label-before">Before</span>
+        <span class="slider-label-after">After</span>
+      </div>
+      <div class="slider-info">
+        <div class="slider-info-left">
+          <div class="slider-info-tag">Fence</div>
+          <div class="slider-info-title">Vinyl Privacy Fence</div>
+          <div class="slider-info-loc">Hialeah, Miami-Dade</div>
+        </div>
+        <a href="quote.html" class="slider-cta-sm">Book This</a>
+      </div>
+    </div>
+
+    <!-- Card 5: House -->
+    <div class="slider-card reveal" data-category="house">
+      <div class="slider-wrap" data-slider>
+        <img class="slider-after" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=900&q=85" alt="After: Clean house exterior" draggable="false">
+        <img class="slider-before" src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=900&q=85" alt="Before: Dirty house exterior" draggable="false">
+        <div class="slider-divider"></div>
+        <div class="slider-handle">⇔</div>
+        <span class="slider-label-before">Before</span>
+        <span class="slider-label-after">After</span>
+      </div>
+      <div class="slider-info">
+        <div class="slider-info-left">
+          <div class="slider-info-tag">House Exterior</div>
+          <div class="slider-info-title">Full House Soft Wash</div>
+          <div class="slider-info-loc">Pembroke Pines, Broward</div>
+        </div>
+        <a href="quote.html" class="slider-cta-sm">Book This</a>
+      </div>
+    </div>
+
+    <!-- Card 6: Commercial -->
+    <div class="slider-card reveal reveal-delay-1" data-category="commercial">
+      <div class="slider-wrap" data-slider>
+        <img class="slider-after" src="https://images.unsplash.com/photo-1604328698692-f76ea9498e76?w=900&q=85" alt="After: Clean storefront" draggable="false">
+        <img class="slider-before" src="https://images.unsplash.com/photo-1567942712661-82b9b407abbf?w=900&q=85" alt="Before: Dirty storefront" draggable="false">
+        <div class="slider-divider"></div>
+        <div class="slider-handle">⇔</div>
+        <span class="slider-label-before">Before</span>
+        <span class="slider-label-after">After</span>
+      </div>
+      <div class="slider-info">
+        <div class="slider-info-left">
+          <div class="slider-info-tag">Commercial</div>
+          <div class="slider-info-title">Retail Storefront</div>
+          <div class="slider-info-loc">Brickell, Miami</div>
+        </div>
+        <a href="quote.html" class="slider-cta-sm">Book This</a>
+      </div>
+    </div>
+
+    <!-- Card 7: Driveway -->
+    <div class="slider-card reveal" data-category="driveway">
+      <div class="slider-wrap" data-slider>
+        <img class="slider-after" src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=900&q=85" alt="After: Clean paver driveway" draggable="false">
+        <img class="slider-before" src="https://images.unsplash.com/photo-1605146769289-440113cc3d00?w=900&q=85" alt="Before: Stained paver driveway" draggable="false">
+        <div class="slider-divider"></div>
+        <div class="slider-handle">⇔</div>
+        <span class="slider-label-before">Before</span>
+        <span class="slider-label-after">After</span>
+      </div>
+      <div class="slider-info">
+        <div class="slider-info-left">
+          <div class="slider-info-tag">Driveway</div>
+          <div class="slider-info-title">Paver Driveway &amp; Walkway</div>
+          <div class="slider-info-loc">Weston, Broward</div>
+        </div>
+        <a href="quote.html" class="slider-cta-sm">Book This</a>
+      </div>
+    </div>
+
+    <!-- Card 8: Patio — Coming Soon -->
+    <div class="slider-card reveal reveal-delay-1" data-category="patio">
+      <div class="slider-wrap" style="cursor:default;">
+        <div class="placeholder-wrap">
+          <div class="placeholder-icon">📸</div>
+          <div class="placeholder-text">More Photos Coming Soon</div>
+        </div>
+      </div>
+      <div class="slider-info">
+        <div class="slider-info-left">
+          <div class="slider-info-tag">More Jobs</div>
+          <div class="slider-info-title">Check Back Soon</div>
+          <div class="slider-info-loc">Miami-Dade &amp; Broward</div>
+        </div>
+        <a href="quote.html" class="slider-cta-sm">Get Yours →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── Bottom CTA ────────────────────────────────────────────────────────────── -->
+<section class="gallery-cta">
+  <div class="section-eyebrow reveal" style="justify-content:center;">Your Property Next</div>
+  <h2 class="section-title reveal reveal-delay-1">Ready to See the Difference?</h2>
+  <p class="section-sub reveal reveal-delay-2" style="margin: 0 auto 2.5rem;">Upload a photo of your property and get an estimate. We'll show you what we can do.</p>
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;" class="reveal reveal-delay-3">
+    <a href="quote.html" class="btn-primary">Get a Free Quote →</a>
+    <a href="tel:3058946336" class="btn-secondary">📞 (305) 894-6336</a>
+  </div>
+</section>
+
+<!-- ── HOA Banner ────────────────────────────────────────────────────────────── -->
+<div class="hoa-banner">
+  <div class="hoa-inner reveal">
+    <div>
+      <div class="hoa-label">HOA Notice</div>
+      <h2 class="hoa-headline">Call Us Before<br>Your HOA Does</h2>
+      <p class="hoa-sub">One letter from your HOA and suddenly everyone needs pressure washing. We fix it fast.</p>
+    </div>
+    <div class="hoa-action">
+      <a href="tel:3058946336" class="hoa-phone">(305) 894-6336</a>
+      <div class="hoa-phone-label">Call or Text Anytime</div>
+      <a href="quote.html" class="btn-hoa">Get a Free Quote</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── Footer ────────────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand__name">SoFlo <span>Under</span>Pressure</div>
+      <div class="footer-brand__tagline">Pressure Washing · Miami</div>
+      <p class="footer-brand__desc">Professional pressure washing and soft washing for homes and businesses in Miami-Dade and Broward County.</p>
+    </div>
+    <div>
+      <div class="footer-col__title">Services</div>
+      <ul class="footer-col__links">
+        <li><a href="services.html">Driveways</a></li>
+        <li><a href="services.html">Patios &amp; Pool Decks</a></li>
+        <li><a href="services.html">Roof Soft Wash</a></li>
+        <li><a href="services.html">Fences</a></li>
+        <li><a href="services.html">House Exterior</a></li>
+        <li><a href="services.html">Storefronts</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col__title">Company</div>
+      <ul class="footer-col__links">
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="membership.html">Membership Plans</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col__title">Contact</div>
+      <p class="footer-contact-line"><a href="tel:3058946336">(305) 894-6336</a></p>
+      <p class="footer-contact-line"><a href="mailto:SoFlo.Underpressure@gmail.com">SoFlo.Underpressure@gmail.com</a></p>
+      <p class="footer-contact-line" style="margin-top:.8rem;color:rgba(255,255,255,.4);">Miami-Dade &amp; Broward County</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 SoFlo UnderPressure Pressure Washing. All rights reserved.</span>
+    <span class="footer-lic">Licensed · Miami-Dade, FL</span>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Scroll reveal
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  // ── Before/After Sliders ──────────────────────────────────────────────────
+  document.querySelectorAll('[data-slider]').forEach(wrap => {
+    const before = wrap.querySelector('.slider-before');
+    const divider = wrap.querySelector('.slider-divider');
+    const handle = wrap.querySelector('.slider-handle');
+    let dragging = false;
+
+    function setPosition(clientX) {
+      const rect = wrap.getBoundingClientRect();
+      let pct = (clientX - rect.left) / rect.width;
+      pct = Math.max(0.04, Math.min(0.96, pct));
+      const pctPx = (pct * 100).toFixed(2);
+      before.style.clipPath = `inset(0 ${(100 - pct * 100).toFixed(2)}% 0 0)`;
+      divider.style.left = pctPx + '%';
+      handle.style.left = pctPx + '%';
+    }
+
+    wrap.addEventListener('mousedown', e => { dragging = true; setPosition(e.clientX); e.preventDefault(); });
+    wrap.addEventListener('touchstart', e => { dragging = true; setPosition(e.touches[0].clientX); }, { passive: true });
+
+    document.addEventListener('mousemove', e => { if (dragging) setPosition(e.clientX); });
+    document.addEventListener('touchmove', e => { if (dragging) setPosition(e.touches[0].clientX); }, { passive: true });
+
+    document.addEventListener('mouseup',  () => { dragging = false; });
+    document.addEventListener('touchend', () => { dragging = false; });
+  });
+
+  // ── Filter ────────────────────────────────────────────────────────────────
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.slider-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      cards.forEach(card => {
+        if (filter === 'all' || card.dataset.category === filter) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

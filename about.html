@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>About Us | SoFlo UnderPressure Pressure Washing Miami</title>
+  <meta name="description" content="SoFlo UnderPressure is a Miami-based pressure washing company owned and operated by Saul Len. Serving Miami-Dade and Broward County with honest, professional service.">
+  <meta name="keywords" content="pressure washing company Miami, local pressure washing Miami-Dade, SoFlo UnderPressure about, Saul Len pressure washing Miami">
+  <meta name="geo.region" content="US-FL">
+  <meta name="geo.placename" content="Miami, Florida">
+  <link rel="canonical" href="https://soflounderprssure.com/about.html">
+  <meta property="og:title" content="About SoFlo UnderPressure | Miami Pressure Washing">
+  <meta property="og:description" content="Local, owner-operated pressure washing out of Miami. We care about the quality of our work because it's our name on it.">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "SoFlo UnderPressure Pressure Washing",
+    "description": "Owner-operated pressure washing and soft washing in Miami-Dade and Broward County",
+    "url": "https://soflounderprssure.com",
+    "telephone": "+13058946336",
+    "email": "SoFlo.Underpressure@gmail.com",
+    "founder": { "@type": "Person", "name": "Saul Len" },
+    "address": { "@type": "PostalAddress", "addressLocality": "Miami", "addressRegion": "FL", "addressCountry": "US" },
+    "areaServed": ["Miami-Dade County", "Broward County"]
+  }
+  </script>
+
+  <style>
+    /* ── About page ───────────────────────────────────────────────────────── */
+
+    /* Story section */
+    .story-section { background: var(--white); padding: 5rem 3rem; }
+    .story-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .story-visual {
+      position: relative;
+    }
+    .story-img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      border-radius: var(--radius-xl);
+      display: block;
+    }
+    .story-badge-float {
+      position: absolute;
+      bottom: 2rem;
+      right: -1.5rem;
+      background: var(--navy);
+      color: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 1.4rem 1.8rem;
+      box-shadow: var(--shadow-lift);
+      min-width: 180px;
+    }
+    .story-badge-float .num {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--yellow);
+    }
+    .story-badge-float .label {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: .72rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.6);
+      margin-top: .3rem;
+    }
+
+    .story-text {}
+    .story-text p {
+      font-size: .98rem;
+      color: var(--text-mid);
+      line-height: 1.8;
+      margin-bottom: 1.2rem;
+    }
+    .story-text p:last-of-type { margin-bottom: 2rem; }
+    .story-text strong { color: var(--navy); font-weight: 600; }
+
+    /* Values */
+    .values-section { background: var(--sky); padding: 5rem 3rem; }
+    .values-inner { max-width: 1200px; margin: 0 auto; }
+    .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .value-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 2.2rem 2rem;
+      box-shadow: var(--shadow-card);
+    }
+    .value-icon {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+    .value-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      letter-spacing: -.01em;
+      color: var(--navy);
+      margin-bottom: .6rem;
+    }
+    .value-desc {
+      font-size: .88rem;
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+
+    /* Service area map/list */
+    .area-section { background: var(--off-white); padding: 5rem 3rem; }
+    .area-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+    .area-cities { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .area-county {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: .7rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--periwinkle-dk);
+      margin-bottom: .8rem;
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .area-county::before { content:''; width:18px; height:2px; background: var(--periwinkle-dk); }
+    .area-city {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: .9rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: var(--navy);
+      padding: .6rem .9rem;
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      border: 1.5px solid rgba(28,43,58,.08);
+      transition: border-color .2s, background .2s;
+    }
+    .area-city:hover { background: var(--sky); border-color: var(--sky-deep); }
+    .area-note { font-size: .85rem; color: var(--text-light); line-height: 1.7; }
+    .area-map-embed {
+      background: var(--sky-mid);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      border: none;
+    }
+    .area-map-embed iframe { width: 100%; height: 100%; border: none; }
+
+    /* CTA strip */
+    .about-cta { background: var(--navy); padding: 5rem 3rem; text-align: center; }
+    .about-cta .section-eyebrow { color: var(--periwinkle-lt); justify-content: center; }
+    .about-cta .section-eyebrow::before { background: var(--periwinkle-lt); }
+    .about-cta .section-title { color: var(--white); }
+    .about-cta .section-sub { color: rgba(255,255,255,.6); margin: 0 auto 2.5rem; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .story-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .story-visual { max-width: 480px; margin: 0 auto; }
+      .story-badge-float { right: 0; }
+      .values-grid { grid-template-columns: 1fr; }
+      .area-inner { grid-template-columns: 1fr; }
+      .area-map-embed { display: none; }
+      .story-section { padding: 3rem 1.5rem; }
+      .values-section { padding: 3rem 1.5rem; }
+      .area-section { padding: 3rem 1.5rem; }
+      .about-cta { padding: 3rem 1.5rem; }
+    }
+    @media (max-width: 560px) {
+      .area-cities { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ──────────────────────────────────────────────────────────────────── -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <span class="nav-logo__main">SoFlo</span>
+    <span class="nav-logo__accent">UnderPressure</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="services.html">Services</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="membership.html">Plans</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="quote.html" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <a href="quote.html" class="nav-mobile-cta">Quote</a>
+</nav>
+
+<!-- ── Trust strip ──────────────────────────────────────────────────────────── -->
+<div class="strip" style="padding-top:4.5rem;">
+  <div class="strip-inner">
+    <div class="strip-item"><span class="dot"></span>Owner-Operated</div>
+    <div class="strip-item"><span class="dot"></span>Miami-Dade &amp; Broward</div>
+    <div class="strip-item"><span class="dot"></span><strong>Licensed</strong> &amp; Professional</div>
+    <div class="strip-item"><span class="dot"></span><strong>(305) 894-6336</strong></div>
+  </div>
+</div>
+
+<!-- ── Hero ─────────────────────────────────────────────────────────────────── -->
+<section class="page-hero">
+  <div class="section-eyebrow reveal">Our Story</div>
+  <h1 class="page-title reveal reveal-delay-1">Miami-Made.<br><em>Owner-Run.</em></h1>
+  <p class="page-sub reveal reveal-delay-2">SoFlo UnderPressure is a small, local operation — and we're proud of it. When you call, you get us. When we show up, we do the work right.</p>
+</section>
+
+<!-- ── Story ────────────────────────────────────────────────────────────────── -->
+<section class="story-section">
+  <div class="story-inner">
+    <div class="story-visual reveal">
+      <img class="story-img" src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=85" alt="Pressure washing professional at work Miami" loading="lazy">
+      <div class="story-badge-float">
+        <div class="num">100%</div>
+        <div class="label">Owner on Every Job</div>
+      </div>
+    </div>
+    <div class="story-text">
+      <div class="section-eyebrow reveal">The People Behind the Hose</div>
+      <h2 class="section-title reveal reveal-delay-1">Why We<br>Started This</h2>
+      <p class="reveal reveal-delay-2">South Florida is tough on property. The combination of humidity, heat, salt air, and relentless rain means homes here need regular maintenance just to keep up. We started <strong>SoFlo UnderPressure</strong> because we saw a lot of properties that just needed a proper clean — and a lot of homeowners getting overcharged or let down by people who didn't care about the work.</p>
+      <p class="reveal reveal-delay-2">We keep things simple: show up on time, do the job right, treat the property with care, and charge a fair price. No corporate call center, no subcontracted strangers. You deal directly with us from the first call to the last rinse.</p>
+      <p class="reveal reveal-delay-2">We focus on <strong>residential and small commercial jobs</strong> — driveways, patios, roofs, fences, house exteriors, and storefronts. Nothing so big we can't give it proper attention. Mostly Miami-Dade, some Broward.</p>
+      <a href="quote.html" class="btn-primary reveal reveal-delay-3">Work With Us →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Values ────────────────────────────────────────────────────────────────── -->
+<section class="values-section">
+  <div class="values-inner">
+    <div style="text-align:center;margin-bottom:3rem;">
+      <div class="section-eyebrow reveal" style="justify-content:center;">How We Operate</div>
+      <h2 class="section-title reveal reveal-delay-1">What We're About</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card reveal">
+        <div class="value-icon">🔧</div>
+        <div class="value-title">Right Pressure, Right Surface</div>
+        <p class="value-desc">Not everything should get blasted at max PSI. We adjust pressure and technique for each surface — travertine, tile, wood, stucco — so nothing gets damaged.</p>
+      </div>
+      <div class="value-card reveal reveal-delay-1">
+        <div class="value-icon">📞</div>
+        <div class="value-title">You Deal with Us Directly</div>
+        <p class="value-desc">No call centers, no middlemen. You talk to the person doing the work. That means faster answers, real accountability, and someone who actually cares how it turns out.</p>
+      </div>
+      <div class="value-card reveal reveal-delay-2">
+        <div class="value-icon">✅</div>
+        <div class="value-title">Clean Is What We Leave Behind</div>
+        <p class="value-desc">We don't consider a job done until the surface is clean and the work area is cleared. No mess left on the lawn, no overspray on your car, no corners cut.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Service Area ───────────────────────────────────────────────────────────── -->
+<section class="area-section">
+  <div class="area-inner">
+    <div>
+      <div class="section-eyebrow reveal">Where We Work</div>
+      <h2 class="section-title reveal reveal-delay-1">Our Service Area</h2>
+      <p class="area-note reveal reveal-delay-2" style="margin-bottom:2rem;">We serve most of Miami-Dade County and parts of Broward. Not sure if we cover your neighborhood? Give us a call — we'll let you know.</p>
+      <div class="area-cities reveal reveal-delay-2">
+        <span class="area-county">Miami-Dade County</span>
+        <span class="area-city">Miami</span>
+        <span class="area-city">Hialeah</span>
+        <span class="area-city">Coral Gables</span>
+        <span class="area-city">Kendall</span>
+        <span class="area-city">Doral</span>
+        <span class="area-city">Homestead</span>
+        <span class="area-city">Cutler Bay</span>
+        <span class="area-city">Miami Gardens</span>
+        <span class="area-city">North Miami</span>
+        <span class="area-city">Opa-Locka</span>
+        <span class="area-county" style="margin-top:1rem;">Broward County</span>
+        <span class="area-city">Hollywood</span>
+        <span class="area-city">Pembroke Pines</span>
+        <span class="area-city">Miramar</span>
+        <span class="area-city">Weston</span>
+        <span class="area-city">Davie</span>
+        <span class="area-city">Fort Lauderdale</span>
+      </div>
+    </div>
+    <div class="area-map-embed reveal">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d462069.50773434245!2d-80.4986702!3d25.7742700!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9b0a20ec8c111%3A0xff96f271ddad4f65!2sMiami-Dade%20County%2C%20FL!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
+        title="SoFlo UnderPressure Service Area — Miami-Dade and Broward County"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allowfullscreen
+        style="width:100%;height:100%;border:none;"
+      ></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ───────────────────────────────────────────────────────────────────── -->
+<section class="about-cta">
+  <div class="section-eyebrow reveal">Ready to Book?</div>
+  <h2 class="section-title reveal reveal-delay-1">Let's Get to Work</h2>
+  <p class="section-sub reveal reveal-delay-2">Use the quote form to tell us about your property — or just call. We're a real local business and we answer the phone.</p>
+  <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;" class="reveal reveal-delay-3">
+    <a href="quote.html" class="btn-primary">Get a Free Quote →</a>
+    <a href="tel:3058946336" class="btn-secondary" style="color:var(--white);border-color:rgba(255,255,255,.4);">📞 (305) 894-6336</a>
+  </div>
+</section>
+
+<!-- ── Footer ────────────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand__name">SoFlo <span>Under</span>Pressure</div>
+      <div class="footer-brand__tagline">Pressure Washing · Miami</div>
+      <p class="footer-brand__desc">Professional pressure washing and soft washing for homes and businesses in Miami-Dade and Broward County.</p>
+    </div>
+    <div>
+      <div class="footer-col__title">Services</div>
+      <ul class="footer-col__links">
+        <li><a href="services.html">Driveways</a></li>
+        <li><a href="services.html">Patios &amp; Pool Decks</a></li>
+        <li><a href="services.html">Roof Soft Wash</a></li>
+        <li><a href="services.html">Fences</a></li>
+        <li><a href="services.html">House Exterior</a></li>
+        <li><a href="services.html">Storefronts</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col__title">Company</div>
+      <ul class="footer-col__links">
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="membership.html">Membership Plans</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col__title">Contact</div>
+      <p class="footer-contact-line"><a href="tel:3058946336">(305) 894-6336</a></p>
+      <p class="footer-contact-line"><a href="mailto:SoFlo.Underpressure@gmail.com">SoFlo.Underpressure@gmail.com</a></p>
+      <p class="footer-contact-line" style="margin-top:.8rem;color:rgba(255,255,255,.4);">Miami-Dade &amp; Broward County</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 SoFlo UnderPressure Pressure Washing. All rights reserved.</span>
+    <span class="footer-lic">Licensed · Miami-Dade, FL</span>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
