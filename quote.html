@@ -7,7 +7,7 @@
   <meta name="description" content="Get an instant pressure washing quote for your Miami-Dade or Broward home. Upload photos, enter your address, and we'll follow up same day.">
   <meta name="geo.region" content="US-FL">
   <meta name="geo.placename" content="Miami, Florida">
-  <link rel="canonical" href="https://sofloUNDERpressure.com/quote.html">
+  <link rel="canonical" href="https://sofloup.com/quote.html">
 
   <!-- Open Graph -->
   <meta property="og:title" content="Get a Free Quote — SoFlo UnderPressure">
@@ -77,10 +77,10 @@
   <!-- Google Maps Places (replace key) -->
   <script>
     const GOOGLE_MAPS_API_KEY = 'YOUR_GOOGLE_MAPS_API_KEY';
-    const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
-    const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
-    const EMAILJS_TEMPLATE_SAUL     = 'YOUR_TEMPLATE_SAUL';
-    const EMAILJS_TEMPLATE_CUSTOMER = 'YOUR_TEMPLATE_CUSTOMER';
+    const EMAILJS_PUBLIC_KEY  = 'g5GADebgwCHFEUhua';
+    const EMAILJS_SERVICE_ID  = 'service_4h1wyzm';
+    const EMAILJS_TEMPLATE_SAUL     = 'template_s0fy0ta';
+    const EMAILJS_TEMPLATE_CUSTOMER = 'template_sluf4f3';
     const CLOUDINARY_CLOUD_NAME     = 'YOUR_CLOUD_NAME';
     const CLOUDINARY_UPLOAD_PRESET  = 'YOUR_UPLOAD_PRESET';
   </script>
@@ -530,7 +530,7 @@
     "name": "SoFlo UnderPressure Pressure Washing",
     "telephone": "+13058946336",
     "email": "SoFlo.Underpressure@gmail.com",
-    "url": "https://sofloUNDERpressure.com",
+    "url": "https://sofloup.com",
     "address": { "@type": "PostalAddress", "addressLocality": "Miami", "addressRegion": "FL", "addressCountry": "US" },
     "areaServed": ["Miami-Dade County, FL", "Broward County, FL"],
     "openingHours": "Mo-Sa 07:00-18:00",
@@ -741,7 +741,7 @@
             <div class="est-label">Estimated Range</div>
             <div class="est-price" id="estPrice">—</div>
           </div>
-          <div class="est-disclaimer">This is a rough estimate. Saul will confirm the exact price before doing any work.</div>
+          <div class="est-disclaimer">This is a rough estimate. We'll confirm the exact price before any work begins.</div>
         </div>
 
         <div class="step-nav">
@@ -787,7 +787,7 @@
             <div class="est-label">Your Estimated Range</div>
             <div class="est-price" id="estPrice4">—</div>
           </div>
-          <div class="est-disclaimer">Saul will confirm the exact number before scheduling.</div>
+          <div class="est-disclaimer">We'll confirm the exact number before scheduling.</div>
         </div>
 
         <div class="step-nav">
@@ -810,7 +810,7 @@
         <div class="confirmation">
           <div class="confetti-icon">🎉</div>
           <div class="confirm-title">We Got It!</div>
-          <p class="confirm-sub">Saul will reach out to confirm your quote and get you on the schedule. Keep an eye on your phone.</p>
+          <p class="confirm-sub">We'll reach out to confirm your quote and get you on the schedule. Keep an eye on your phone.</p>
 
           <div class="confirm-summary" id="confirmSummary">
             <h4>Your Request Summary</h4>
@@ -821,7 +821,7 @@
               <div class="est-label">Estimated Range</div>
               <div class="est-price" id="confirmEstPrice"></div>
             </div>
-            <div style="color:rgba(255,255,255,.65);font-size:.82rem;max-width:200px;line-height:1.5;">Confirmed by Saul before any work begins.</div>
+            <div style="color:rgba(255,255,255,.65);font-size:.82rem;max-width:200px;line-height:1.5;">Confirmed before any work begins.</div>
           </div>
 
           <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
@@ -846,7 +846,7 @@
       <div class="sidebar-item">
         <div class="sidebar-item__icon">📱</div>
         <div class="sidebar-item__text">
-          <strong>Saul Reviews & Calls</strong>
+          <strong>We Review & Call</strong>
           We'll reach out same day (Mon–Sat). If the job is straightforward, we can often confirm price on that call.
         </div>
       </div>
@@ -1193,17 +1193,15 @@ async function submitForm() {
   }
 
   const templateParams = {
+    type:          'Quote Request',
     from_name:     name,
-    reply_to:      email,
-    phone:         phone,
-    contact_pref:  pref ? pref.value : 'Not specified',
+    from_email:    email,
+    from_phone:    phone,
     services:      selectedServices.map(s => s.service).join(', ') || 'Not specified',
     address:       chosenAddress || document.getElementById('addressInput').value || 'Not provided',
-    property_size: size ? size.value : 'Not specified',
-    condition:     cond ? cond.value : 'Not specified',
-    notes:         notes || 'None',
+    size:          size ? size.value : 'Not specified',
+    message:       (notes || 'None') + (photosNote ? '\n' + photosNote : ''),
     estimate:      estLow ? `$${estLow} – $${estHigh}` : 'To be determined',
-    photos_note:   photosNote,
     to_email:      'SoFlo.Underpressure@gmail.com',
   };
 

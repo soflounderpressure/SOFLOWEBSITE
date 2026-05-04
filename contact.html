@@ -9,7 +9,7 @@
   <meta name="keywords" content="contact pressure washing Miami, pressure washing phone number Miami, SoFlo UnderPressure contact">
   <meta name="geo.region" content="US-FL">
   <meta name="geo.placename" content="Miami, Florida">
-  <link rel="canonical" href="https://soflounderprssure.com/contact.html">
+  <link rel="canonical" href="https://sofloup.com/contact.html">
   <meta property="og:title" content="Contact SoFlo UnderPressure | Miami Pressure Washing">
   <meta property="og:description" content="Call, text, or use the form. We're a real local business and we actually pick up the phone.">
   <meta property="og:type" content="website">
@@ -27,7 +27,7 @@
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "SoFlo UnderPressure Pressure Washing",
-    "url": "https://soflounderprssure.com",
+    "url": "https://sofloup.com",
     "telephone": "+13058946336",
     "email": "SoFlo.Underpressure@gmail.com",
     "address": { "@type": "PostalAddress", "addressLocality": "Miami", "addressRegion": "FL", "addressCountry": "US" },
@@ -460,9 +460,9 @@
 
   // ── Contact Form ──────────────────────────────────────────────────────────
   // EmailJS config — replace with your real keys (same service as quote.html)
-  const EMAILJS_PUBLIC_KEY   = 'YOUR_PUBLIC_KEY';
-  const EMAILJS_SERVICE_ID   = 'YOUR_SERVICE_ID';
-  const EMAILJS_TEMPLATE_ID  = 'YOUR_CONTACT_TEMPLATE';  // A simpler template than the quote form
+  const EMAILJS_PUBLIC_KEY   = 'g5GADebgwCHFEUhua';
+  const EMAILJS_SERVICE_ID   = 'service_4h1wyzm';
+  const EMAILJS_TEMPLATE_ID  = 'template_s0fy0ta';  // Same template as quote form (template 1)
 
   const form       = document.getElementById('contactForm');
   const submitBtn  = document.getElementById('submitBtn');
@@ -490,11 +490,15 @@
     statusEl.className    = 'form-status';
 
     const params = {
+      type:         'Contact Form',
       from_name:    name,
-      from_phone:   document.getElementById('phone').value.trim(),
+      from_phone:   document.getElementById('phone').value.trim() || 'Not provided',
       from_email:   email,
-      service_type: document.getElementById('service').value || 'Not specified',
+      services:     document.getElementById('service').value || 'Not specified',
       message:      message,
+      estimate:     '—',
+      size:         '—',
+      address:      '—',
     };
 
     // Try EmailJS if configured
