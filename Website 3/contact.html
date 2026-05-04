@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Contact | SoFlo UnderPressure Pressure Washing Miami</title>
+  <meta name="description" content="Contact SoFlo UnderPressure for pressure washing in Miami-Dade and Broward County. Call, text, or email — we respond fast.">
+  <meta name="keywords" content="contact pressure washing Miami, pressure washing phone number Miami, SoFlo UnderPressure contact">
+  <meta name="geo.region" content="US-FL">
+  <meta name="geo.placename" content="Miami, Florida">
+  <link rel="canonical" href="https://soflounderprssure.com/contact.html">
+  <meta property="og:title" content="Contact SoFlo UnderPressure | Miami Pressure Washing">
+  <meta property="og:description" content="Call, text, or use the form. We're a real local business and we actually pick up the phone.">
+  <meta property="og:type" content="website">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- EmailJS for contact form -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "SoFlo UnderPressure Pressure Washing",
+    "url": "https://soflounderprssure.com",
+    "telephone": "+13058946336",
+    "email": "SoFlo.Underpressure@gmail.com",
+    "address": { "@type": "PostalAddress", "addressLocality": "Miami", "addressRegion": "FL", "addressCountry": "US" },
+    "areaServed": ["Miami-Dade County", "Broward County"],
+    "openingHours": "Mo-Sa 07:00-18:00"
+  }
+  </script>
+
+  <style>
+    /* ── Contact page ─────────────────────────────────────────────────────── */
+
+    .contact-layout {
+      background: var(--off-white);
+      padding: 5rem 3rem;
+    }
+    .contact-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    /* Left: contact info */
+    .contact-info {}
+    .contact-info .section-sub { max-width: none; margin-bottom: 2.5rem; }
+
+    .contact-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 1.6rem 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 1.2rem;
+      transition: transform .25s;
+    }
+    .contact-card:hover { transform: translateY(-3px); }
+    .contact-card a { display: block; }
+
+    .contact-card-icon {
+      width: 3rem;
+      height: 3rem;
+      border-radius: var(--radius-sm);
+      background: var(--sky);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .contact-card-label {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: .68rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-bottom: .2rem;
+    }
+    .contact-card-value {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -.01em;
+      color: var(--navy);
+      text-transform: uppercase;
+      line-height: 1;
+    }
+    .contact-card-value a { color: inherit; transition: color .2s; }
+    .contact-card-value a:hover { color: var(--periwinkle-dk); }
+    .contact-card-sub {
+      font-size: .8rem;
+      color: var(--text-light);
+      margin-top: .25rem;
+    }
+
+    .hours-block {
+      background: var(--navy);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem;
+      margin-top: 2rem;
+      color: var(--white);
+    }
+    .hours-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: .72rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.5);
+      margin-bottom: 1rem;
+    }
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: .88rem;
+      color: rgba(255,255,255,.75);
+      padding: .4rem 0;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .hours-row:last-child { border-bottom: none; }
+    .hours-row .day { color: rgba(255,255,255,.5); }
+    .hours-row .time { font-weight: 600; color: var(--white); }
+
+    /* Right: Form */
+    .contact-form-wrap {
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      padding: 3rem;
+      box-shadow: var(--shadow-lift);
+    }
+    .form-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 2rem;
+      text-transform: uppercase;
+      letter-spacing: -.02em;
+      color: var(--navy);
+      margin-bottom: .5rem;
+    }
+    .form-sub { font-size: .9rem; color: var(--text-light); line-height: 1.6; margin-bottom: 2rem; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1rem; }
+    .form-group label {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: .72rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: .85rem 1rem;
+      border: 2px solid rgba(28,43,58,.12);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-body);
+      font-size: .92rem;
+      color: var(--text-dark);
+      background: var(--off-white);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--periwinkle);
+      box-shadow: 0 0 0 4px rgba(100,117,208,.12);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+
+    .form-submit {
+      width: 100%;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      background: var(--navy);
+      color: var(--white);
+      padding: 1.1rem;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      transition: background .25s, transform .2s;
+      margin-top: .5rem;
+    }
+    .form-submit:hover { background: var(--periwinkle-dk); transform: translateY(-2px); }
+    .form-submit:disabled { opacity: .5; transform: none; cursor: not-allowed; }
+
+    .form-status {
+      display: none;
+      text-align: center;
+      padding: 1.2rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: .88rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-top: 1rem;
+    }
+    .form-status.success { background: #e8f9ef; color: #1a7a3a; display: block; }
+    .form-status.error   { background: #fde8e4; color: #b83221; display: block; }
+
+    /* Quick links strip */
+    .quick-links { background: var(--sky); padding: 3rem; }
+    .quick-links-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+    .quick-link {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: .9rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--navy);
+      transition: color .2s;
+    }
+    .quick-link:hover { color: var(--periwinkle-dk); }
+    .quick-link-icon { font-size: 1.4rem; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .contact-layout { padding: 3rem 1.5rem; }
+      .contact-form-wrap { padding: 2rem 1.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .quick-links { padding: 2rem 1.5rem; }
+      .quick-links-inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Nav ──────────────────────────────────────────────────────────────────── -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <span class="nav-logo__main">SoFlo</span>
+    <span class="nav-logo__accent">UnderPressure</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="services.html">Services</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="membership.html">Plans</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+    <li><a href="quote.html" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <a href="quote.html" class="nav-mobile-cta">Quote</a>
+</nav>
+
+<!-- ── Trust strip ──────────────────────────────────────────────────────────── -->
+<div class="strip" style="padding-top:4.5rem;">
+  <div class="strip-inner">
+    <div class="strip-item"><span class="dot"></span>Owner Answers the Phone</div>
+    <div class="strip-item"><span class="dot"></span>Miami-Dade &amp; Broward</div>
+    <div class="strip-item"><span class="dot"></span>Call or Text Anytime</div>
+    <div class="strip-item"><span class="dot"></span><strong>(305) 894-6336</strong></div>
+  </div>
+</div>
+
+<!-- ── Hero ─────────────────────────────────────────────────────────────────── -->
+<section class="page-hero">
+  <div class="section-eyebrow reveal">Reach Out</div>
+  <h1 class="page-title reveal reveal-delay-1">Let's<br><em>Talk.</em></h1>
+  <p class="page-sub reveal reveal-delay-2">We're a small local operation. Call, text, or send a message — you'll get a real response from a real person.</p>
+</section>
+
+<!-- ── Contact Layout ────────────────────────────────────────────────────────── -->
+<section class="contact-layout">
+  <div class="contact-inner">
+
+    <!-- Info column -->
+    <div>
+      <div class="section-eyebrow reveal">Contact Info</div>
+      <h2 class="section-title reveal reveal-delay-1" style="font-size:clamp(2rem,4vw,3rem);margin-bottom:.8rem;">Get In Touch</h2>
+      <p class="section-sub reveal reveal-delay-2">For quotes, scheduling, and questions — the fastest way to reach us is a call or text. We usually respond same day.</p>
+
+      <div class="contact-card reveal">
+        <div class="contact-card-icon">📞</div>
+        <div>
+          <div class="contact-card-label">Call or Text</div>
+          <div class="contact-card-value"><a href="tel:3058946336">(305) 894-6336</a></div>
+          <div class="contact-card-sub">Mon–Sat · 7am to 6pm</div>
+        </div>
+      </div>
+
+      <div class="contact-card reveal reveal-delay-1">
+        <div class="contact-card-icon">✉️</div>
+        <div>
+          <div class="contact-card-label">Email</div>
+          <div class="contact-card-value" style="font-size:.95rem;"><a href="mailto:SoFlo.Underpressure@gmail.com">SoFlo.Underpressure@gmail.com</a></div>
+          <div class="contact-card-sub">We'll reply within 24 hours</div>
+        </div>
+      </div>
+
+      <div class="contact-card reveal reveal-delay-2">
+        <div class="contact-card-icon">📍</div>
+        <div>
+          <div class="contact-card-label">Service Area</div>
+          <div class="contact-card-value" style="font-size:1rem;line-height:1.3;">Miami-Dade &amp; Broward County</div>
+          <div class="contact-card-sub">Miami, Hialeah, Kendall, Doral, Coral Gables, Hollywood, Miramar &amp; more</div>
+        </div>
+      </div>
+
+      <div class="hours-block reveal">
+        <div class="hours-title">Business Hours</div>
+        <div class="hours-row"><span class="day">Monday – Friday</span><span class="time">7:00 AM – 6:00 PM</span></div>
+        <div class="hours-row"><span class="day">Saturday</span><span class="time">8:00 AM – 4:00 PM</span></div>
+        <div class="hours-row"><span class="day">Sunday</span><span class="time">By Appointment</span></div>
+      </div>
+    </div>
+
+    <!-- Form column -->
+    <div class="contact-form-wrap reveal">
+      <div class="form-title">Send a Message</div>
+      <p class="form-sub">Not ready to call? Drop us a message. For a detailed price estimate, use our <a href="quote.html" style="color:var(--periwinkle-dk);font-weight:600;">full quote form</a> — you can upload photos there too.</p>
+
+      <form id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Your Name *</label>
+            <input type="text" id="name" name="name" placeholder="Jane Smith" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="(305) 000-0000">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" placeholder="jane@email.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="service">What Do You Need?</label>
+          <select id="service" name="service">
+            <option value="">— Select a service —</option>
+            <option value="Driveway">Driveway Cleaning</option>
+            <option value="Patio / Pool Deck">Patio / Pool Deck</option>
+            <option value="Roof Soft Wash">Roof Soft Wash</option>
+            <option value="Fence">Fence Cleaning</option>
+            <option value="House Exterior">House Exterior Wash</option>
+            <option value="Storefront">Storefront / Commercial</option>
+            <option value="Multiple / Full Property">Multiple / Full Property</option>
+            <option value="Recurring Plan">Interested in a Recurring Plan</option>
+            <option value="Other">Other / Not Sure Yet</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="message">Your Message *</label>
+          <textarea id="message" name="message" placeholder="Tell us about your property, what you need cleaned, your neighborhood, or any other details..." required></textarea>
+        </div>
+
+        <button type="submit" class="form-submit" id="submitBtn">Send Message →</button>
+        <div class="form-status" id="formStatus"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ── Quick links ────────────────────────────────────────────────────────────── -->
+<div class="quick-links">
+  <div class="quick-links-inner">
+    <a href="quote.html" class="quick-link"><span class="quick-link-icon">📋</span>Get a Detailed Quote</a>
+    <a href="services.html" class="quick-link"><span class="quick-link-icon">🔧</span>See All Services</a>
+    <a href="gallery.html" class="quick-link"><span class="quick-link-icon">📸</span>Before &amp; After Gallery</a>
+    <a href="membership.html" class="quick-link"><span class="quick-link-icon">📅</span>Recurring Plans</a>
+  </div>
+</div>
+
+<!-- ── HOA Banner ────────────────────────────────────────────────────────────── -->
+<div class="hoa-banner">
+  <div class="hoa-inner reveal">
+    <div>
+      <div class="hoa-label">HOA Notice</div>
+      <h2 class="hoa-headline">Call Us Before<br>Your HOA Does</h2>
+      <p class="hoa-sub">Got a violation letter? We'll help you get into compliance fast — call us directly.</p>
+    </div>
+    <div class="hoa-action">
+      <a href="tel:3058946336" class="hoa-phone">(305) 894-6336</a>
+      <div class="hoa-phone-label">Call or Text Anytime</div>
+      <a href="quote.html" class="btn-hoa">Get a Free Quote</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── Footer ────────────────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand__name">SoFlo <span>Under</span>Pressure</div>
+      <div class="footer-brand__tagline">Pressure Washing · Miami</div>
+      <p class="footer-brand__desc">Professional pressure washing and soft washing for homes and businesses in Miami-Dade and Broward County.</p>
+    </div>
+    <div>
+      <div class="footer-col__title">Services</div>
+      <ul class="footer-col__links">
+        <li><a href="services.html">Driveways</a></li>
+        <li><a href="services.html">Patios &amp; Pool Decks</a></li>
+        <li><a href="services.html">Roof Soft Wash</a></li>
+        <li><a href="services.html">Fences</a></li>
+        <li><a href="services.html">House Exterior</a></li>
+        <li><a href="services.html">Storefronts</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col__title">Company</div>
+      <ul class="footer-col__links">
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="membership.html">Membership Plans</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col__title">Contact</div>
+      <p class="footer-contact-line"><a href="tel:3058946336">(305) 894-6336</a></p>
+      <p class="footer-contact-line"><a href="mailto:SoFlo.Underpressure@gmail.com">SoFlo.Underpressure@gmail.com</a></p>
+      <p class="footer-contact-line" style="margin-top:.8rem;color:rgba(255,255,255,.4);">Miami-Dade &amp; Broward County</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 SoFlo UnderPressure Pressure Washing. All rights reserved.</span>
+    <span class="footer-lic">Licensed · Miami-Dade, FL</span>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── Contact Form ──────────────────────────────────────────────────────────
+  // EmailJS config — replace with your real keys (same service as quote.html)
+  const EMAILJS_PUBLIC_KEY   = 'YOUR_PUBLIC_KEY';
+  const EMAILJS_SERVICE_ID   = 'YOUR_SERVICE_ID';
+  const EMAILJS_TEMPLATE_ID  = 'YOUR_CONTACT_TEMPLATE';  // A simpler template than the quote form
+
+  const form       = document.getElementById('contactForm');
+  const submitBtn  = document.getElementById('submitBtn');
+  const statusEl   = document.getElementById('formStatus');
+
+  function showStatus(msg, type) {
+    statusEl.textContent  = msg;
+    statusEl.className    = 'form-status ' + type;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name    = document.getElementById('name').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    if (!name || !email || !message) {
+      showStatus('Please fill in your name, email, and message.', 'error');
+      return;
+    }
+
+    submitBtn.disabled    = true;
+    submitBtn.textContent = 'Sending…';
+    statusEl.className    = 'form-status';
+
+    const params = {
+      from_name:    name,
+      from_phone:   document.getElementById('phone').value.trim(),
+      from_email:   email,
+      service_type: document.getElementById('service').value || 'Not specified',
+      message:      message,
+    };
+
+    // Try EmailJS if configured
+    if (EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
+      try {
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
+        showStatus('Message sent! We\'ll get back to you soon.', 'success');
+        form.reset();
+      } catch (err) {
+        showStatus('Something went wrong. Please call us at (305) 894-6336.', 'error');
+      }
+    } else {
+      // Fallback: open mailto
+      const body = `Name: ${params.from_name}\nPhone: ${params.from_phone}\nEmail: ${params.from_email}\nService: ${params.service_type}\n\nMessage:\n${params.message}`;
+      window.location.href = `mailto:SoFlo.Underpressure@gmail.com?subject=Website Contact from ${encodeURIComponent(name)}&body=${encodeURIComponent(body)}`;
+      showStatus('Opening your email client…', 'success');
+    }
+
+    submitBtn.disabled    = false;
+    submitBtn.textContent = 'Send Message →';
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SoFlo UnderPressure — Miami Pressure Washing</title>
+  <meta name="description" content="Pressure washing in Miami-Dade and Broward. Driveways, roofs, patios, fences, storefronts. Starting at $99.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,900;1,700;1,900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Reset ─────────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+    /* ── Design Tokens ─────────────────────────────────────────────────────── */
+    :root {
+      --sky:        #C6E8F7;
+      --sky-mid:    #A9D8EF;
+      --sky-deep:   #7BBDE0;
+      --navy:       #1C2B3A;
+      --navy-mid:   #2D4156;
+      --periwinkle: #6475D0;
+      --periwinkle-lt: #A0AEEF;
+      --periwinkle-dk: #4454B0;
+      --white:      #FFFFFF;
+      --off-white:  #F2F9FF;
+      --sand:       #FFF5E6;
+      --yellow:     #FFD84D;
+      --coral:      #FF7055;
+      --text-dark:  #1C2B3A;
+      --text-mid:   #3A4F63;
+      --text-light: #6A8299;
+
+      --font-display: 'Barlow Condensed', sans-serif;
+      --font-body:    'Barlow', sans-serif;
+
+      --radius-sm:  8px;
+      --radius-md:  16px;
+      --radius-lg:  28px;
+      --radius-xl:  48px;
+      --shadow-card: 0 8px 32px rgba(28,43,58,0.10);
+      --shadow-lift: 0 16px 48px rgba(28,43,58,0.16);
+    }
+
+    body {
+      background: var(--sky);
+      color: var(--text-dark);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ── Scroll reveal ─────────────────────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.65s cubic-bezier(0.16,1,0.3,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.32s; }
+    .reveal-delay-4 { transition-delay: 0.44s; }
+
+    /* ── Nav ───────────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.2rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s, box-shadow 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(198, 232, 247, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 2px 20px rgba(28,43,58,0.08);
+    }
+    .nav-logo {
+      display: flex;
+      align-items: baseline;
+      gap: 0.4rem;
+    }
+    .nav-logo__main {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.5rem;
+      letter-spacing: -0.01em;
+      color: var(--navy);
+      text-transform: uppercase;
+    }
+    .nav-logo__accent {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--periwinkle);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-cta {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--navy);
+      color: var(--white);
+      padding: 0.65rem 1.5rem;
+      border-radius: 100px;
+      transition: background 0.25s, transform 0.2s;
+    }
+    .nav-cta:hover {
+      background: var(--periwinkle-dk);
+      transform: translateY(-2px);
+    }
+    .nav-mobile-cta { display: none; }
+
+    /* ── HERO ──────────────────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      padding: 9rem 3rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 2rem;
+      max-width: 1260px;
+      margin: 0 auto;
+    }
+    .hero-text {}
+    .hero-eyebrow {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--periwinkle-dk);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      width: 28px; height: 2px;
+      background: var(--periwinkle-dk);
+    }
+    .hero-headline {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(5rem, 9vw, 8.5rem);
+      line-height: 0.92;
+      text-transform: uppercase;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      margin-bottom: 1.2rem;
+    }
+    .hero-headline em {
+      font-style: italic;
+      color: var(--periwinkle);
+    }
+    .hero-sub {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 1.4rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 2.4rem;
+      max-width: 400px;
+      line-height: 1.4;
+    }
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+    .btn-primary {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--navy);
+      color: var(--white);
+      padding: 1rem 2.2rem;
+      border-radius: 100px;
+      transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-primary:hover {
+      background: var(--periwinkle-dk);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(68,84,176,0.3);
+    }
+    .btn-secondary {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--navy);
+      padding: 1rem 1.6rem;
+      border-radius: 100px;
+      border: 2.5px solid var(--navy);
+      transition: background 0.25s, transform 0.2s;
+    }
+    .btn-secondary:hover {
+      background: var(--navy);
+      color: var(--white);
+      transform: translateY(-3px);
+    }
+
+    /* Price badge */
+    .price-badge-wrap {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+    .starburst {
+      position: relative;
+      width: 130px;
+      height: 130px;
+      flex-shrink: 0;
+    }
+    .starburst svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .starburst-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 1;
+    }
+    .starburst-top {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--white);
+      opacity: 0.85;
+      line-height: 1.2;
+    }
+    .starburst-price {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 2.1rem;
+      line-height: 1;
+      color: var(--white);
+      letter-spacing: -0.02em;
+    }
+    .starburst-bottom {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--yellow);
+    }
+    .badge-aside {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      line-height: 1.6;
+      max-width: 180px;
+    }
+    .badge-aside strong {
+      display: block;
+      color: var(--periwinkle-dk);
+    }
+
+    /* Illustration area */
+    .hero-visual {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      min-height: 520px;
+    }
+    .hero-visual__bg-circle {
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.38);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .hero-visual__fig {
+      position: relative;
+      z-index: 2;
+      width: 360px;
+      max-width: 100%;
+      animation: figure-float 3.8s ease-in-out infinite;
+    }
+    @keyframes figure-float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-14px); }
+    }
+
+    /* Decorative corner wave */
+    .hero-wave {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 80px;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    /* ── STRIP — quick stats ────────────────────────────────────────────────── */
+    .strip {
+      background: var(--navy);
+      padding: 1.4rem 3rem;
+      overflow: hidden;
+    }
+    .strip-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+    .strip-item {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .strip-item .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--periwinkle-lt);
+      flex-shrink: 0;
+    }
+    .strip-item strong { color: var(--white); }
+
+    /* ── SERVICES SECTION ──────────────────────────────────────────────────── */
+    .services {
+      padding: 7rem 3rem;
+      background: var(--white);
+    }
+    .section-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-eyebrow {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--periwinkle-dk);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .section-eyebrow::before {
+      content: '';
+      width: 24px; height: 2px;
+      background: var(--periwinkle-dk);
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2.8rem, 5vw, 4.4rem);
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      color: var(--navy);
+      margin-bottom: 0.6rem;
+    }
+    .section-sub {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: 1.05rem;
+      color: var(--text-light);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 3.5rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+    }
+    .service-card {
+      background: var(--off-white);
+      border-radius: var(--radius-lg);
+      padding: 2.2rem 2rem 2rem;
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1),
+                  box-shadow 0.3s;
+      border: 2px solid transparent;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lift);
+      border-color: var(--sky-mid);
+    }
+    .service-card--featured {
+      background: var(--navy);
+      border-color: var(--navy);
+    }
+    .service-card--featured:hover {
+      border-color: var(--periwinkle);
+    }
+    .service-icon {
+      width: 68px;
+      height: 68px;
+      border-radius: var(--radius-md);
+      background: var(--sky);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.4rem;
+    }
+    .service-card--featured .service-icon {
+      background: rgba(255,255,255,0.1);
+    }
+    .service-name {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+    .service-card--featured .service-name { color: var(--white); }
+    .service-desc {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--text-mid);
+      margin-bottom: 1.4rem;
+    }
+    .service-card--featured .service-desc { color: rgba(255,255,255,0.65); }
+    .service-price-tag {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--sky);
+      color: var(--periwinkle-dk);
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+    }
+    .service-card--featured .service-price-tag {
+      background: rgba(255,255,255,0.15);
+      color: var(--periwinkle-lt);
+    }
+
+    /* Bottom row: smaller service cards */
+    .services-row2 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+      margin-top: 1.4rem;
+    }
+    .service-mini {
+      background: var(--sky);
+      border-radius: var(--radius-md);
+      padding: 1.4rem 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .service-mini:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-card);
+    }
+    .service-mini__icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .service-mini__name {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      color: var(--navy);
+    }
+    .service-mini__sub {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      margin-top: 2px;
+    }
+
+    /* ── WHY SECTION ───────────────────────────────────────────────────────── */
+    .why {
+      padding: 7rem 3rem;
+      background: var(--sky);
+    }
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .why-text .section-title { margin-bottom: 1.5rem; }
+    .why-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .why-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .why-item__num {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 2rem;
+      line-height: 1;
+      color: var(--periwinkle);
+      min-width: 36px;
+      padding-top: 0.1rem;
+    }
+    .why-item__body {}
+    .why-item__title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--navy);
+      margin-bottom: 0.25rem;
+    }
+    .why-item__desc {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: var(--text-mid);
+    }
+
+    .why-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+    .stat-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.8rem;
+      text-align: center;
+      box-shadow: var(--shadow-card);
+    }
+    .stat-card--accent {
+      background: var(--navy);
+    }
+    .stat-card--periwinkle {
+      background: var(--periwinkle);
+    }
+    .stat-num {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 3.4rem;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: var(--navy);
+      margin-bottom: 0.4rem;
+    }
+    .stat-card--accent .stat-num { color: var(--white); }
+    .stat-card--periwinkle .stat-num { color: var(--white); }
+    .stat-label {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.75rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-light);
+    }
+    .stat-card--accent .stat-label { color: rgba(255,255,255,0.6); }
+    .stat-card--periwinkle .stat-label { color: rgba(255,255,255,0.75); }
+    .stat-card--tall { grid-row: span 2; display: flex; flex-direction: column; justify-content: center; }
+
+    /* ── HOA BANNER ────────────────────────────────────────────────────────── */
+    .hoa-banner {
+      padding: 3.5rem 3rem;
+      background: var(--white);
+    }
+    .hoa-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: var(--periwinkle-dk);
+      border-radius: var(--radius-xl);
+      padding: 3.2rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .hoa-text {}
+    .hoa-label {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--periwinkle-lt);
+      margin-bottom: 0.7rem;
+    }
+    .hoa-headline {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 0.98;
+      text-transform: uppercase;
+      color: var(--white);
+      letter-spacing: -0.02em;
+    }
+    .hoa-sub {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.65);
+      margin-top: 0.8rem;
+      max-width: 380px;
+      line-height: 1.6;
+    }
+    .hoa-action { flex-shrink: 0; text-align: center; }
+    .hoa-phone {
+      display: block;
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 2.2rem;
+      letter-spacing: -0.02em;
+      color: var(--yellow);
+      margin-bottom: 0.5rem;
+      transition: color 0.2s;
+    }
+    .hoa-phone:hover { color: var(--white); }
+    .hoa-phone-label {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+    }
+    .btn-hoa {
+      display: inline-block;
+      margin-top: 1rem;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 0.88rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: var(--yellow);
+      color: var(--navy);
+      padding: 0.8rem 2rem;
+      border-radius: 100px;
+      transition: background 0.25s, transform 0.2s;
+    }
+    .btn-hoa:hover { background: var(--white); transform: translateY(-2px); }
+
+    /* ── TESTIMONIALS ──────────────────────────────────────────────────────── */
+    .testimonials {
+      padding: 7rem 3rem;
+      background: var(--off-white);
+    }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+      margin-top: 3.5rem;
+    }
+    .review-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-card);
+      border: 2px solid transparent;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .review-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--sky-mid);
+    }
+    .review-stars {
+      color: var(--yellow);
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+    }
+    .review-text {
+      font-size: 0.93rem;
+      line-height: 1.75;
+      color: var(--text-mid);
+      margin-bottom: 1.4rem;
+      font-style: italic;
+    }
+    .review-text strong { font-style: normal; color: var(--navy); }
+    .reviewer {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .reviewer-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--white);
+      flex-shrink: 0;
+    }
+    .reviewer-name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.92rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--navy);
+    }
+    .reviewer-loc {
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+    .google-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-light);
+      margin-top: 1rem;
+    }
+
+    /* ── ABOUT STRIP ───────────────────────────────────────────────────────── */
+    .about-strip {
+      padding: 5rem 3rem;
+      background: var(--sky);
+    }
+    .about-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .about-headline {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2.8rem, 4vw, 4rem);
+      text-transform: uppercase;
+      color: var(--navy);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+    .about-headline em {
+      color: var(--periwinkle);
+      font-style: italic;
+    }
+    .about-body {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-mid);
+      margin-bottom: 2rem;
+    }
+    .trust-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .trust-pill {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.5rem 1.1rem;
+      border-radius: 100px;
+      background: var(--white);
+      color: var(--navy);
+      border: 2px solid var(--sky-mid);
+    }
+    .about-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .about-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 1.8rem;
+      box-shadow: var(--shadow-card);
+    }
+    .about-card--dark {
+      background: var(--navy);
+    }
+    .about-card--accent {
+      background: var(--periwinkle);
+    }
+    .about-card--full { grid-column: span 2; }
+    .about-card__icon {
+      font-size: 2rem;
+      margin-bottom: 0.6rem;
+    }
+    .about-card__title {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-bottom: 0.3rem;
+    }
+    .about-card--dark .about-card__title,
+    .about-card--accent .about-card__title { color: var(--white); }
+    .about-card__text {
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: var(--text-light);
+    }
+    .about-card--dark .about-card__text { color: rgba(255,255,255,0.6); }
+    .about-card--accent .about-card__text { color: rgba(255,255,255,0.75); }
+
+    /* ── FOOTER ────────────────────────────────────────────────────────────── */
+    footer {
+      background: var(--navy);
+      padding: 4rem 3rem 2rem;
+      color: var(--white);
+    }
+    .footer-top {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .footer-brand__name {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.6rem;
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+    .footer-brand__name span { color: var(--periwinkle-lt); }
+    .footer-brand__tagline {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 1.2rem;
+    }
+    .footer-brand__desc {
+      font-size: 0.83rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.5);
+      max-width: 240px;
+    }
+    .footer-col__title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 1.2rem;
+    }
+    .footer-col__links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+    .footer-col__links a {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.65);
+      transition: color 0.2s;
+    }
+    .footer-col__links a:hover { color: var(--white); }
+    .footer-contact-line {
+      font-size: 0.83rem;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 0.5rem;
+    }
+    .footer-contact-line a {
+      color: var(--periwinkle-lt);
+      font-weight: 600;
+    }
+    .footer-contact-line a:hover { color: var(--white); }
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .footer-copy {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.35);
+      font-family: var(--font-display);
+      letter-spacing: 0.06em;
+    }
+    .footer-lic {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.35);
+      font-family: var(--font-display);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Responsive ────────────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links, .nav-cta { display: none; }
+      .nav-mobile-cta {
+        display: block;
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: var(--navy);
+        color: var(--white);
+        padding: 0.55rem 1.2rem;
+        border-radius: 100px;
+      }
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 7rem 1.5rem 3rem;
+        text-align: center;
+      }
+      .hero-eyebrow { justify-content: center; }
+      .hero-sub { margin-left: auto; margin-right: auto; }
+      .hero-actions { justify-content: center; }
+      .price-badge-wrap { justify-content: center; }
+      .hero-visual { min-height: 300px; }
+      .hero-visual__fig { width: 260px; }
+      .hero-visual__bg-circle { width: 280px; height: 280px; }
+      .services { padding: 4rem 1.5rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .services-row2 { grid-template-columns: 1fr 1fr; }
+      .why { padding: 4rem 1.5rem; }
+      .why-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .why-stats { grid-template-columns: 1fr 1fr; }
+      .hoa-banner { padding: 2rem 1.5rem; }
+      .hoa-inner { flex-direction: column; text-align: center; padding: 2.5rem 2rem; border-radius: var(--radius-lg); }
+      .hoa-sub { margin: 0.8rem auto 0; }
+      .testimonials { padding: 4rem 1.5rem; }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .about-strip { padding: 4rem 1.5rem; }
+      .about-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      footer { padding: 3rem 1.5rem 2rem; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+    }
+    @media (max-width: 560px) {
+      .hero-headline { font-size: clamp(4rem, 14vw, 5.5rem); }
+      .services-row2 { grid-template-columns: 1fr; }
+      .why-stats { grid-template-columns: 1fr; }
+      .stat-card--tall { grid-row: span 1; }
+      .footer-top { grid-template-columns: 1fr; }
+      .about-visual { grid-template-columns: 1fr; }
+      .about-card--full { grid-column: span 1; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ──────────────────────────────── NAV ──────────────────────────────────── -->
+<nav id="nav">
+  <div class="nav-logo">
+    <span class="nav-logo__main">SoFlo</span>
+    <span class="nav-logo__accent">UnderPressure</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="services.html">Services</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="membership.html">Plans</a></li>
+    <li><a href="quote.html" class="nav-cta">Get a Quote</a></li>
+  </ul>
+  <a href="tel:+13058946336" class="nav-mobile-cta">(305) 894-6336</a>
+</nav>
+
+
+<!-- ──────────────────────────────── HERO ─────────────────────────────────── -->
+<section class="hero">
+
+  <div class="hero-text">
+    <p class="hero-eyebrow reveal">Miami Pressure Washing</p>
+    <h1 class="hero-headline reveal reveal-delay-1">
+      WE<br>CLEAN.<br><em>YOU</em><br>BRAG.
+    </h1>
+    <p class="hero-sub reveal reveal-delay-2">
+      Your driveway called.<br>It wants a shower.
+    </p>
+    <div class="hero-actions reveal reveal-delay-3">
+      <a href="quote.html" class="btn-primary">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M14 8H2M8 2l6 6-6 6"/></svg>
+        Get a Quote
+      </a>
+      <a href="tel:+13058946336" class="btn-secondary">Call Us</a>
+    </div>
+    <div class="price-badge-wrap reveal reveal-delay-4">
+      <div class="starburst">
+        <!-- Starburst SVG polygon -->
+        <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+          <polygon
+            points="65,4 71,24 82,8 83,29 97,16 94,37 111,28 103,47 122,42 109,58 130,57 113,70 130,73 110,82 125,90 104,93 115,105 93,103 99,118 79,111 79,128 62,116 58,133 47,117 43,132 36,114 18,124 19,105 1,110 7,92 -11,90 1,76 -12,70 5,60 -10,53 9,47 -2,36 18,34 12,19 31,22 28,6 45,13 46,-2 61,8"
+            fill="#1C2B3A"
+            transform="translate(2,2) scale(0.95)"
+          />
+        </svg>
+        <div class="starburst-text">
+          <span class="starburst-top">Starting<br>at</span>
+          <span class="starburst-price">$99</span>
+          <span class="starburst-bottom">+ Free quote</span>
+        </div>
+      </div>
+      <p class="badge-aside">
+        <strong>Flat pricing.</strong>
+        We give you the number before anyone picks up a machine.
+      </p>
+    </div>
+  </div>
+
+  <div class="hero-visual reveal reveal-delay-2">
+    <div class="hero-visual__bg-circle"></div>
+    <svg class="hero-visual__fig" viewBox="0 0 360 490" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+      <!-- SPRAY WATER FAN -->
+      <g opacity="0.85">
+        <line x1="72" y1="400" x2="16" y2="360" stroke="#A9D8EF" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="72" y1="400" x2="10" y2="378" stroke="#A9D8EF" stroke-width="4" stroke-linecap="round"/>
+        <line x1="72" y1="400" x2="10" y2="400" stroke="#7BBDE0" stroke-width="4.5" stroke-linecap="round"/>
+        <line x1="72" y1="400" x2="14" y2="420" stroke="#7BBDE0" stroke-width="4" stroke-linecap="round"/>
+        <line x1="72" y1="400" x2="22" y2="440" stroke="#A9D8EF" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="72" y1="400" x2="36" y2="456" stroke="#C6E8F7" stroke-width="3" stroke-linecap="round"/>
+        <line x1="72" y1="400" x2="52" y2="466" stroke="#C6E8F7" stroke-width="2.5" stroke-linecap="round"/>
+        <!-- Spray dots -->
+        <circle cx="12" cy="360" r="2.5" fill="#7BBDE0" opacity="0.6"/>
+        <circle cx="6" cy="385" r="3" fill="#A9D8EF" opacity="0.7"/>
+        <circle cx="8" cy="408" r="2" fill="#7BBDE0" opacity="0.5"/>
+        <circle cx="20" cy="448" r="2.5" fill="#A9D8EF" opacity="0.6"/>
+        <circle cx="28" cy="465" r="2" fill="#C6E8F7" opacity="0.5"/>
+      </g>
+
+      <!-- WAND / LANCE -->
+      <line x1="155" y1="278" x2="72" y2="400" stroke="#2D4156" stroke-width="6" stroke-linecap="round"/>
+      <!-- Wand connector nozzle -->
+      <rect x="62" y="393" width="22" height="12" rx="4" fill="#1C2B3A" transform="rotate(-37, 73, 399)"/>
+
+      <!-- HOSE (curve from body to wand) -->
+      <path d="M 155,278 Q 130,310 120,340" stroke="#1C2B3A" stroke-width="5" fill="none" stroke-linecap="round"/>
+
+      <!-- LEFT BOOT -->
+      <rect x="146" y="408" width="52" height="58" rx="14" fill="#6475D0"/>
+      <rect x="140" y="440" width="62" height="30" rx="14" fill="#4454B0"/>
+      <!-- boot sole accent -->
+      <rect x="140" y="460" width="62" height="10" rx="8" fill="#3344A0"/>
+
+      <!-- RIGHT BOOT -->
+      <rect x="218" y="408" width="52" height="58" rx="14" fill="#6475D0"/>
+      <rect x="216" y="440" width="58" height="30" rx="14" fill="#4454B0"/>
+      <rect x="216" y="460" width="58" height="10" rx="8" fill="#3344A0"/>
+
+      <!-- LEFT LEG -->
+      <rect x="152" y="330" width="50" height="95" rx="10" fill="#1C2B3A"/>
+      <!-- RIGHT LEG -->
+      <rect x="218" y="330" width="50" height="95" rx="10" fill="#1C2B3A"/>
+
+      <!-- BODY / TORSO - dark overalls -->
+      <rect x="140" y="178" width="140" height="175" rx="22" fill="#1C2B3A"/>
+
+      <!-- Uniform chest detail - pocket -->
+      <rect x="166" y="200" width="34" height="28" rx="6" fill="#2D4156"/>
+      <rect x="168" y="202" width="30" height="24" rx="5" fill="#243348"/>
+      <!-- pocket flap -->
+      <rect x="168" y="200" width="30" height="8" rx="4" fill="#2D4156"/>
+
+      <!-- Suspender / bib detail -->
+      <rect x="175" y="178" width="70" height="60" rx="10" fill="#2D4156"/>
+      <!-- Suspender button dots -->
+      <circle cx="196" cy="190" r="4" fill="#3A5168"/>
+      <circle cx="224" cy="190" r="4" fill="#3A5168"/>
+
+      <!-- BELT LINE -->
+      <rect x="140" y="300" width="140" height="12" rx="6" fill="#2D4156"/>
+      <!-- Belt buckle -->
+      <rect x="195" y="298" width="30" height="15" rx="4" fill="#6475D0"/>
+      <rect x="200" y="301" width="20" height="9" rx="3" fill="#4454B0"/>
+
+      <!-- LEFT ARM (holding wand) — angled down-left -->
+      <path d="M 148,200 L 126,240 L 152,280" stroke="#1C2B3A" stroke-width="38" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <!-- Left sleeve highlight -->
+      <path d="M 148,200 L 126,240 L 152,280" stroke="#2D4156" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.5"/>
+
+      <!-- RIGHT ARM (down at side) -->
+      <path d="M 272,200 L 290,250 L 278,295" stroke="#1C2B3A" stroke-width="36" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <!-- Right hand/glove -->
+      <circle cx="278" cy="296" r="18" fill="#1C2B3A"/>
+      <circle cx="272" cy="290" r="9" fill="#2D4156"/>
+
+      <!-- LEFT HAND (gripping wand) -->
+      <circle cx="152" cy="281" r="18" fill="#1C2B3A"/>
+      <rect x="142" y="275" width="24" height="12" rx="6" fill="#2D4156"/>
+
+      <!-- NECK -->
+      <rect x="188" y="155" width="44" height="28" rx="10" fill="#F0B87A"/>
+
+      <!-- HEAD — skin tone -->
+      <ellipse cx="210" cy="118" rx="60" ry="58" fill="#F5C18A"/>
+
+      <!-- EAR left -->
+      <ellipse cx="150" cy="120" rx="12" ry="14" fill="#F5C18A"/>
+      <!-- EAR right -->
+      <ellipse cx="270" cy="120" rx="12" ry="14" fill="#F5C18A"/>
+
+      <!-- FACE details -->
+      <!-- Eye left -->
+      <ellipse cx="188" cy="112" rx="10" ry="11" fill="#1C2B3A"/>
+      <circle cx="192" cy="108" r="3.5" fill="white"/>
+      <!-- Eye right -->
+      <ellipse cx="232" cy="112" rx="10" ry="11" fill="#1C2B3A"/>
+      <circle cx="236" cy="108" r="3.5" fill="white"/>
+      <!-- Nose -->
+      <ellipse cx="210" cy="128" rx="5" ry="4" fill="#E8A060"/>
+      <!-- Smile -->
+      <path d="M 192,140 Q 210,155 228,140" stroke="#1C2B3A" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <!-- Cheeks -->
+      <ellipse cx="174" cy="136" rx="12" ry="7" fill="#F09060" opacity="0.4"/>
+      <ellipse cx="246" cy="136" rx="12" ry="7" fill="#F09060" opacity="0.4"/>
+
+      <!-- CAP / HELMET -->
+      <!-- Cap body -->
+      <path d="M 152,104 Q 155,55 210,52 Q 265,50 268,104 Z" fill="#1C2B3A"/>
+      <!-- Cap brim -->
+      <rect x="145" y="100" width="130" height="14" rx="7" fill="#2D4156"/>
+      <!-- Cap panel line -->
+      <line x1="210" y1="52" x2="210" y2="104" stroke="#2D4156" stroke-width="2"/>
+      <!-- Logo dot on cap -->
+      <circle cx="210" cy="72" r="8" fill="#6475D0" opacity="0.9"/>
+      <text x="210" y="76" font-family="Arial" font-weight="900" font-size="8" fill="white" text-anchor="middle">SU</text>
+
+      <!-- SHADOW under feet -->
+      <ellipse cx="210" cy="476" rx="85" ry="10" fill="#1C2B3A" opacity="0.12"/>
+    </svg>
+  </div>
+
+</section>
+
+
+<!-- ─────────────────────────────── STRIP ─────────────────────────────────── -->
+<div class="strip">
+  <div class="strip-inner">
+    <div class="strip-item"><span class="dot"></span> <strong>Miami-Dade</strong> &amp; Broward</div>
+    <div class="strip-item"><span class="dot"></span> <strong>Licensed</strong> &amp; Professional</div>
+    <div class="strip-item"><span class="dot"></span> Same-Day <strong>Quotes</strong></div>
+    <div class="strip-item"><span class="dot"></span> Flat, <strong>Upfront Pricing</strong></div>
+
+    <div class="strip-item"><span class="dot"></span> <strong>5-Star</strong> Service</div>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────── SERVICES ──────────────────────────────── -->
+<section class="services" id="services">
+  <div class="section-wrap">
+
+    <p class="section-eyebrow reveal">What We Do</p>
+    <h2 class="section-title reveal reveal-delay-1">YOUR PROPERTY,<br>OUR PROBLEM.</h2>
+    <p class="section-sub reveal reveal-delay-2">
+      South Florida puts your home through it — sun, humidity, mold, algae, and the occasional hurricane.
+      We clean all of it. No overselling, no upsells you didn't ask for.
+    </p>
+
+    <div class="services-grid">
+
+      <div class="service-card reveal">
+        <div class="service-icon">
+          <!-- Driveway icon -->
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <rect x="4" y="28" width="28" height="5" rx="2.5" fill="#1C2B3A"/>
+            <path d="M 10,28 L 14,4 L 22,4 L 26,28 Z" fill="#2D4156"/>
+            <path d="M 16,28 L 17,4 L 19,4 L 20,28 Z" fill="#6475D0" opacity="0.5"/>
+            <rect x="8" y="12" width="20" height="3" rx="1.5" fill="#6475D0" opacity="0.35"/>
+            <rect x="9" y="20" width="18" height="3" rx="1.5" fill="#6475D0" opacity="0.25"/>
+          </svg>
+        </div>
+        <p class="service-name">Driveway &amp; Walkways</p>
+        <p class="service-desc">
+          Because your concrete deserves a glow-up too. Oil stains, tire marks, black algae — gone in a few hours.
+          Hot-water commercial machines. Not a pressure washer from Home Depot.
+        </p>
+        <span class="service-price-tag">From $149</span>
+      </div>
+
+      <div class="service-card service-card--featured reveal reveal-delay-1">
+        <div class="service-icon">
+          <!-- House icon -->
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <path d="M 18,4 L 32,16 L 32,32 L 4,32 L 4,16 Z" fill="rgba(255,255,255,0.2)"/>
+            <path d="M 18,2 L 34,16 L 2,16 Z" fill="rgba(255,255,255,0.6)"/>
+            <rect x="13" y="20" width="10" height="12" rx="2" fill="rgba(255,255,255,0.5)"/>
+            <rect x="6" y="20" width="6" height="6" rx="1.5" fill="rgba(255,255,255,0.4)"/>
+            <rect x="24" y="20" width="6" height="6" rx="1.5" fill="rgba(255,255,255,0.4)"/>
+          </svg>
+        </div>
+        <p class="service-name">Full House Wash</p>
+        <p class="service-desc">
+          We gently blast (or soft wash) years of <em>"Florida gross"</em> off your walls.
+          Miami stucco, vinyl, painted surfaces — mildew and oxidation removed without stripping your paint or soaking your siding.
+        </p>
+        <span class="service-price-tag">From $249</span>
+      </div>
+
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-icon">
+          <!-- Fence icon -->
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <rect x="3" y="10" width="5" height="22" rx="2" fill="#1C2B3A"/>
+            <rect x="10" y="10" width="5" height="22" rx="2" fill="#1C2B3A"/>
+            <rect x="17" y="10" width="5" height="22" rx="2" fill="#1C2B3A"/>
+            <rect x="24" y="10" width="5" height="22" rx="2" fill="#1C2B3A"/>
+            <rect x="2" y="15" width="32" height="4" rx="2" fill="#2D4156"/>
+            <rect x="2" y="24" width="32" height="4" rx="2" fill="#2D4156"/>
+            <polygon points="5.5,10 3,14 8,14" fill="#1C2B3A"/>
+            <polygon points="12.5,10 10,14 15,14" fill="#1C2B3A"/>
+            <polygon points="19.5,10 17,14 22,14" fill="#1C2B3A"/>
+            <polygon points="26.5,10 24,14 29,14" fill="#1C2B3A"/>
+          </svg>
+        </div>
+        <p class="service-name">Fences &amp; Walls</p>
+        <p class="service-desc">
+          Green algae, black mold, chalky mineral deposits — South Florida makes even new fences look ancient fast.
+          We match pressure to material so it gets clean without getting damaged.
+        </p>
+        <span class="service-price-tag">From $99</span>
+      </div>
+
+    </div>
+
+    <div class="services-row2">
+
+      <div class="service-mini reveal">
+        <div class="service-mini__icon">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <path d="M 4,22 L 4,8 Q 4,4 8,4 L 18,4 Q 22,4 22,8 L 22,22" stroke="#1C2B3A" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M 2,22 L 24,22" stroke="#1C2B3A" stroke-width="2" stroke-linecap="round"/>
+            <path d="M 4,8 L 22,8" stroke="#6475D0" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M 2,14 Q 13,10 24,14" stroke="#6475D0" stroke-width="1.5" fill="none"/>
+          </svg>
+        </div>
+        <div>
+          <div class="service-mini__name">Roof Soft Wash</div>
+          <div class="service-mini__sub">From $299 — ARMA-compliant</div>
+        </div>
+      </div>
+
+      <div class="service-mini reveal reveal-delay-1">
+        <div class="service-mini__icon">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <rect x="3" y="14" width="20" height="10" rx="4" fill="#1C2B3A"/>
+            <ellipse cx="13" cy="14" rx="10" ry="5" fill="#2D4156"/>
+            <path d="M 6,14 Q 9,8 13,8 Q 17,8 20,14" stroke="#6475D0" stroke-width="1.5" fill="none"/>
+          </svg>
+        </div>
+        <div>
+          <div class="service-mini__name">Patio &amp; Pool Deck</div>
+          <div class="service-mini__sub">From $129 — travertine safe</div>
+        </div>
+      </div>
+
+      <div class="service-mini reveal reveal-delay-2">
+        <div class="service-mini__icon">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <rect x="3" y="6" width="20" height="16" rx="3" stroke="#1C2B3A" stroke-width="2" fill="none"/>
+            <rect x="8" y="6" width="2" height="16" rx="1" fill="#1C2B3A"/>
+            <rect x="16" y="6" width="2" height="16" rx="1" fill="#1C2B3A"/>
+            <rect x="3" y="14" width="20" height="2" rx="1" fill="#6475D0" opacity="0.5"/>
+          </svg>
+        </div>
+        <div>
+          <div class="service-mini__name">Storefronts</div>
+          <div class="service-mini__sub">Custom quoted — call us</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ──────────────────────────────── WHY ──────────────────────────────────── -->
+<section class="why" id="why">
+  <div class="section-wrap">
+    <div class="why-grid">
+
+      <div class="why-text">
+        <p class="section-eyebrow reveal">Why SoFlo UnderPressure</p>
+        <h2 class="section-title reveal reveal-delay-1">WE SHOW<br>UP. PERIOD.</h2>
+        <ul class="why-list">
+          <li class="why-item reveal reveal-delay-1">
+            <span class="why-item__num">01</span>
+            <div class="why-item__body">
+              <div class="why-item__title">Actual Hot-Water Equipment</div>
+              <p class="why-item__desc">Commercial hot-water units cut through oil and organic growth that a cold-water machine just pushes around. Most residential crews don't own them. We do.</p>
+            </div>
+          </li>
+          <li class="why-item reveal reveal-delay-2">
+            <span class="why-item__num">02</span>
+            <div class="why-item__body">
+              <div class="why-item__title">Flat Quotes, No Surprises</div>
+              <p class="why-item__desc">Tell us the address and what needs cleaning. We give you the number upfront — before we schedule, before we show up, before anyone touches anything.</p>
+            </div>
+          </li>
+          <li class="why-item reveal reveal-delay-3">
+            <span class="why-item__num">03</span>
+            <div class="why-item__body">
+              <div class="why-item__title">Professionally Equipped</div>
+              <p class="why-item__desc">Commercial-grade equipment, the right pressure for every surface. We treat your property with care — and we don't leave until the job looks right.</p>
+            </div>
+          </li>
+          <li class="why-item reveal reveal-delay-4">
+            <span class="why-item__num">04</span>
+            <div class="why-item__body">
+              <div class="why-item__title">Right Chemistry, Every Surface</div>
+              <p class="why-item__desc">Travertine isn't concrete. Barrel tile isn't shingle. We match solution pH and pressure to the material so nothing gets etched, cracked, or voided.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="why-stats">
+        <div class="stat-card reveal">
+          <div class="stat-num">$99</div>
+          <div class="stat-label">Starting rate</div>
+        </div>
+        <div class="stat-card stat-card--accent reveal reveal-delay-1">
+          <div class="stat-num">Fast</div>
+          <div class="stat-label">Quote response</div>
+        </div>
+        <div class="stat-card stat-card--periwinkle reveal reveal-delay-2">
+          <div class="stat-num">Local</div>
+          <div class="stat-label">Owner on every job</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-3">
+          <div class="stat-num">Free</div>
+          <div class="stat-label">No-obligation quotes</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ────────────────────────────── HOA BANNER ─────────────────────────────── -->
+<div class="hoa-banner">
+  <div class="hoa-inner">
+    <div class="hoa-text">
+      <p class="hoa-label">Quick heads-up</p>
+      <h2 class="hoa-headline">CALL US BEFORE<br>YOUR HOA FINES<br>YOU AGAIN.</h2>
+      <p class="hoa-sub">We typically schedule within 3–5 days. Most jobs are done in a few hours. Your HOA has no idea what's coming.</p>
+    </div>
+    <div class="hoa-action">
+      <a href="tel:+13058946336" class="hoa-phone">(305) 894-6336</a>
+      <div class="hoa-phone-label">Call or Text Anytime</div>
+      <a href="mailto:SoFlo.Underpressure@gmail.com" class="btn-hoa">Or Email Us →</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ─────────────────────────────── REVIEWS ───────────────────────────────── -->
+<section class="testimonials">
+  <div class="section-wrap">
+    <p class="section-eyebrow reveal">Reviews</p>
+    <h2 class="section-title reveal reveal-delay-1">THEY BRAGGED.<br>WE CLEANED.</h2>
+
+    <div class="reviews-grid">
+
+      <div class="review-card reveal">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">
+          "My driveway had a mystery stain from <strong>2019</strong> that I'd given up on. Saul got it out in 40 minutes. I've been telling every neighbor on my block."
+        </p>
+        <div class="reviewer">
+          <div class="reviewer-avatar" style="background:#6475D0;">M</div>
+          <div>
+            <div class="reviewer-name">Maria T.</div>
+            <div class="reviewer-loc">Coral Gables, FL</div>
+          </div>
+        </div>
+        <div class="google-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#4285F4"/><text x="12" y="16" font-size="11" font-weight="bold" fill="white" text-anchor="middle">G</text></svg>
+          Google Review
+        </div>
+      </div>
+
+      <div class="review-card reveal reveal-delay-1">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">
+          "Roof soft wash completely changed how my house looks. I didn't even realize those <strong>black streaks were algae</strong> until they were gone. Absolutely worth it."
+        </p>
+        <div class="reviewer">
+          <div class="reviewer-avatar" style="background:#1C2B3A;">R</div>
+          <div>
+            <div class="reviewer-name">Roberto V.</div>
+            <div class="reviewer-loc">Pinecrest, FL</div>
+          </div>
+        </div>
+        <div class="google-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#4285F4"/><text x="12" y="16" font-size="11" font-weight="bold" fill="white" text-anchor="middle">G</text></svg>
+          Google Review
+        </div>
+      </div>
+
+      <div class="review-card reveal reveal-delay-2">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">
+          "Our storefront hadn't been cleaned in two years. These guys showed up early, were done before we opened, and the place looked brand new. <strong>HOA stopped sending letters.</strong>"
+        </p>
+        <div class="reviewer">
+          <div class="reviewer-avatar" style="background:#F09060;">J</div>
+          <div>
+            <div class="reviewer-name">Jennifer K.</div>
+            <div class="reviewer-loc">Brickell, FL</div>
+          </div>
+        </div>
+        <div class="google-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#4285F4"/><text x="12" y="16" font-size="11" font-weight="bold" fill="white" text-anchor="middle">G</text></svg>
+          Google Review
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────── ABOUT ─────────────────────────────────── -->
+<section class="about-strip" id="about">
+  <div class="about-inner">
+
+    <div>
+      <h2 class="about-headline reveal">BUILT IN <em>MIAMI.</em><br>BUILT TO STAY.</h2>
+      <p class="about-body reveal reveal-delay-1">
+        We started SoFlo UnderPressure because finding a pressure washing company that actually showed up, communicated clearly, and did the job right was harder than it should've been in South Florida.
+        <br><br>
+        So we built the company we wished existed. Owner-operated from day one. Saul handles every job personally — no subcontractors, no strangers on your property.
+      </p>
+      <div class="trust-pills reveal reveal-delay-2">
+        <span class="trust-pill">Licensed in FL</span>
+        <span class="trust-pill">Owner-Operated</span>
+        <span class="trust-pill">Free Quotes</span>
+        <span class="trust-pill">Miami-Dade</span>
+        <span class="trust-pill">Broward</span>
+      </div>
+    </div>
+
+    <div class="about-visual">
+      <div class="about-card reveal">
+        <div class="about-card__icon">🌴</div>
+        <div class="about-card__title">South Florida Native</div>
+        <p class="about-card__text">We know what the humidity, sun, and salt air does to every surface out here. We've seen it all.</p>
+      </div>
+      <div class="about-card about-card--dark reveal reveal-delay-1">
+        <div class="about-card__icon">⚡</div>
+        <div class="about-card__title">Same-Week Service</div>
+        <p class="about-card__text">Most jobs scheduled within 3–5 days. We don't make you wait a month for a driveway clean.</p>
+      </div>
+      <div class="about-card about-card--accent about-card--full reveal reveal-delay-2">
+        <div class="about-card__icon">🤝</div>
+        <div class="about-card__title">Honest Pricing, Always</div>
+        <p class="about-card__text">Quote before we schedule. Invoice matches the quote. No "additional charges discovered on site." That's how we operate — every single job.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ────────────────────────────────  FOOTER  ─────────────────────────────── -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand__name">SoFlo <span>Under</span>Pressure</div>
+      <div class="footer-brand__tagline">Pressure Washing · Miami</div>
+      <p class="footer-brand__desc">Professional pressure washing in Miami-Dade and Broward County. Driveways, roofs, patios, fences, house wash, storefronts.</p>
+    </div>
+    <div>
+      <div class="footer-col__title">Services</div>
+      <ul class="footer-col__links">
+        <li><a href="services.html">Driveway Cleaning</a></li>
+        <li><a href="services.html">Roof Soft Wash</a></li>
+        <li><a href="services.html">House Wash</a></li>
+        <li><a href="services.html">Patio &amp; Pool Deck</a></li>
+        <li><a href="services.html">Fence Cleaning</a></li>
+        <li><a href="services.html">Storefronts</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col__title">Company</div>
+      <ul class="footer-col__links">
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="membership.html">Membership Plans</a></li>
+        <li><a href="quote.html">Get a Quote</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col__title">Contact</div>
+      <p class="footer-contact-line"><a href="tel:+13058946336">(305) 894-6336</a> — Call / Text</p>
+      <p class="footer-contact-line"><a href="mailto:SoFlo.Underpressure@gmail.com">SoFlo.Underpressure@gmail.com</a></p>
+      <p class="footer-contact-line" style="margin-top:0.8rem;">Mon – Sat · 7am – 6pm</p>
+      <p class="footer-contact-line">Miami-Dade &amp; Broward County</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2026 SoFlo UnderPressure Pressure Washing LLC</span>
+    <span class="footer-lic">Licensed · Miami-Dade, FL</span>
+  </div>
+</footer>
+
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Hero elements visible immediately (already in view)
+  document.querySelectorAll('.hero .reveal').forEach(el => {
+    setTimeout(() => el.classList.add('visible'), 100);
+  });
+</script>
+
+</body>
+</html>
