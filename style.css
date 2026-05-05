@@ -68,13 +68,15 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: background .4s, box-shadow .4s;
+  background: rgba(255,255,255,.97);
+  box-shadow: 0 1px 0 rgba(28,43,58,.08);
+  transition: background .3s, box-shadow .3s;
 }
 nav.scrolled {
-  background: rgba(198,232,247,.92);
+  background: rgba(255,255,255,.98);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 2px 20px rgba(28,43,58,.08);
+  box-shadow: 0 2px 16px rgba(28,43,58,.1);
 }
 .nav-logo { display: flex; align-items: baseline; gap: .4rem; }
 .nav-logo__main {
@@ -92,28 +94,31 @@ nav.scrolled {
 .nav-links { display: flex; align-items: center; gap: 2.2rem; list-style: none; }
 .nav-links a {
   font-family: var(--font-display);
-  font-weight: 600; font-size: .85rem;
+  font-weight: 700; font-size: .8rem;
   letter-spacing: .1em; text-transform: uppercase;
-  color: var(--text-mid); transition: color .2s;
+  color: var(--navy); transition: color .2s;
+  opacity: .65;
 }
-.nav-links a:hover, .nav-links a.active { color: var(--navy); }
+.nav-links a:hover, .nav-links a.active { color: var(--navy); opacity: 1; }
 .nav-cta {
   font-family: var(--font-display) !important;
-  font-weight: 800 !important; font-size: .85rem !important;
+  font-weight: 900 !important; font-size: .8rem !important;
   letter-spacing: .08em !important; text-transform: uppercase !important;
-  background: var(--navy); color: var(--white) !important;
+  background: var(--yellow); color: var(--navy) !important;
   padding: .65rem 1.5rem; border-radius: 100px;
-  transition: background .25s, transform .2s;
+  transition: background .2s, transform .2s, box-shadow .2s;
   display: inline-block;
+  box-shadow: 0 2px 8px rgba(255,216,77,.4);
 }
-.nav-cta:hover { background: var(--periwinkle-dk); transform: translateY(-2px); }
+.nav-cta:hover { background: #f5cc30; transform: translateY(-2px); box-shadow: 0 4px 14px rgba(255,216,77,.5); }
 .nav-mobile-cta {
   display: none;
   font-family: var(--font-display);
-  font-weight: 800; font-size: .8rem;
+  font-weight: 900; font-size: .78rem;
   letter-spacing: .08em; text-transform: uppercase;
-  background: var(--navy); color: var(--white);
+  background: var(--yellow); color: var(--navy);
   padding: .55rem 1.2rem; border-radius: 100px;
+  box-shadow: 0 2px 8px rgba(255,216,77,.35);
 }
 
 /* ── Strip ──────────────────────────────────────────────────────────────────── */

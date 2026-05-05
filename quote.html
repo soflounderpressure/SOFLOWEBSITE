@@ -665,6 +665,9 @@
           </div>
         </div>
 
+        <!-- Smart suggestions box — populated by JS after address selected -->
+        <div id="suggestionBox" style="display:none;background:#f0f6ff;border:1.5px solid #c8d8f0;border-radius:12px;padding:1.2rem 1.4rem;margin-bottom:1.2rem;"></div>
+
         <div class="field-group">
           <label class="field-label">Photos <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-light)">(optional but helpful)</span></label>
           <div class="upload-zone" id="uploadZone">
@@ -686,28 +689,10 @@
       <!-- ── STEP 3: Details ─────────────────────────────────────── -->
       <div class="step" id="step3">
         <div class="step-title">Tell us a bit more</div>
-        <p class="step-hint">These two questions help us ballpark the number before we visit.</p>
+        <p class="step-hint">Pick the size for each service — this helps us give you a real number.</p>
 
-        <div class="field-group">
-          <label class="field-label">Property size</label>
-          <div class="radio-grid">
-            <label class="radio-btn" onclick="selectRadio(this, 'size')">
-              <input type="radio" name="size" value="small" data-mult="1.0">
-              <span class="radio-btn__label">Small</span>
-              <span class="radio-btn__sub">Under 1,500 sqft lot</span>
-            </label>
-            <label class="radio-btn" onclick="selectRadio(this, 'size')">
-              <input type="radio" name="size" value="medium" data-mult="1.35">
-              <span class="radio-btn__label">Medium</span>
-              <span class="radio-btn__sub">1,500 – 3,000 sqft lot</span>
-            </label>
-            <label class="radio-btn" onclick="selectRadio(this, 'size')">
-              <input type="radio" name="size" value="large" data-mult="1.8">
-              <span class="radio-btn__label">Large</span>
-              <span class="radio-btn__sub">3,000+ sqft lot</span>
-            </label>
-          </div>
-        </div>
+        <!-- Dynamically built per-service size selectors -->
+        <div id="serviceSizeSelectors"></div>
 
         <div class="field-group">
           <label class="field-label">How does it look right now?</label>
@@ -964,13 +949,14 @@ function initMap() {
   autocomplete = new google.maps.places.Autocomplete(input, {
     types: ['address'],
     componentRestrictions: { country: 'us' },
-    fields: ['formatted_address', 'geometry', 'address_components']
+    fields: ['formatted_address', 'geometry', 'address_components', 'types', 'name']
   });
   autocomplete.addListener('place_changed', () => {
     const place = autocomplete.getPlace();
     if (!place.geometry) return;
     chosenAddress = place.formatted_address;
     showMapPreview(place.geometry.location.lat(), place.geometry.location.lng(), place.formatted_address);
+    analyzePropertyAndSuggest(place);
   });
 }
 
@@ -979,11 +965,100 @@ function showMapPreview(lat, lng, label) {
   const inner   = document.getElementById('mapInner');
   const mapLbl  = document.getElementById('mapLabel');
   preview.style.display = 'block';
+  // Satellite view: t=k
   inner.innerHTML = `<iframe
-    src="https://maps.google.com/maps?q=${encodeURIComponent(label)}&t=&z=17&ie=UTF8&iwloc=&output=embed"
+    src="https://maps.google.com/maps?q=${encodeURIComponent(label)}&t=k&z=19&ie=UTF8&iwloc=&output=embed"
     style="width:100%;height:100%;border:none;" allowfullscreen loading="lazy">
   </iframe>`;
-  mapLbl.textContent = '📍 ' + label;
+  mapLbl.textContent = '🛰️ Satellite view · ' + label;
+}
+
+/* ── Smart service suggestions from property data ─────────────────────────── */
+function analyzePropertyAndSuggest(place) {
+  const types     = place.types || [];
+  const comps     = place.address_components || [];
+  const addr      = (place.formatted_address || '').toLowerCase();
+
+  // Determine residential vs commercial
+  const isCommercial = types.some(t =>
+    ['establishment','store','food','restaurant','lodging','premise'].includes(t)
+  ) || /suite|ste|unit #|floor|blvd.*[0-9]{3}/.test(addr);
+
+  // Build suggestions
+  let suggestions = [];
+  if (isCommercial) {
+    suggestions = [
+      { service: 'storefront', label: 'Storefront Wash',   reason: 'Commercial property detected' },
+      { service: 'driveway',   label: 'Parking Area',      reason: 'Common for storefronts' },
+    ];
+  } else {
+    // Residential defaults — always suggest driveway + house, conditionally others
+    suggestions = [
+      { service: 'driveway',   label: 'Driveway',          reason: 'Most common residential service' },
+      { service: 'house',      label: 'House Exterior',    reason: 'Algae & mildew buildup in South FL' },
+    ];
+    // In Miami zip codes with heavy tile roofs — suggest roof soft wash
+    const zipComp = comps.find(c => c.types.includes('postal_code'));
+    const zip = zipComp ? parseInt(zipComp.short_name, 10) : 0;
+    if ((zip >= 33010 && zip <= 33299) || (zip >= 33301 && zip <= 33499)) {
+      suggestions.push({ service: 'roof', label: 'Roof Soft Wash', reason: 'High algae area — common in Miami-Dade & Broward' });
+    }
+    suggestions.push({ service: 'patio', label: 'Patio / Pool Deck', reason: 'Popular add-on' });
+  }
+
+  showSuggestions(suggestions, isCommercial);
+}
+
+function showSuggestions(suggestions, isCommercial) {
+  const box = document.getElementById('suggestionBox');
+  if (!box || suggestions.length === 0) return;
+
+  const propertyLabel = isCommercial ? '🏢 Commercial property' : '🏠 Residential property';
+  box.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem;">
+      <div>
+        <div style="font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#6475D0;">Smart Suggestions</div>
+        <div style="font-size:.82rem;color:#4a6070;margin-top:.2rem;">${propertyLabel} detected — here's what we recommend:</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem;">
+      ${suggestions.map(s => `
+        <div style="background:#fff;border:1.5px solid #dde4ec;border-radius:8px;padding:.5rem .9rem;font-size:.82rem;color:#1C2B3A;font-weight:600;">
+          ✓ ${s.label}
+          <span style="font-size:.72rem;color:#7a9bb5;font-weight:400;display:block;margin-top:.1rem;">${s.reason}</span>
+        </div>`).join('')}
+    </div>
+    <button onclick="applySuggestions()" style="background:#1C2B3A;color:#FFD84D;font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:.6rem 1.4rem;border:none;border-radius:8px;cursor:pointer;">
+      Apply These → Step 1
+    </button>
+    <button onclick="document.getElementById('suggestionBox').style.display='none'" style="background:none;border:none;font-size:.78rem;color:#7a9bb5;cursor:pointer;margin-left:.8rem;">
+      Skip
+    </button>
+  `;
+  box.style.display = 'block';
+  window._pendingSuggestions = suggestions;
+}
+
+function applySuggestions() {
+  const suggestions = window._pendingSuggestions || [];
+  // Deselect all first
+  document.querySelectorAll('.svc-btn').forEach(btn => btn.classList.remove('selected'));
+  selectedServices = [];
+  // Select suggested ones
+  suggestions.forEach(s => {
+    const btn = document.querySelector(`.svc-btn[data-service="${s.service}"]`);
+    if (btn) {
+      btn.classList.add('selected');
+      selectedServices.push({ service: s.service, base: +btn.dataset.base, sizeMult: +btn.dataset.sizeMult });
+    }
+  });
+  updateEstimate();
+  // Jump back to step 1
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step1').classList.add('active');
+  updateProgress(1);
+  window.scrollTo({ top: document.getElementById('step1').offsetTop - 80, behavior: 'smooth' });
+  document.getElementById('suggestionBox').style.display = 'none';
 }
 
 /* Load Google Maps script dynamically */
@@ -998,7 +1073,6 @@ function showMapPreview(lat, lng, label) {
 /* Address input fallback (manual typing) */
 document.getElementById('addressInput').addEventListener('input', function() {
   chosenAddress = this.value;
-  // If Maps not loaded or user typing manually, try embed on blur
 });
 document.getElementById('addressInput').addEventListener('blur', function() {
   if (!mapsReady && this.value.length > 6) {
@@ -1103,6 +1177,131 @@ zone.addEventListener('drop', e => {
   handlePhotos(e.dataTransfer.files);
 });
 
+/* ── Service-specific size config ─────────────────────────────────────────── */
+const SERVICE_SIZES = {
+  driveway: {
+    label: '🚗 Driveway — how many cars fit?',
+    hint:  'Count the spots side by side, not end to end.',
+    options: [
+      { label: '1 Car',            sub: 'Single-car width',          mult: 0.80 },
+      { label: '2 Cars',           sub: 'Standard double driveway',  mult: 1.00 },
+      { label: '3–4 Cars',         sub: 'Wide or long driveway',     mult: 1.45 },
+      { label: 'Circular / 5+ Cars', sub: 'Large estate driveway',   mult: 1.90 },
+    ]
+  },
+  house: {
+    label: '🏠 House Exterior — how big is the home?',
+    hint:  'Rough square footage of the home itself, not the lot.',
+    options: [
+      { label: 'Under 1,500 sqft', sub: 'Small single-story',        mult: 0.80 },
+      { label: '1,500–2,500 sqft', sub: 'Average single-family',     mult: 1.00 },
+      { label: '2,500–4,000 sqft', sub: 'Larger home',               mult: 1.45 },
+      { label: '4,000+ sqft',      sub: 'Large / two-story estate',  mult: 1.90 },
+    ]
+  },
+  roof: {
+    label: '🏠 Roof Soft Wash — what size is the roof?',
+    hint:  'Matches your home\'s footprint, not total sqft.',
+    options: [
+      { label: 'Under 1,500 sqft', sub: 'Small home footprint',      mult: 0.80 },
+      { label: '1,500–2,500 sqft', sub: 'Average home',              mult: 1.00 },
+      { label: '2,500–3,500 sqft', sub: 'Larger home',               mult: 1.45 },
+      { label: '3,500+ sqft',      sub: 'Large estate / flat roof',  mult: 1.90 },
+    ]
+  },
+  patio: {
+    label: '🏊 Patio / Pool Deck — how big is the area?',
+    hint:  'Include the pool deck surround if applicable.',
+    options: [
+      { label: 'Small',            sub: 'Under 200 sqft (apartment patio)', mult: 0.75 },
+      { label: 'Medium',           sub: '200–400 sqft',               mult: 1.00 },
+      { label: 'Large',            sub: '400–700 sqft',               mult: 1.45 },
+      { label: 'Extra Large',      sub: '700+ sqft / resort-style',  mult: 1.85 },
+    ]
+  },
+  fence: {
+    label: '🌿 Fence — how much fencing total?',
+    hint:  'Measure one side and multiply by the number of sides.',
+    options: [
+      { label: 'Up to 50 ft',      sub: 'One side of yard',          mult: 0.75 },
+      { label: '50–100 ft',        sub: 'Two sides',                 mult: 1.00 },
+      { label: '100–200 ft',       sub: 'Full perimeter (avg lot)',   mult: 1.50 },
+      { label: '200+ ft',          sub: 'Large lot / ranch perimeter', mult: 2.00 },
+    ]
+  },
+  storefront: {
+    label: '🏢 Storefront — what size is the frontage?',
+    hint:  'Width of the storefront or façade facing the street.',
+    options: [
+      { label: 'Single Unit',      sub: 'Under 25 ft wide',          mult: 0.80 },
+      { label: 'Medium Unit',      sub: '25–50 ft wide',             mult: 1.00 },
+      { label: 'Large / Corner',   sub: '50–100 ft',                 mult: 1.50 },
+      { label: 'Strip Mall / Bldg', sub: '100+ ft or full building', mult: 2.00 },
+    ]
+  },
+};
+
+/* Per-service size multipliers (keyed by service name) */
+let serviceSizeMults = {};
+
+function buildSizeSelectors() {
+  const container = document.getElementById('serviceSizeSelectors');
+  if (!container) return;
+  container.innerHTML = '';
+  serviceSizeMults = {};
+
+  selectedServices.forEach(svc => {
+    const cfg = SERVICE_SIZES[svc.service];
+    if (!cfg) return;
+
+    const group = document.createElement('div');
+    group.className = 'field-group';
+    group.innerHTML = `
+      <label class="field-label">${cfg.label}</label>
+      ${cfg.hint ? `<p style="font-size:.82rem;color:var(--text-light);margin:-.4rem 0 .8rem;">${cfg.hint}</p>` : ''}
+      <div class="radio-grid" id="sizeGrid_${svc.service}">
+        ${cfg.options.map((opt, i) => `
+          <label class="radio-btn" onclick="selectServiceSize(this, '${svc.service}', ${opt.mult})">
+            <input type="radio" name="size_${svc.service}" value="${i}">
+            <span class="radio-btn__label">${opt.label}</span>
+            <span class="radio-btn__sub">${opt.sub}</span>
+          </label>`).join('')}
+      </div>`;
+    container.appendChild(group);
+  });
+
+  recalcSizeMultiplier();
+}
+
+function selectServiceSize(el, service, mult) {
+  // Deselect siblings in same group
+  const grid = document.getElementById(`sizeGrid_${service}`);
+  if (grid) grid.querySelectorAll('.radio-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  serviceSizeMults[service] = mult;
+  recalcSizeMultiplier();
+  updateEstimate();
+}
+
+function recalcSizeMultiplier() {
+  const vals = Object.values(serviceSizeMults);
+  sizeMultiplier = vals.length
+    ? vals.reduce((a, b) => a + b, 0) / vals.length
+    : 1.0;
+}
+
+function buildSizeSummary() {
+  // Build a readable size string per service for the email
+  const parts = selectedServices.map(svc => {
+    const cfg = SERVICE_SIZES[svc.service];
+    const mult = serviceSizeMults[svc.service];
+    if (!cfg || mult === undefined) return null;
+    const opt = cfg.options.find(o => o.mult === mult);
+    return opt ? `${svc.service}: ${opt.label}` : null;
+  }).filter(Boolean);
+  return parts.length ? parts.join(' | ') : 'Not specified';
+}
+
 /* ── Step navigation ───────────────────────────────────────────────────────── */
 function showNotice(msg, type = 'error') {
   const n = document.getElementById('formNotice');
@@ -1115,6 +1314,13 @@ function nextStep(from) {
   if (from === 1 && !selectedServices.length) {
     showNotice('Please select at least one service.'); return;
   }
+  if (from === 2) {
+    const addr = document.getElementById('addressInput').value.trim();
+    if (!addr || addr.length < 5) {
+      showNotice('Please enter your property address.'); return;
+    }
+    chosenAddress = chosenAddress || addr;
+  }
   if (from === 4) return; // handled by submitForm
 
   const now = document.getElementById(`step${from}`);
@@ -1123,6 +1329,8 @@ function nextStep(from) {
   next.classList.add('active');
   currentStep = from + 1;
   updateProgress();
+  // Build size selectors when entering step 3
+  if (from + 1 === 3) buildSizeSelectors();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1199,7 +1407,7 @@ async function submitForm() {
     from_phone:    phone,
     services:      selectedServices.map(s => s.service).join(', ') || 'Not specified',
     address:       chosenAddress || document.getElementById('addressInput').value || 'Not provided',
-    size:          size ? size.value : 'Not specified',
+    size:          buildSizeSummary(),
     message:       (notes || 'None') + (photosNote ? '\n' + photosNote : ''),
     estimate:      estLow ? `$${estLow} – $${estHigh}` : 'To be determined',
     to_email:      'SoFlo.Underpressure@gmail.com',
