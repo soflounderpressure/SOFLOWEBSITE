@@ -321,6 +321,44 @@
       50% { transform: translateY(-14px); }
     }
 
+    /* ── Sample Work ─────────────────────────────────────────────────────────── */
+    .work-section {
+      padding: 5rem 3rem;
+      background: var(--white);
+    }
+    .work-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+    .work-photo {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      position: relative;
+    }
+    .work-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .5s cubic-bezier(.16,1,.3,1);
+    }
+    .work-photo:hover img { transform: scale(1.05); }
+    .work-photo__label {
+      position: absolute;
+      bottom: .8rem; left: .8rem;
+      font-family: var(--font-display);
+      font-weight: 700; font-size: .7rem;
+      letter-spacing: .1em; text-transform: uppercase;
+      background: rgba(255,255,255,.92);
+      color: var(--navy);
+      padding: .3rem .75rem;
+      border-radius: 100px;
+    }
+    .work-photo--tall { aspect-ratio: 3/5; }
+
     /* Decorative corner wave */
     .hero-wave {
       position: absolute;
@@ -978,8 +1016,10 @@
       .hero-actions { justify-content: center; }
       .price-badge-wrap { justify-content: center; }
       .hero-visual { min-height: 300px; }
-      .hero-visual__fig { width: 260px; }
       .hero-visual__bg-circle { width: 280px; height: 280px; }
+      .hero-visual__fig { width: 260px; }
+      .work-section { padding: 4rem 1.5rem; }
+      .work-grid { grid-template-columns: 1fr 1fr; }
       .services { padding: 4rem 1.5rem; }
       .services-grid { grid-template-columns: 1fr; }
       .services-row2 { grid-template-columns: 1fr 1fr; }
@@ -999,6 +1039,8 @@
     }
     @media (max-width: 560px) {
       .hero-headline { font-size: clamp(4rem, 14vw, 5.5rem); }
+      .work-grid { grid-template-columns: 1fr 1fr; }
+      .work-photo--tall { aspect-ratio: 3/4; }
       .services-row2 { grid-template-columns: 1fr; }
       .why-stats { grid-template-columns: 1fr; }
       .stat-card--tall { grid-row: span 1; }
@@ -1475,6 +1517,34 @@
 </section>
 
 
+<!-- ─────────────────────────────── SAMPLE WORK ──────────────────────────── -->
+<section class="work-section">
+  <div class="section-wrap" style="margin-bottom:2.5rem;">
+    <p class="section-eyebrow reveal">Our Work</p>
+    <h2 class="section-title reveal reveal-delay-1">REAL JOBS.<br>REAL RESULTS.</h2>
+    <p class="section-sub reveal reveal-delay-2">A taste of what we do across Miami-Dade and Broward. Real before-and-after conditions, not stock photos from other markets.</p>
+  </div>
+  <div class="work-grid reveal">
+    <div class="work-photo work-photo--tall">
+      <img src="Pictures/driveway-before-after.webp" alt="Driveway pressure washing result" loading="lazy">
+      <span class="work-photo__label">Driveway</span>
+    </div>
+    <div class="work-photo">
+      <img src="Pictures/house-wall-before-after.jpg" alt="House exterior wash result" loading="lazy">
+      <span class="work-photo__label">House Wash</span>
+    </div>
+    <div class="work-photo">
+      <img src="Pictures/pool-deck-after.webp" alt="Patio cleaning result" loading="lazy">
+      <span class="work-photo__label">Patio</span>
+    </div>
+    <div class="work-photo work-photo--tall">
+      <img src="Pictures/roof-miami-before-after.webp" alt="Roof soft wash result" loading="lazy">
+      <span class="work-photo__label">Roof Wash</span>
+    </div>
+  </div>
+</section>
+
+
 <!-- ─────────────────────────────── ABOUT ─────────────────────────────────── -->
 <section class="about-strip" id="about">
   <div class="about-inner">
@@ -1484,7 +1554,7 @@
       <p class="about-body reveal reveal-delay-1">
         We started SoFlo UnderPressure because finding a pressure washing company that actually showed up, communicated clearly, and did the job right was harder than it should've been in South Florida.
         <br><br>
-        So we built the company we wished existed. Owner-operated from day one. The owner handles every job personally — no subcontractors, no strangers on your property.
+        So we built the company we wished existed — a family business rooted in South Florida. Every job is handled with the care and accountability you'd expect when it's your own name on the door.
       </p>
       <div class="trust-pills reveal reveal-delay-2">
         <span class="trust-pill">5-Star Rated</span>
