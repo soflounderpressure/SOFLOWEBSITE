@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Navy background pill -->
+  <rect width="32" height="32" rx="7" fill="#1C2B3A"/>
+  <!-- Water drop shape in yellow -->
+  <path d="M16 5 C16 5, 9 14, 9 19 C9 23.4 12.1 27 16 27 C19.9 27 23 23.4 23 19 C23 14 16 5 16 5Z" fill="#FFD84D"/>
+  <!-- Small inner highlight -->
+  <ellipse cx="13.5" cy="18" rx="1.8" ry="3" fill="rgba(255,255,255,0.3)" transform="rotate(-15 13.5 18)"/>
+</svg>

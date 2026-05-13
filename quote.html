@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Get a Quote — SoFlo UnderPressure | Miami Pressure Washing</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <title>Free Pressure Washing Quote Miami-Dade & Broward | SoFlo UnderPressure</title>
   <meta name="description" content="Get an instant pressure washing quote for your Miami-Dade or Broward home. Upload photos, enter your address, and we'll follow up same day.">
   <meta name="geo.region" content="US-FL">
   <meta name="geo.placename" content="Miami, Florida">
@@ -543,7 +544,7 @@
 
 <!-- NAV -->
 <nav id="nav">
-  <a href="index.html" class="nav-logo">
+  <a href="/" class="nav-logo">
     <span class="nav-logo__main">SoFlo</span>
     <span class="nav-logo__accent">UnderPressure</span>
   </a>
@@ -594,6 +595,15 @@
     <!-- MAIN FORM -->
     <div>
       <div class="form-notice" id="formNotice"></div>
+
+      <!-- ── Membership plan banner (shown if arriving from plans page) ── -->
+      <div id="planBanner" style="display:none;background:#EEF0FF;border:1.5px solid #c0c8f0;border-radius:12px;padding:.9rem 1.2rem;margin-bottom:1.2rem;display:none;align-items:center;gap:.8rem;">
+        <span style="font-size:1.2rem;">📋</span>
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:#4a5ab0;margin-bottom:.15rem;">Membership Quote</div>
+          <div id="planBannerText" style="font-size:.85rem;color:#1C2B3A;font-weight:600;"></div>
+        </div>
+      </div>
 
       <!-- ── STEP 1: Services ──────────────────────────────────────── -->
       <div class="step active" id="step1">
@@ -810,7 +820,7 @@
 
           <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
             <a href="tel:+13058946336" class="btn-primary">📞 Call (305) 894-6336</a>
-            <a href="index.html" class="btn-secondary">Back to Home</a>
+            <a href="/" class="btn-secondary">Back to Home</a>
           </div>
         </div>
       </div>
@@ -932,6 +942,27 @@ let estLow = 0, estHigh = 0;
 /* ── Nav scrolled ──────────────────────────────────────────────────────────── */
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+/* ── Membership plan banner ────────────────────────────────────────────────── */
+(function() {
+  const planParam = new URLSearchParams(window.location.search).get('plan');
+  if (!planParam) return;
+  const planNames = {
+    essentials: 'Essentials — Annual Plan (1×/year)',
+    standard:   'Standard — Bi-Annual Plan (2×/year)',
+    premium:    'Premium — Quarterly Plan (4×/year)',
+  };
+  const label = planNames[planParam.toLowerCase()];
+  if (!label) return;
+  const banner = document.getElementById('planBanner');
+  if (banner) {
+    document.getElementById('planBannerText').textContent =
+      'You\'re requesting a quote for the ' + label + '. We\'ll follow up to walk through pricing and scheduling.';
+    banner.style.display = 'flex';
+    // Store for later inclusion in the email
+    window._membershipPlan = label;
+  }
+})();
 
 /* ── Reveal ────────────────────────────────────────────────────────────────── */
 const revealObs = new IntersectionObserver(entries => {
@@ -1398,15 +1429,19 @@ async function submitForm() {
     }
   }
 
+  const membershipNote = window._membershipPlan
+    ? `\n\n⭐ MEMBERSHIP INTEREST: ${window._membershipPlan}\n(Send contract link after quoting: sofloup.com/contract.html?plan=PLAN&rate=MONTHLY_RATE)`
+    : '';
+
   const templateParams = {
-    type:          'Quote Request',
+    type:          window._membershipPlan ? 'Membership Quote Request' : 'Quote Request',
     from_name:     name,
     from_email:    email,
     from_phone:    phone,
-    services:      selectedServices.map(s => s.service).join(', ') || 'Not specified',
+    services:      (window._membershipPlan ? '[MEMBERSHIP] ' : '') + (selectedServices.map(s => s.service).join(', ') || 'Not specified'),
     address:       chosenAddress || document.getElementById('addressInput').value || 'Not provided',
     size:          buildSizeSummary(),
-    message:       (notes || 'None') + (photosNote ? '\n' + photosNote : ''),
+    message:       (notes || 'None') + (photosNote ? '\n' + photosNote : '') + membershipNote,
     estimate:      estLow ? `$${estLow} – $${estHigh}` : 'To be determined',
     to_email:      'SoFlo.Underpressure@gmail.com',
   };
