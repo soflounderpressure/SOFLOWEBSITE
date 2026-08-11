@@ -1,0 +1,21 @@
+# Cloudflare Pages headers — SoFlo UnderPressure
+
+# Security headers — applied to all pages
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+
+# HTML — short cache so updates go live fast
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Images — long cache, they're versioned by filename
+/Pictures/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Stylesheet
+/style.css
+  Cache-Control: public, max-age=3600
