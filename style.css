@@ -441,3 +441,122 @@ footer { background: var(--navy); padding: 4rem 3rem 2rem; color: var(--white); 
   .strip { padding: 1.2rem 1rem; }
   .strip-inner { gap: 1.2rem; }
 }
+
+/* ── Interface guidelines (accessibility & polish) ── */
+
+/* [4] Stop iOS text inflation + subtle brand tap highlight */
+html { -webkit-text-size-adjust: 100%; }
+* { -webkit-tap-highlight-color: rgba(100,117,208,.18); }
+
+/* [6] Overflow safety — no horizontal scroll, long words wrap */
+body { overflow-wrap: break-word; }
+h1, h2, h3, h4, h5, h6,
+.section-title, .page-title, .hoa-headline, .faq-group-title { overflow-wrap: break-word; }
+img, video, iframe, svg { max-width: 100%; }
+
+/* [1] Visible keyboard focus for all interactive elements.
+   :focus-visible only, so mouse/touch users keep the clean look. */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--periwinkle);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+/* On the dark navy surfaces the periwinkle outline needs a lighter tone */
+.strip a:focus-visible,
+footer a:focus-visible,
+footer button:focus-visible,
+.softwash-callout a:focus-visible,
+.hoa-inner a:focus-visible,
+.nav-cta:focus-visible {
+  outline-color: var(--periwinkle-lt);
+}
+
+/* [7] Optional convenience: highlight the open FAQ item on keyboard focus */
+.faq-q:focus-within,
+details:focus-within > summary {
+  outline: none;
+}
+
+/* [3] Touch tap targets — ~44x44px minimum hit area on interactive controls.
+   Uses inline-flex centering + min-height so desktop layout is preserved. */
+.nav-links a,
+.footer-col__links a,
+.footer-contact-line a,
+.faq-q,
+summary.faq-q,
+.service-link-grid a {
+  display: block;
+  min-height: 44px;
+}
+.nav-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.nav-cta,
+.nav-mobile-cta,
+.btn-primary,
+.btn-secondary,
+.btn-hoa {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.faq-q,
+summary.faq-q {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+.service-link-grid a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* [5] Inputs — 16px+ font on mobile prevents iOS zoom-on-focus */
+@media (max-width: 600px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
+/* [2] Reduced motion — honor prefers-reduced-motion by neutralizing all motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    animation: none !important;
+    transition-duration: .001ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal,
+  .reveal-delay-1,
+  .reveal-delay-2,
+  .reveal-delay-3,
+  .reveal-delay-4 {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Skip-to-content link — visible only on keyboard focus */
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 1000;
+  background: var(--navy); color: #fff; padding: .8rem 1.2rem;
+  font-family: var(--font-display); font-weight: 700; letter-spacing: .04em;
+  border-radius: 0 0 var(--radius-sm) 0;
+}
+.skip-link:focus { left: 0; }
