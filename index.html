@@ -234,6 +234,22 @@
       background-position: center;
     }
 
+
+    /* Keyword-bearing lead inside the H1 — plain language for search engines,
+       sized like an eyebrow so the big line stays the visual anchor. */
+    .h1-lead {
+      display: block;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(.95rem, 1.5vw, 1.15rem);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--periwinkle-dk);
+      line-height: 1.35;
+      margin-bottom: 1rem;
+      max-width: 22ch;
+    }
+
     /* ── Scroll reveal ─────────────────────────────────────────────────────── */
     .reveal {
       opacity: 0;
@@ -1253,12 +1269,13 @@
 
 <!-- ──────────────────────────────── NAV ──────────────────────────────────── -->
 <nav id="nav">
-  <a href="/" class="nav-logo">
+  <a href="index.html" class="nav-logo">
     <span class="nav-logo__main">SoFlo</span>
     <span class="nav-logo__accent">UnderPressure</span>
   </a>
   <ul class="nav-links">
     <li><a href="services.html">Services</a></li>
+      <li class="nav-softwash"><a href="services/soft-washing.html">Soft Washing</a></li>
     <li><a href="membership.html">Plans</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="contact.html">Contact</a></li>
@@ -1272,8 +1289,9 @@
 <section class="hero">
 
   <div class="hero-text">
-    <p class="hero-eyebrow reveal">Miami Pressure Washing</p>
+    <p class="hero-eyebrow reveal">Licensed &amp; Insured · Owner-Operated</p>
     <h1 class="hero-headline reveal reveal-delay-1">
+      <span class="h1-lead">Pressure Washing &amp; Soft Washing in Miami-Dade &amp; Broward</span>
       WE<br>CLEAN.<br><em>YOU</em><br>BRAG.
     </h1>
     <p class="hero-sub reveal reveal-delay-2">
