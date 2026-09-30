@@ -138,7 +138,7 @@ nav.scrolled {
 .strip-item strong { color: var(--white); }
 
 /* ── Section chrome ─────────────────────────────────────────────────────────── */
-.section-wrap { max-width: 1200px; margin: 0 auto; }
+.section-wrap { max-width: 1440px; margin: 0 auto; padding-inline: clamp(1.5rem, 4vw, 4rem); box-sizing: border-box; }
 .section-eyebrow {
   font-family: var(--font-display);
   font-weight: 600; font-size: .78rem;
@@ -188,7 +188,7 @@ nav.scrolled {
 /* ── HOA Banner ─────────────────────────────────────────────────────────────── */
 .hoa-banner { padding: 3.5rem 3rem; background: var(--white); }
 .hoa-inner {
-  max-width: 1200px; margin: 0 auto;
+  max-width: 1440px; margin: 0 auto;
   background: var(--periwinkle-dk);
   border-radius: var(--radius-xl);
   padding: 3.2rem 4rem;
@@ -207,7 +207,7 @@ nav.scrolled {
 
 /* ── Footer ─────────────────────────────────────────────────────────────────── */
 footer { background: var(--navy); padding: 4rem 3rem 2rem; color: var(--white); }
-.footer-top { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,.1); }
+.footer-top { max-width: 1440px; margin: 0 auto; display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,.1); }
 .footer-brand__name { font-family: var(--font-display); font-weight: 900; font-size: 1.6rem; text-transform: uppercase; margin-bottom: .2rem; }
 .footer-brand__name span { color: var(--periwinkle-lt); }
 .footer-brand__tagline { font-family: var(--font-display); font-weight: 600; font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 1.2rem; }
@@ -219,7 +219,7 @@ footer { background: var(--navy); padding: 4rem 3rem 2rem; color: var(--white); 
 .footer-contact-line { font-size: .83rem; color: rgba(255,255,255,.6); margin-bottom: .5rem; }
 .footer-contact-line a { color: var(--periwinkle-lt); font-weight: 600; }
 .footer-contact-line a:hover { color: var(--white); }
-.footer-bottom { max-width: 1200px; margin: 0 auto; padding-top: 1.8rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.footer-bottom { max-width: 1440px; margin: 0 auto; padding-top: 1.8rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 .footer-copy, .footer-lic { font-size: .78rem; color: rgba(255,255,255,.35); font-family: var(--font-display); letter-spacing: .06em; }
 
 /* ── Page hero (inner pages) ────────────────────────────────────────────────── */
@@ -560,3 +560,17 @@ summary.faq-q {
   border-radius: 0 0 var(--radius-sm) 0;
 }
 .skip-link:focus { left: 0; }
+
+/* ── Mascot ─────────────────────────────────────────────────────────────────── */
+.footer-mascot { width:88px; height:auto; margin-bottom:.6rem; display:block; }
+@keyframes mascot-bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+.mascot-bob { animation: mascot-bob 2.4s ease-in-out infinite; }
+.sending-mascot { width:120px; height:auto; margin:0 auto .6rem; display:block; }
+@media (prefers-reduced-motion: reduce){ .mascot-bob{animation:none} }
+
+/* ── 404 ────────────────────────────────────────────────────────────────────── */
+.notfound { min-height:70vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:6rem 1.5rem 4rem; gap:.5rem; }
+.notfound-mascot { width:240px; height:auto; margin-bottom:1rem; }
+.notfound-title { font-family:var(--font-display); font-weight:900; font-size:clamp(2.4rem,6vw,4rem); text-transform:uppercase; color:var(--navy); line-height:1; }
+.notfound-sub { font-family:var(--font-body); color:var(--text-mid); max-width:440px; line-height:1.6; margin-bottom:1.5rem; }
+.notfound-ctas { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; }
