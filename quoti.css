@@ -216,3 +216,38 @@ footer{background:var(--navy)!important;border-radius:var(--r-xl) var(--r-xl) 0 
 
 /* post body readable width stays narrow */
 .post-wrap{max-width:760px!important}
+
+/* ═══════════ hero + slot fixes (constrain legacy heroes) ═══════════ */
+.page-hero,.services-hero,.resources-hero,.quote-hero,.area-hero,.contract-hero{
+  padding:8rem 0 1.5rem!important;max-width:1360px;margin:0 auto;
+  padding-inline:clamp(1.25rem,4vw,3.5rem)!important}
+/* hero photo slot: not a giant dark 21:9 block — cap height, round it */
+.page-photo,.slot.page-photo{aspect-ratio:auto!important;max-height:440px!important;height:clamp(240px,34vw,440px)!important;
+  border-radius:var(--r-xl)!important;overflow:hidden;margin:1.5rem auto 0;max-width:1360px}
+.page-photo img,.slot.page-photo img{width:100%;height:100%;object-fit:cover;opacity:1!important;position:absolute;inset:0}
+/* any slot image: ensure visible (defeat stuck fade) */
+.slot img{opacity:1!important}
+.slot{background:var(--sky-soft)!important}
+/* breadcrumb */
+.breadcrumb{font-family:var(--fd)!important;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.75rem;color:var(--mid)!important;margin-bottom:1rem}
+.breadcrumb a{color:var(--peri-dk)!important}
+.area-county{font-family:var(--fd)!important;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--peri-dk)!important;font-size:.8rem}
+.svc-hero-ctas,.area-hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.4rem}
+/* service-link grid + area pills -> soft */
+.service-link-grid a,.area-pill{background:#fff!important;border-radius:var(--r)!important;box-shadow:var(--sh)!important;border:1px solid rgba(28,43,58,.05)!important}
+/* compare table + plan cards keep but soften */
+.plan-card.featured,.featured-col{border:2px solid var(--periwinkle)!important}
+/* forms */
+.field-group input,.field-group textarea,.field-group select,input[type=text],input[type=email],input[type=tel],textarea,select{
+  border-radius:var(--r)!important;border:1.5px solid rgba(28,43,58,.15)!important;font-size:16px!important}
+.btn-hoa{border-radius:var(--pill)!important;font-family:var(--fd)!important}
+
+.skip-link{position:absolute;left:-9999px;top:0;z-index:1000;background:var(--navy);color:#fff;padding:.8rem 1.2rem;border-radius:0 0 var(--r) 0;font-family:var(--fd);font-weight:700}
+.skip-link:focus{left:0}
+.post-body h2{font-family:var(--fd);font-weight:800;text-transform:uppercase;font-size:clamp(1.6rem,3vw,2.2rem);color:var(--navy);margin:2.2rem 0 .7rem;line-height:1.05}
+.post-body p{margin-bottom:1.1rem;color:var(--mid)}
+.post-body a{color:var(--peri-dk);text-decoration:underline;text-underline-offset:3px}
+.post-body strong{color:var(--navy)}
+.faq-item{background:#fff;border:1px solid rgba(28,43,58,.06);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:.8rem;padding:.3rem 1.3rem}
+.faq-item summary{font-family:var(--fd);font-weight:800;text-transform:uppercase;color:var(--navy);padding:1rem 0;cursor:pointer;list-style:none}
+.faq-item .faq-a{padding-bottom:1rem;color:var(--mid)}
