@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <title>What Surfaces Can (and Can&#x27;t) Be Pressure Washed in South Florida? | SoFlo UnderPressure</title>
@@ -26,7 +26,7 @@
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;600&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;600&display=swap" media="print" onload="this.media='all';this.onload=null">
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;600&display=swap"></noscript>
-  <link rel="stylesheet" href="../style.css">
+  
 
   <script type="application/ld+json">
   {
@@ -58,273 +58,21 @@
     ]
   }
   </script>
-<style>
-    /* ── Resources page ───────────────────────────────────────────── */
-    .resources-hero {
-      background: var(--navy);
-      padding: 5.5rem 2rem 3.5rem;
-      text-align: center;
-    }
-    .resources-hero h1 {
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: clamp(2.4rem, 5vw, 4rem);
-      text-transform: uppercase;
-      letter-spacing: -.02em;
-      color: var(--white);
-      line-height: 1;
-      margin-bottom: .7rem;
-    }
-    .resources-hero h1 em { color: var(--yellow); font-style: normal; }
-    .resources-hero p {
-      font-size: .95rem;
-      color: rgba(255,255,255,.6);
-      max-width: 520px;
-      margin: 0 auto;
-      line-height: 1.7;
-    }
-
-    /* Article grid */
-    .articles-section {
-      background: var(--off-white);
-      padding: 4.5rem 2rem;
-    }
-    .articles-inner {
-      max-width: 1060px;
-      margin: 0 auto;
-    }
-    .articles-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.8rem;
-      margin-top: 3rem;
-    }
-    .article-card {
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      box-shadow: var(--shadow-card);
-      display: flex;
-      flex-direction: column;
-      transition: transform .3s, box-shadow .3s;
-    }
-    .article-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lift); }
-    .article-card-header {
-      padding: 2rem 1.8rem 1.5rem;
-      border-bottom: 1.5px solid var(--sky);
-      background: var(--navy);
-    }
-    .article-icon { font-size: 2rem; margin-bottom: .8rem; }
-    .article-category {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: .65rem;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--yellow);
-      margin-bottom: .4rem;
-    }
-    .article-title {
-      font-family: var(--font-display);
-      font-weight: 900;
-      font-size: 1.25rem;
-      text-transform: uppercase;
-      letter-spacing: -.01em;
-      color: var(--white);
-      line-height: 1.2;
-    }
-    .article-body {
-      padding: 1.5rem 1.8rem 2rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .article-excerpt {
-      font-size: .88rem;
-      color: var(--text-mid);
-      line-height: 1.7;
-      flex: 1;
-    }
-    .article-excerpt p { margin-bottom: .85rem; }
-    .article-excerpt p:last-child { margin-bottom: 0; }
-    .article-excerpt strong { color: var(--navy); }
-    .article-excerpt h3 {
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: .88rem;
-      text-transform: uppercase;
-      letter-spacing: .05em;
-      color: var(--navy);
-      margin: 1.2rem 0 .4rem;
-    }
-    .article-excerpt ul {
-      padding-left: 1.2rem;
-      margin-bottom: .85rem;
-    }
-    .article-excerpt ul li { margin-bottom: .35rem; }
-    .article-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: .4rem;
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: .78rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--periwinkle-dk);
-      text-decoration: none;
-      margin-top: 1.5rem;
-      transition: gap .2s;
-    }
-    .article-cta:hover { gap: .7rem; }
-
-    /* FAQ accordion */
-    .faq-section {
-      background: var(--white);
-      padding: 4.5rem 2rem;
-    }
-    .faq-inner { max-width: 780px; margin: 0 auto; }
-    .faq-list { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 0; }
-    .faq-item {
-      border-bottom: 1.5px solid var(--sky);
-    }
-    .faq-item:first-child { border-top: 1.5px solid var(--sky); }
-    .faq-q {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 1.2rem 0;
-      cursor: pointer;
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: 1rem;
-      text-transform: uppercase;
-      letter-spacing: .02em;
-      color: var(--navy);
-      list-style: none;
-      user-select: none;
-    }
-    .faq-q::-webkit-details-marker { display: none; }
-    .faq-chevron {
-      width: 1.4rem;
-      height: 1.4rem;
-      border-radius: 50%;
-      background: var(--sky);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: .65rem;
-      color: var(--periwinkle-dk);
-      transition: background .2s, transform .3s;
-      font-weight: 900;
-    }
-    details[open] .faq-chevron { background: var(--periwinkle); color: var(--white); transform: rotate(180deg); }
-    .faq-a {
-      padding: 0 0 1.4rem;
-      font-size: .9rem;
-      color: var(--text-mid);
-      line-height: 1.75;
-    }
-    .faq-a p { margin-bottom: .75rem; }
-    .faq-a p:last-child { margin-bottom: 0; }
-    .faq-a a { color: var(--periwinkle-dk); font-weight: 600; }
-
-    /* Service areas grid */
-    .areas-section {
-      background: var(--off-white);
-      padding: 4rem 2rem;
-    }
-    .areas-inner { max-width: 960px; margin: 0 auto; }
-    .areas-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: .8rem;
-      margin-top: 2rem;
-    }
-    .area-pill {
-      background: var(--white);
-      border-radius: 10px;
-      padding: .9rem 1rem;
-      text-align: center;
-      text-decoration: none;
-      box-shadow: var(--shadow-card);
-      transition: all .2s;
-    }
-    .area-pill:hover { background: var(--navy); transform: translateY(-2px); }
-    .area-pill:hover .area-pill-name { color: var(--yellow); }
-    .area-pill:hover .area-pill-county { color: rgba(255,255,255,.4); }
-    .area-pill-name {
-      font-family: var(--font-display);
-      font-weight: 800;
-      font-size: .9rem;
-      text-transform: uppercase;
-      color: var(--navy);
-      display: block;
-      transition: color .2s;
-    }
-    .area-pill-county {
-      font-size: .7rem;
-      color: var(--text-light);
-      transition: color .2s;
-    }
-
-    @media (max-width: 900px) {
-      .articles-grid { grid-template-columns: 1fr; }
-      .areas-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 500px) {
-      .areas-grid { grid-template-columns: 1fr 1fr; }
-    }
-  </style>
+  <link rel="stylesheet" href="../quoti.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
-
-<!-- ── Nav ──────────────────────────────────────────────────────────────────── -->
-<nav id="nav">
-  <a href="../index.html" class="nav-logo">
-    <span class="nav-logo__main">SoFlo</span>
-    <span class="nav-logo__accent">UnderPressure</span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="../services/soft-washing.html">Services</a></li>
-    <li><a href="../service-areas.html">Areas</a></li>
-    <li><a href="../membership.html">Plans</a></li>
-    <li><a href="../about.html">About</a></li>
-    <li><a href="../contact.html">Contact</a></li>
-    <li><a href="../quote.html" class="nav-cta">Get a Quote</a></li>
-  </ul>
-  <a href="../quote.html" class="nav-mobile-cta">Get a Quote</a>
-</nav>
-
-<!-- ── Trust strip ──────────────────────────────────────────────────────────── -->
-<div class="strip" style="margin-top:4.5rem;">
-  <div class="strip-inner">
-    <div class="strip-item"><span class="dot"></span>Miami-Dade &amp; Broward</div>
-    <div class="strip-item"><span class="dot"></span>South Florida Tips &amp; Answers</div>
-    <div class="strip-item"><span class="dot"></span>HOA Compliance Info</div>
-    <div class="strip-item"><span class="dot"></span><strong>(305) 894-6336</strong></div>
-  </div>
-</div>
-
-<!-- ── Hero ─────────────────────────────────────────────────────────────────── -->
-
-<section id="main" tabindex="-1" class="resources-hero" style="padding-bottom:2.5rem;">
-  <div class="breadcrumb" style="justify-content:center;">
-    <a href="../index.html">Home</a> <span>›</span>
-    <a href="../resources.html">Resources</a> <span>›</span>
-    <span>Surface Guide</span>
-  </div>
-  <div class="section-eyebrow reveal" style="justify-content:center;">🌊 Surface Guide</div>
-  <h1 class="reveal reveal-delay-1">What Surfaces Can (and Can't) Be Pressure Washed in South Florida?</h1>
-</section>
-
-<section class="articles-section">
-  <div class="post-wrap">
-    <article class="post-body reveal">
-      <p>Not everything should be cleaned the same way, and in South Florida the range of exterior materials on a single property is wider than most people expect. Here's what takes pressure, what needs soft washing, and what shouldn't be touched with either.</p>
+<div class="navbar"><nav class="nav"><a class="logo" href="../index.html"><b>SoFlo</b><span>UnderPressure</span></a>
+ <ul class="nav-links"><li><a href="../services.html">Services</a></li><li><a href="../services/soft-washing.html">Soft Washing</a></li><li><a href="../service-areas.html">Areas</a></li><li><a href="../membership.html">Plans</a></li><li><a href="../about.html">About</a></li></ul>
+ <div class="nav-cta"><a class="nav-call" href="tel:3058946336">(305) 894-6336</a><a class="btn btn-yellow" href="../quote.html">Get a Quote</a></div><a class="burger" href="../quote.html">Menu</a></nav></div>
+<header class="hero" style="padding-bottom:0"><div class="wrap" style="max-width:820px">
+  <div class="breadcrumb" style="font-family:var(--fd);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.72rem;color:var(--mid);margin-bottom:1rem"><a href="../" style="color:var(--peri-dk)">Home</a> › <a href="../resources.html" style="color:var(--peri-dk)">Guides</a> › 🌊 Surface Guide</div>
+  <span class="eyebrow">🌊 Surface Guide</span>
+  <h1 style="font-size:clamp(2.6rem,6vw,4.6rem);margin-top:.6rem">What Surfaces Can (and Can't) Be Pressure Washed in South Florida?</h1>
+</div></header>
+<main id="main"><section class="sec" style="padding-top:2.5rem"><div class="wrap"><div class="post-wrap">
+<article class="post-body">
+<p>Not everything should be cleaned the same way, and in South Florida the range of exterior materials on a single property is wider than most people expect. Here's what takes pressure, what needs soft washing, and what shouldn't be touched with either.</p>
 
             <h3>Safe for Pressure Washing</h3>
             <p><strong>Poured concrete.</strong> Driveways, walkways, patios. Hard, non-porous enough, and structurally solid. This is what surface cleaners are built for, and it's where high pressure genuinely earns its place.</p>
@@ -354,80 +102,15 @@
             <p>Match the method to the material, not to the job. A typical Miami property needs pressure washing on the driveway and walkway and soft washing on the roof, stucco, and screen enclosure — in the same visit, with different setups.</p>
             <p>The warning sign is anyone who quotes a whole property without asking what it's made of. Travertine, barrel tile, stucco and concrete are four different problems. The person quoting should want to know which ones you have.</p>
             <p>Not sure what you've got? Send photos with <a href="../quote.html">the quote form</a> and we'll tell you what each surface needs — or just <a href="../contact.html">call and ask</a>.</p>
-      <div class="post-cta">
-        <p>Serving Miami-Dade &amp; Broward. Flat pricing, owner on every job.</p>
-        <a href="../quote.html" class="btn-primary">Get a Free Quote</a>
-        <a href="tel:3058946336" class="btn-secondary">(305) 894-6336</a>
-      </div>
-    </article>
-  </div>
-</section>
-
-<!-- ── HOA Banner ────────────────────────────────────────────────────────────── -->
-<div class="hoa-banner">
-  <div class="hoa-inner reveal">
-    <div>
-      <div class="hoa-label">Ready to Book?</div>
-      <h2 class="hoa-headline">Get a Free Quote<br>Today</h2>
-      <p class="hoa-sub">Same-day response. Fast scheduling across Miami-Dade and Broward. No commitment until you say yes.</p>
-    </div>
-    <div class="hoa-action">
-      <a href="tel:3058946336" class="hoa-phone">(305) 894-6336</a>
-      <div class="hoa-phone-label">Call or Text Anytime</div>
-      <a href="../quote.html" class="btn-hoa">Get a Free Quote</a>
-    </div>
-  </div>
+<div class="post-cta" style="margin-top:2.5rem;background:var(--sky);border-radius:var(--r-lg);padding:2rem;text-align:center">
+  <p style="font-family:var(--fd);font-weight:800;text-transform:uppercase;color:var(--navy);font-size:1.1rem;margin-bottom:1rem">Serving Miami-Dade &amp; Broward. Flat pricing, owner on every job.</p>
+  <a class="btn btn-primary" href="../quote.html">Get a Free Quote</a> <a class="btn btn-ghost" href="tel:3058946336">(305) 894-6336</a>
 </div>
-<!-- ── Footer ────────────────────────────────────────────────────────────────── -->
-<footer>
-  <div class="footer-top">
-    <div>
-      <img class="footer-mascot mascot-bob" src="../Pictures/mascot-wave.png" alt="SoFlo UnderPressure water-drop mascot waving" loading="lazy" width="88">
-      <div class="footer-brand__name">SoFlo <span>Under</span>Pressure</div>
-      <div class="footer-brand__tagline">Pressure Washing · Miami</div>
-      <p class="footer-brand__desc">Professional pressure washing and soft washing for homes and businesses in Miami-Dade and Broward County.</p>
-    </div>
-    <div>
-      <div class="footer-col__title">Services</div>
-      <ul class="footer-col__links">
-        <li><a href="../services/soft-washing.html">Driveways</a></li>
-        <li><a href="../services/soft-washing.html">Patios &amp; Pool Decks</a></li>
-        <li><a href="../services/soft-washing.html">Roof Soft Wash</a></li>
-        <li><a href="../services/soft-washing.html">Fences</a></li>
-        <li><a href="../services/soft-washing.html">House Exterior</a></li>
-        <li><a href="../services/soft-washing.html">Storefronts</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-col__title">Resources</div>
-      <ul class="footer-col__links">
-        <li><a href="../resources.html">Tips &amp; Guides</a></li>
-        <li><a href="../faq.html">FAQ</a></li>
-        <li><a href="../membership.html">Recurring Plans</a></li>
-        <li><a href="../about.html">About Us</a></li>
-        <li><a href="../contact.html">Contact</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-col__title">Contact</div>
-      <p class="footer-contact-line"><a href="tel:3058946336">(305) 894-6336</a></p>
-      <p class="footer-contact-line"><a href="mailto:SoFlo.Underpressure@gmail.com">SoFlo.Underpressure@gmail.com</a></p>
-      <p class="footer-contact-line" style="margin-top:.8rem;color:rgba(255,255,255,.4);">Miami-Dade &amp; Broward County</p>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2026 SoFlo UnderPressure Pressure Washing. All rights reserved.</span>
-    <span class="footer-lic">Miami-Dade, FL</span>
-  </div>
-</footer>
-
-<script>
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 40); });
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-</script>
+</article></div></div></section></main>
+<footer><div class="wrap"><div class="fgrid"><div class="fbrand"><img src="../Pictures/mascot-wave.png" alt="SoFlo UnderPressure mascot"><div class="logo"><b style="color:#fff">SoFlo</b> <span style="color:#A0AEEF">UnderPressure</span></div><p>Professional pressure washing &amp; soft washing in Miami-Dade and Broward. Licensed, insured, owner-operated.</p></div>
+ <div class="fcol"><h5>Services</h5><a href="../services/driveway-pressure-washing.html">Driveways</a><a href="../services/roof-soft-washing.html">Roof Soft Wash</a><a href="../services/house-soft-washing.html">House Exterior</a><a href="../services/patio-pool-deck-cleaning.html">Patios &amp; Decks</a><a href="../services/fence-cleaning.html">Fences</a><a href="../services/commercial-storefront-cleaning.html">Storefronts</a></div>
+ <div class="fcol"><h5>Company</h5><a href="../about.html">About</a><a href="../membership.html">Plans</a><a href="../service-areas.html">Service Areas</a><a href="../resources.html">Guides</a><a href="../faq.html">FAQ</a><a href="../contact.html">Contact</a></div>
+ <div class="fcol"><h5>Get In Touch</h5><a href="tel:3058946336">(305) 894-6336</a><a href="mailto:SoFlo.Underpressure@gmail.com">Email us</a><p style="color:rgba(255,255,255,.55);font-size:.9rem;margin-top:.6rem">Sun–Thu 8am–8pm<br>Fri 8am–3pm</p></div></div>
+ <div class="fbot"><span>© 2026 SoFlo UnderPressure · Licensed &amp; Insured</span><span>Miami-Dade &amp; Broward County</span></div></div></footer>
 </body>
 </html>

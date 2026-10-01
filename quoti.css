@@ -251,3 +251,7 @@ footer{background:var(--navy)!important;border-radius:var(--r-xl) var(--r-xl) 0 
 .faq-item{background:#fff;border:1px solid rgba(28,43,58,.06);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:.8rem;padding:.3rem 1.3rem}
 .faq-item summary{font-family:var(--fd);font-weight:800;text-transform:uppercase;color:var(--navy);padding:1rem 0;cursor:pointer;list-style:none}
 .faq-item .faq-a{padding-bottom:1rem;color:var(--mid)}
+
+.legacy-top{padding-top:96px}
+.legacy-top .strip{margin-top:0!important}
+.legacy-top .page-hero,.legacy-top .services-hero,.legacy-top .area-hero,.legacy-top .resources-hero,.legacy-top .quote-hero,.legacy-top .contract-hero{padding-top:2rem!important;margin-top:0!important}
