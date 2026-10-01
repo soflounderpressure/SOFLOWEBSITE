@@ -11,7 +11,7 @@
   <link rel="canonical" href="https://sofloup.com/quote.html">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Get a Free Quote — SoFlo UnderPressure">
+  <meta property="og:title" content="Get a Free Quote - SoFlo UnderPressure">
   <meta property="og:description" content="Quick quote form for Miami pressure washing. Address autocomplete, photo upload, instant estimate.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://sofloup.com/quote.html">
@@ -19,7 +19,7 @@
   <meta property="og:image" content="https://sofloup.com/Pictures/og-default.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="SoFlo UnderPressure — pressure washing, Miami-Dade &amp; Broward">
+  <meta property="og:image:alt" content="SoFlo UnderPressure - pressure washing, Miami-Dade &amp; Broward">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://sofloup.com/Pictures/og-default.jpg">
 
@@ -35,12 +35,12 @@
    SETUP INSTRUCTIONS (10 minutes, all free)
   ═══════════════════════════════════════════════════════
 
-  STEP 1 — EmailJS (sends emails without a backend)
+  STEP 1 - EmailJS (sends emails without a backend)
     1. Go to emailjs.com → sign up free
     2. Add Service → connect your Gmail (SoFlo.Underpressure@gmail.com)
     3. Create TWO email templates:
 
-       Template A — "quote_to_saul" (sent to YOU)
+       Template A - "quote_to_saul" (sent to YOU)
        Subject: New Quote Request from {{from_name}}
        Body:
          Name:     {{from_name}}
@@ -54,7 +54,7 @@
          Est. Range: {{estimate}}
          Photos: {{photos_note}}
 
-       Template B — "quote_confirmation" (sent to CUSTOMER)
+       Template B - "quote_confirmation" (sent to CUSTOMER)
        Subject: We got your quote request, {{from_name}}!
        Body: (customize as you like, use {{from_name}}, {{services}}, {{estimate}})
 
@@ -65,19 +65,19 @@
        - EMAILJS_TEMPLATE_SAUL
        - EMAILJS_TEMPLATE_CUSTOMER
 
-  STEP 2 — Google Maps (address autocomplete)
+  STEP 2 - Google Maps (address autocomplete)
     1. Go to console.cloud.google.com
     2. Create project → Enable "Places API" + "Maps JavaScript API"
     3. Create API key, restrict to your domain
     4. Replace GOOGLE_MAPS_API_KEY below
 
-  STEP 3 — Cloudinary (photo storage, free)
+  STEP 3 - Cloudinary (photo storage, free)
     1. Go to cloudinary.com → sign up free
     2. Settings → Upload → Add upload preset → set to "Unsigned"
     3. Copy your Cloud Name and preset name
     4. Replace CLOUDINARY_CLOUD_NAME and CLOUDINARY_UPLOAD_PRESET below
 
-  Without these keys the form still works — photos show locally,
+  Without these keys the form still works - photos show locally,
   email falls back to mailto:, and address is typed manually.
   ═══════════════════════════════════════════════════════
   -->
@@ -193,7 +193,7 @@
       margin-bottom: 2rem; line-height: 1.6;
     }
 
-    /* ── Step 1 — Service cards ──────────────────────────────────────────── */
+    /* ── Step 1 - Service cards ──────────────────────────────────────────── */
     .service-select-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -242,7 +242,7 @@
       padding: .2rem .7rem; border-radius: 100px;
     }
 
-    /* ── Step 2 — Address + Photos ───────────────────────────────────────── */
+    /* ── Step 2 - Address + Photos ───────────────────────────────────────── */
     .field-group { margin-bottom: 1.8rem; }
     .field-label {
       font-family: var(--font-display);
@@ -331,7 +331,7 @@
     }
     .photo-thumb__remove:hover { background: var(--coral); }
 
-    /* ── Step 3 — Property details ───────────────────────────────────────── */
+    /* ── Step 3 - Property details ───────────────────────────────────────── */
     .radio-grid {
       display: grid; grid-template-columns: repeat(3, 1fr);
       gap: .8rem; margin-bottom: .5rem;
@@ -376,7 +376,7 @@
     }
     .est-disclaimer { font-size: .75rem; color: var(--text-light); max-width: 220px; line-height: 1.5; }
 
-    /* ── Step 4 — Contact info ───────────────────────────────────────────── */
+    /* ── Step 4 - Contact info ───────────────────────────────────────────── */
     .fields-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .preferred-contact { display: flex; gap: .8rem; flex-wrap: wrap; }
     .contact-option {
@@ -564,7 +564,7 @@
   
   <p class="section-eyebrow reveal">Free Estimate</p>
   <h1 class="reveal reveal-delay-1">
-    <span class="h1-lead">Free Pressure Washing Quote — Miami-Dade &amp; Broward</span>
+    <span class="h1-lead">Free Pressure Washing Quote - Miami-Dade &amp; Broward</span>
     An <em>honest</em> quote,<br>fast.
   </h1>
   <p class="reveal reveal-delay-2">Fill this out in 2 minutes. Upload photos of what needs cleaning. We follow up the same day to confirm details and scheduling.</p>
@@ -613,7 +613,7 @@
       <!-- ── STEP 1: Services ──────────────────────────────────────── -->
       <div class="step active" id="step1">
         <div class="step-title">What needs cleaning?</div>
-        <p class="step-hint">Pick everything that applies — you can select more than one.</p>
+        <p class="step-hint">Pick everything that applies - you can select more than one.</p>
 
         <div class="service-select-grid">
           <div class="svc-btn" data-service="driveway" data-base="149" data-size-mult="1.2" onclick="toggleService(this)">
@@ -666,7 +666,7 @@
       <!-- ── STEP 2: Address + Photos ─────────────────────────────── -->
       <div class="step" id="step2">
         <div class="step-title">Where's the property?</div>
-        <p class="step-hint">Start typing and we'll pull up the address. Or type it manually. Then drop in some photos — anything helps us give you an accurate number.</p>
+        <p class="step-hint">Start typing and we'll pull up the address. Or type it manually. Then drop in some photos - anything helps us give you an accurate number.</p>
 
         <div class="field-group">
           <label class="field-label" for="addressInput">Property Address *</label>
@@ -680,7 +680,7 @@
           </div>
         </div>
 
-        <!-- Smart suggestions box — populated by JS after address selected -->
+        <!-- Smart suggestions box - populated by JS after address selected -->
         <div id="suggestionBox" style="display:none;background:#f0f6ff;border:1.5px solid #c8d8f0;border-radius:12px;padding:1.2rem 1.4rem;margin-bottom:1.2rem;"></div>
 
         <div class="field-group">
@@ -689,7 +689,7 @@
             <input type="file" id="photoInput" multiple accept="image/*" onchange="handlePhotos(this.files)">
             <div class="upload-icon">📸</div>
             <div class="upload-title">Drop Photos Here</div>
-            <p class="upload-hint">Or <span>browse files</span> — driveway, roof, fence, anything dirty</p>
+            <p class="upload-hint">Or <span>browse files</span> - driveway, roof, fence, anything dirty</p>
             <p class="upload-hint" style="margin-top:.3rem;">Up to 8 photos · JPG, PNG, HEIC</p>
           </div>
           <div class="photo-grid" id="photoGrid"></div>
@@ -704,7 +704,7 @@
       <!-- ── STEP 3: Details ─────────────────────────────────────── -->
       <div class="step" id="step3">
         <div class="step-title">Tell us a bit more</div>
-        <p class="step-hint">Pick the size for each service — this helps us give you a real number.</p>
+        <p class="step-hint">Pick the size for each service - this helps us give you a real number.</p>
 
         <!-- Dynamically built per-service size selectors -->
         <div id="serviceSizeSelectors"></div>
@@ -739,7 +739,7 @@
         <div class="estimate-bar" id="estimateBar" style="display:none;">
           <div>
             <div class="est-label">Estimated Range</div>
-            <div class="est-price" id="estPrice">—</div>
+            <div class="est-price" id="estPrice"> - </div>
           </div>
           <div class="est-disclaimer">This is a rough estimate. We'll confirm the exact price before any work begins.</div>
         </div>
@@ -752,7 +752,7 @@
 
       <!-- ── STEP 4: Contact ─────────────────────────────────────── -->
       <div class="step" id="step4">
-        <div class="step-title">Last step — your info</div>
+        <div class="step-title">Last step - your info</div>
         <p class="step-hint">We'll reach out to confirm the quote and get you on the schedule.</p>
 
         <div class="fields-row">
@@ -784,7 +784,7 @@
         <div class="estimate-bar" id="estimateBar4" style="display:none;">
           <div>
             <div class="est-label">Your Estimated Range</div>
-            <div class="est-price" id="estPrice4">—</div>
+            <div class="est-price" id="estPrice4"> - </div>
           </div>
           <div class="est-disclaimer">We'll confirm the exact number before scheduling.</div>
         </div>
@@ -847,14 +847,14 @@
         <div class="sidebar-item__icon">📱</div>
         <div class="sidebar-item__text">
           <strong>We Review & Call</strong>
-          We'll reach out same day (Mon–Sat). If the job is straightforward, we can often confirm price on that call.
+          We'll reach out same day (Mon - Sat). If the job is straightforward, we can often confirm price on that call.
         </div>
       </div>
       <div class="sidebar-item">
         <div class="sidebar-item__icon">📅</div>
         <div class="sidebar-item__text">
           <strong>Pick a Day</strong>
-          Most jobs scheduled within 3–5 days. Some sooner.
+          Most jobs scheduled within 3-5 days. Some sooner.
         </div>
       </div>
       <div class="sidebar-item">
@@ -878,12 +878,12 @@
   <div class="hoa-inner">
     <div class="hoa-text">
       <p class="hoa-label">Rather talk first?</p>
-      <h2 class="hoa-headline">Call us — we answer.</h2>
+      <h2 class="hoa-headline">Call us - we answer.</h2>
       <p class="hoa-sub">Got a quick question about pricing, timing, or whether we service your area? Just call or text. No forms required.</p>
     </div>
     <div class="hoa-action">
       <a href="tel:+13058946336" class="hoa-phone">(305) 894-6336</a>
-      <div class="hoa-phone-label">Sun – Thu · 8am – 8pm  ·  Fri · 8am – 3pm</div>
+      <div class="hoa-phone-label">Sun - Thu · 8am - 8pm  ·  Fri · 8am - 3pm</div>
       <a href="mailto:SoFlo.Underpressure@gmail.com" class="btn-hoa">Email Instead →</a>
     </div>
   </div>
@@ -893,7 +893,7 @@
 <footer><div class="wrap"><div class="fgrid"><div class="fbrand"><img src="Pictures/mascot-wave.png" alt="SoFlo UnderPressure mascot" loading="lazy" decoding="async" width="520" height="474"><div class="logo"><b style="color:#fff">SoFlo</b> <span style="color:#A0AEEF">UnderPressure</span></div><p>Professional pressure washing &amp; soft washing in Miami-Dade and Broward. Licensed, insured, owner-operated.</p></div>
  <div class="fcol"><h5>Services</h5><a href="services/driveway-pressure-washing.html">Driveways</a><a href="services/roof-soft-washing.html">Roof Soft Wash</a><a href="services/house-soft-washing.html">House Exterior</a><a href="services/patio-pool-deck-cleaning.html">Patios &amp; Decks</a><a href="services/fence-cleaning.html">Fences</a><a href="services/commercial-storefront-cleaning.html">Storefronts</a></div>
  <div class="fcol"><h5>Company</h5><a href="about.html">About</a><a href="membership.html">Plans</a><a href="service-areas.html">Service Areas</a><a href="blog.html">Blog</a><a href="resources.html">Guides</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></div>
- <div class="fcol"><h5>Get In Touch</h5><a href="tel:3058946336">(305) 894-6336</a><a href="mailto:SoFlo.Underpressure@gmail.com">Email us</a><p style="color:rgba(255,255,255,.55);font-size:.9rem;margin-top:.6rem">Sun–Thu 8am–8pm<br>Fri 8am–3pm</p></div></div>
+ <div class="fcol"><h5>Get In Touch</h5><a href="tel:3058946336">(305) 894-6336</a><a href="mailto:SoFlo.Underpressure@gmail.com">Email us</a><p style="color:rgba(255,255,255,.55);font-size:.9rem;margin-top:.6rem">Sun - Thu 8am - 8pm<br>Fri 8am - 3pm</p></div></div>
  <div class="fbot"><span>© 2026 SoFlo UnderPressure · Licensed &amp; Insured</span><span>Miami-Dade &amp; Broward County</span></div></div></footer>
 
 
@@ -920,9 +920,9 @@ window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.
   const planParam = new URLSearchParams(window.location.search).get('plan');
   if (!planParam) return;
   const planNames = {
-    essentials: 'Essentials — Annual Plan (1×/year)',
-    standard:   'Standard — Bi-Annual Plan (2×/year)',
-    premium:    'Premium — Quarterly Plan (4×/year)',
+    essentials: 'Essentials - Annual Plan (1×/year)',
+    standard:   'Standard - Bi-Annual Plan (2×/year)',
+    premium:    'Premium - Quarterly Plan (4×/year)',
   };
   const label = planNames[planParam.toLowerCase()];
   if (!label) return;
@@ -993,16 +993,16 @@ function analyzePropertyAndSuggest(place) {
       { service: 'driveway',   label: 'Parking Area',      reason: 'Common for storefronts' },
     ];
   } else {
-    // Residential defaults — always suggest driveway + house, conditionally others
+    // Residential defaults - always suggest driveway + house, conditionally others
     suggestions = [
       { service: 'driveway',   label: 'Driveway',          reason: 'Most common residential service' },
       { service: 'house',      label: 'House Exterior',    reason: 'Algae & mildew buildup in South FL' },
     ];
-    // In Miami zip codes with heavy tile roofs — suggest roof soft wash
+    // In Miami zip codes with heavy tile roofs - suggest roof soft wash
     const zipComp = comps.find(c => c.types.includes('postal_code'));
     const zip = zipComp ? parseInt(zipComp.short_name, 10) : 0;
     if ((zip >= 33010 && zip <= 33299) || (zip >= 33301 && zip <= 33499)) {
-      suggestions.push({ service: 'roof', label: 'Roof Soft Wash', reason: 'High algae area — common in Miami-Dade & Broward' });
+      suggestions.push({ service: 'roof', label: 'Roof Soft Wash', reason: 'High algae area - common in Miami-Dade & Broward' });
     }
     suggestions.push({ service: 'patio', label: 'Patio / Pool Deck', reason: 'Popular add-on' });
   }
@@ -1019,7 +1019,7 @@ function showSuggestions(suggestions, isCommercial) {
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem;">
       <div>
         <div style="font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#6475D0;">Smart Suggestions</div>
-        <div style="font-size:.82rem;color:#4a6070;margin-top:.2rem;">${propertyLabel} detected — here's what we recommend:</div>
+        <div style="font-size:.82rem;color:#4a6070;margin-top:.2rem;">${propertyLabel} detected - here's what we recommend:</div>
       </div>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem;">
@@ -1128,7 +1128,7 @@ function updateEstimate() {
   estLow = low; estHigh = high;
 
   const hasCustom = selectedServices.find(s => s.service === 'storefront');
-  const priceStr  = hasCustom ? `$${low}+ (custom)` : `$${low} – $${high}`;
+  const priceStr  = hasCustom ? `$${low}+ (custom)` : `$${low} - $${high}`;
 
   ['estPrice','estPrice4','confirmEstPrice'].forEach(id => {
     const el = document.getElementById(id);
@@ -1181,62 +1181,62 @@ zone.addEventListener('drop', e => {
 /* ── Service-specific size config ─────────────────────────────────────────── */
 const SERVICE_SIZES = {
   driveway: {
-    label: '🚗 Driveway — how many cars fit?',
+    label: '🚗 Driveway - how many cars fit?',
     hint:  'Count the spots side by side, not end to end.',
     options: [
       { label: '1 Car',            sub: 'Single-car width',          mult: 0.80 },
       { label: '2 Cars',           sub: 'Standard double driveway',  mult: 1.00 },
-      { label: '3–4 Cars',         sub: 'Wide or long driveway',     mult: 1.45 },
+      { label: '3-4 Cars',         sub: 'Wide or long driveway',     mult: 1.45 },
       { label: 'Circular / 5+ Cars', sub: 'Large estate driveway',   mult: 1.90 },
     ]
   },
   house: {
-    label: '🏠 House Exterior — how big is the home?',
+    label: '🏠 House Exterior - how big is the home?',
     hint:  'Rough square footage of the home itself, not the lot.',
     options: [
       { label: 'Under 1,500 sqft', sub: 'Small single-story',        mult: 0.80 },
-      { label: '1,500–2,500 sqft', sub: 'Average single-family',     mult: 1.00 },
-      { label: '2,500–4,000 sqft', sub: 'Larger home',               mult: 1.45 },
+      { label: '1,500-2,500 sqft', sub: 'Average single-family',     mult: 1.00 },
+      { label: '2,500-4,000 sqft', sub: 'Larger home',               mult: 1.45 },
       { label: '4,000+ sqft',      sub: 'Large / two-story estate',  mult: 1.90 },
     ]
   },
   roof: {
-    label: '🏠 Roof Soft Wash — what size is the roof?',
+    label: '🏠 Roof Soft Wash - what size is the roof?',
     hint:  'Matches your home\'s footprint, not total sqft.',
     options: [
       { label: 'Under 1,500 sqft', sub: 'Small home footprint',      mult: 0.80 },
-      { label: '1,500–2,500 sqft', sub: 'Average home',              mult: 1.00 },
-      { label: '2,500–3,500 sqft', sub: 'Larger home',               mult: 1.45 },
+      { label: '1,500-2,500 sqft', sub: 'Average home',              mult: 1.00 },
+      { label: '2,500-3,500 sqft', sub: 'Larger home',               mult: 1.45 },
       { label: '3,500+ sqft',      sub: 'Large estate / flat roof',  mult: 1.90 },
     ]
   },
   patio: {
-    label: '🏊 Patio / Pool Deck — how big is the area?',
+    label: '🏊 Patio / Pool Deck - how big is the area?',
     hint:  'Include the pool deck surround if applicable.',
     options: [
       { label: 'Small',            sub: 'Under 200 sqft (apartment patio)', mult: 0.75 },
-      { label: 'Medium',           sub: '200–400 sqft',               mult: 1.00 },
-      { label: 'Large',            sub: '400–700 sqft',               mult: 1.45 },
+      { label: 'Medium',           sub: '200-400 sqft',               mult: 1.00 },
+      { label: 'Large',            sub: '400-700 sqft',               mult: 1.45 },
       { label: 'Extra Large',      sub: '700+ sqft / resort-style',  mult: 1.85 },
     ]
   },
   fence: {
-    label: '🌿 Fence — how much fencing total?',
+    label: '🌿 Fence - how much fencing total?',
     hint:  'Measure one side and multiply by the number of sides.',
     options: [
       { label: 'Up to 50 ft',      sub: 'One side of yard',          mult: 0.75 },
-      { label: '50–100 ft',        sub: 'Two sides',                 mult: 1.00 },
-      { label: '100–200 ft',       sub: 'Full perimeter (avg lot)',   mult: 1.50 },
+      { label: '50-100 ft',        sub: 'Two sides',                 mult: 1.00 },
+      { label: '100-200 ft',       sub: 'Full perimeter (avg lot)',   mult: 1.50 },
       { label: '200+ ft',          sub: 'Large lot / ranch perimeter', mult: 2.00 },
     ]
   },
   storefront: {
-    label: '🏢 Storefront — what size is the frontage?',
+    label: '🏢 Storefront - what size is the frontage?',
     hint:  'Width of the storefront or façade facing the street.',
     options: [
       { label: 'Single Unit',      sub: 'Under 25 ft wide',          mult: 0.80 },
-      { label: 'Medium Unit',      sub: '25–50 ft wide',             mult: 1.00 },
-      { label: 'Large / Corner',   sub: '50–100 ft',                 mult: 1.50 },
+      { label: 'Medium Unit',      sub: '25-50 ft wide',             mult: 1.00 },
+      { label: 'Large / Corner',   sub: '50-100 ft',                 mult: 1.50 },
       { label: 'Strip Mall / Bldg', sub: '100+ ft or full building', mult: 2.00 },
     ]
   },
@@ -1397,7 +1397,7 @@ async function submitForm() {
     if (validURLs.length) {
       photosNote = validURLs.map((u, i) => `Photo ${i+1}: ${u}`).join('\n');
     } else {
-      photosNote = `${uploadedPhotos.length} photo(s) uploaded — request from customer directly.`;
+      photosNote = `${uploadedPhotos.length} photo(s) uploaded - request from customer directly.`;
     }
   }
 
@@ -1414,7 +1414,7 @@ async function submitForm() {
     address:       chosenAddress || document.getElementById('addressInput').value || 'Not provided',
     size:          buildSizeSummary(),
     message:       (notes || 'None') + (photosNote ? '\n' + photosNote : '') + membershipNote,
-    estimate:      estLow ? `$${estLow} – $${estHigh}` : 'To be determined',
+    estimate:      estLow ? `$${estLow} - $${estHigh}` : 'To be determined',
     to_email:      'SoFlo.Underpressure@gmail.com',
   };
 

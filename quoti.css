@@ -8,8 +8,8 @@
   --r:20px; --r-lg:34px; --r-xl:48px; --pill:100px;
   --sh:0 10px 40px rgba(28,43,58,.08); --sh-lg:0 24px 70px rgba(28,43,58,.14);
 }
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{font-family:var(--fb);color:var(--ink);background:var(--paper);line-height:1.6;overflow-x:hidden}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;background:var(--paper)}
+body{font-family:var(--fb);color:var(--ink);background:transparent;line-height:1.6;overflow-x:hidden;position:relative;z-index:0}
 img{display:block;max-width:100%;height:auto}
 a{color:inherit;text-decoration:none}
 .wrap{max-width:1360px;margin:0 auto;padding-inline:clamp(1.25rem,4vw,3.5rem)}
@@ -277,4 +277,76 @@ footer{background:var(--navy)!important;border-radius:var(--r-xl) var(--r-xl) 0 
   .strip{padding:1rem 1.2rem!important;margin:1.25rem auto!important}
   .strip-inner{gap:.55rem 1.1rem!important;justify-content:flex-start!important}
   .strip-item{font-size:.66rem!important;letter-spacing:.1em!important;gap:.45rem!important}
+}
+
+/* ════════════════════════════════════════════════════════════════
+   AMBIENT WATER BACKGROUND — drifting aqua mesh + rising bubbles
+   pure CSS, on html/body pseudo-elements, every page gets it free
+   ════════════════════════════════════════════════════════════════ */
+/* bubble layer (far, large, slow) */
+html::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.7;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(255,255,255,.95) 0 4px, transparent 6px),
+    radial-gradient(circle at 78% 42%, rgba(140,200,235,.85) 0 8px, transparent 10px),
+    radial-gradient(circle at 44% 72%, rgba(255,255,255,.9) 0 3px, transparent 5px),
+    radial-gradient(circle at 90% 85%, rgba(160,174,239,.7) 0 6px, transparent 8px),
+    radial-gradient(circle at 28% 92%, rgba(198,232,247,.95) 0 5px, transparent 7px),
+    radial-gradient(circle at 60% 8%, rgba(140,200,235,.6) 0 10px, transparent 13px);
+  background-size:520px 680px;
+  animation:rise-far 38s linear infinite;
+}
+/* bubble layer (near, small, quick) */
+html::after{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.6;
+  background-image:
+    radial-gradient(circle at 62% 30%, rgba(255,255,255,.98) 0 3px, transparent 4px),
+    radial-gradient(circle at 20% 55%, rgba(198,232,247,.95) 0 4px, transparent 6px),
+    radial-gradient(circle at 85% 68%, rgba(255,255,255,.9) 0 2px, transparent 4px),
+    radial-gradient(circle at 50% 95%, rgba(160,174,239,.65) 0 3px, transparent 4px),
+    radial-gradient(circle at 8% 40%, rgba(140,200,235,.7) 0 5px, transparent 7px);
+  background-size:340px 420px;
+  animation:rise-near 24s linear infinite;
+}
+@keyframes rise-far{from{background-position:0 0}to{background-position:70px -680px}}
+@keyframes rise-near{from{background-position:0 0}to{background-position:-50px -420px}}
+/* soft drifting aqua mesh (color wash) */
+body::before{
+  content:"";position:fixed;inset:-25vmax;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(42vmax 42vmax at 16% 10%, rgba(120,196,240,.48), transparent 60%),
+    radial-gradient(38vmax 38vmax at 84% 18%, rgba(100,117,208,.26), transparent 60%),
+    radial-gradient(48vmax 48vmax at 72% 90%, rgba(170,220,245,.58), transparent 62%),
+    radial-gradient(34vmax 34vmax at 22% 82%, rgba(100,117,208,.20), transparent 60%);
+  filter:blur(8px);
+  animation:mesh-drift 30s ease-in-out infinite alternate;
+}
+@keyframes mesh-drift{from{transform:translate3d(-2%,-1%,0) scale(1.02)}to{transform:translate3d(2.5%,2%,0) scale(1.09)}}
+
+/* ── depth + polish ─────────────────────────────────────────── */
+/* hero media gets a soft brand glow */
+.hero-media::after,.hero-media::before{content:"";position:absolute;border-radius:50%;z-index:-1;pointer-events:none;filter:blur(46px)}
+.hero-media::before{inset:14% -8% -12% 18%;background:radial-gradient(circle,rgba(100,117,208,.34),transparent 70%)}
+.hero-media::after{inset:-10% 20% 40% -6%;background:radial-gradient(circle,rgba(198,232,247,.7),transparent 70%)}
+/* tactile button press */
+.btn:active{transform:translateY(0) scale(.97)}
+/* card hover sheen */
+.card,.svc-card{position:relative;isolation:isolate}
+.card::after,.svc-card::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(130deg,rgba(255,255,255,.5),transparent 42%);opacity:0;transition:opacity .3s}
+.card:hover::after,.svc-card:hover::after{opacity:1}
+
+/* ── scroll-reveal for ALL pages (progressive, no JS) ───────── */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .card,.svc-card,.step,.work figure,.promise,.plan-card,.value-card,.area-card,
+    .faq-item,.post-body>h2,.post-body>p,.band,.how,.split-media{
+      animation:reveal-rise linear both;animation-timeline:view();animation-range:entry 0% entry 40%}
+    @keyframes reveal-rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+  }
+}
+
+/* respect reduced motion: freeze the whole ambient system */
+@media (prefers-reduced-motion:reduce){
+  html::before,html::after,body::before,.hero-mascot,.fbrand img{animation:none!important}
 }
