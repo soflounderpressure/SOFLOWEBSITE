@@ -46,7 +46,7 @@ Production website for **SoFlo UnderPressure** — a Miami pressure-washing comp
 - **Claude commits but does NOT push.** Saul pushes manually via **GitHub Desktop**.
 - Commit message convention: end with `Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>`.
 - Deploy: push to GitHub → **Cloudflare Pages** auto-builds and serves sofloup.com.
-- **As of 2026-10-02 there are ~8 unpushed commits.** Live site is STALE until Saul pushes. First thing to tell Saul: push to deploy.
+- Claude cannot commit from Cowork (the session cannot delete git's index.lock). Claude edits files; Saul commits + pushes in GitHub Desktop. Use `git --no-optional-locks` for read-only git commands or a stray lock is left behind.
 
 ## 4. Local preview (how to see changes)
 
@@ -56,6 +56,15 @@ Production website for **SoFlo UnderPressure** — a Miami pressure-washing comp
 - Known gotcha: if the Browser pane is hidden, scrolling/animation won't render; `navigate` + screenshot still renders top-of-page. Front the tab or deploy to review scrolled sections live.
 
 ## 5. Design system (quoti.css)
+
+**V3 (2026-10-02), modeled on bananacleaning.com but on SoFlo's own palette.** The V3 blocks at the bottom of quoti.css override everything above them:
+- Display font **Rubik 800/900** (`--fx`) for all headlines. Barlow Condensed stays for labels/buttons/eyebrows, Barlow for body. Every page links Rubik.
+- Tokens: navy #112233, aqua #62CBF3, yellow #FFD43B, coral #FF6B4F, foam #F2FAFE. Periwinkle retired (token now maps to brand blue #1679A8).
+- Homepage = full-bleed color blocks (`.blk-aqua/-foam/-yellow/-navy`) split by 4px navy rules: photo hero `.hx` (C06 desktop, A03 mobile via `<picture>`), mascot marquee `.mq`, services, flow, plans (`.pc`), work, why, closing CTA flowing into the footer.
+- Inner pages: navy hero with yellow underline on both template families, bordered cards with offset navy shadow, navy CTA band. Ambient bubbles REMOVED sitewide.
+- Missing photo slots show the mascot on aqua instead of the slot code.
+- Old notes below about the bubble background are superseded.
+
 
 - Tokens: `--navy #1C2B3A, --sky #C6E8F7, --periwinkle #6475D0, --peri-dk #4454B0, --yellow #FFD84D, --coral #FF7055, --paper #F4FAFE`. Fonts: Barlow Condensed (display `--fd`) + Barlow (body `--fb`). Radii `--r/--r-lg/--r-xl/--pill`.
 - Floating pill nav, giant display hero, soft-rounded cards, dark footer + water-drop mascot.
@@ -78,6 +87,12 @@ Production website for **SoFlo UnderPressure** — a Miami pressure-washing comp
 - The real ceiling is OFF-PAGE: no Google Business Profile, no reviews, no backlinks. All blocked on Saul.
 
 ## 8. Open items / blocked
+
+- **2026-10-02 design pass applied to _UPLOAD, NOT yet committed.** Saul commits + pushes in GitHub Desktop.
+- About page needs a real owner photo at `Pictures/C02-owner-portrait.jpg` (mascot fallback until then). Never fake it.
+- FAQ schema mismatch (pre-existing): faq.html has 5 FAQPage answers not visible on the page; hoa-property-managers.html visible FAQ text differs from JSON-LD ("not by guesswork"). Fix so they match word-for-word.
+- og-default.jpg shows an older logo (flamingo, cream/teal) that doesn't match the site. Part of the palette/brand decision.
+- Footer copy says "Professional pressure washing" (banned selling adjective), on every page.
 
 - **Deploy**: push the ~8 unpushed commits (Saul, GitHub Desktop).
 - Blocked on Saul: create + verify **GBP**, create **GA4** + **GSC**, enable **Gemini billing** (~$8 for AI photos), resolve soflounderpressure.com domain, decide palette.
