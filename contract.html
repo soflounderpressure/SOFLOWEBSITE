@@ -558,7 +558,7 @@
       .contract-hero { padding: 4.5rem 1.25rem 2.5rem; }
     }
   </style>
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Barlow:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="quoti.css">
 </head>
 <body class="legacy-top">
@@ -567,7 +567,7 @@
 <!-- ── Nav ──────────────────────────────────────────────────────────────── -->
 <div class="navbar"><nav class="nav"><a class="logo" href="index.html"><b>SoFlo</b><span>UnderPressure</span></a>
  <ul class="nav-links"><li><a href="services.html">Services</a></li><li><a href="services/soft-washing.html">Soft Washing</a></li><li><a href="service-areas.html">Areas</a></li><li><a href="blog.html">Blog</a></li><li><a href="membership.html">Plans</a></li><li><a href="about.html">About</a></li></ul>
- <div class="nav-cta"><a class="nav-call" href="tel:3058946336">(305) 894-6336</a><a class="btn btn-yellow" href="quote.html">Get a Quote</a></div><a class="burger" href="quote.html">Menu</a></nav></div>
+ <div class="nav-cta"><a class="nav-call" href="tel:3058946336">(305) 894-6336</a><a class="btn btn-yellow" href="quote.html">Get a quote</a></div><a class="burger" href="quote.html">Menu</a></nav></div>
 
 <!-- ── Hero ─────────────────────────────────────────────────────────────── -->
 <section id="main" tabindex="-1" class="contract-hero" style="margin-top:4.5rem;">
@@ -593,7 +593,7 @@
     <aside class="plan-sidebar">
       <div class="plan-summary-card">
         <div class="plan-summary-eyebrow">Selected Plan</div>
-        <div class="plan-summary-name" id="sidebarPlanName">Standard</div>
+        <div class="plan-summary-name" id="sidebarPlanName">Bragging Rights</div>
         <p class="plan-summary-tagline" id="sidebarPlanTagline">Two full cleanings per year - the right balance for most Miami homes.</p>
         <div class="plan-summary-meta" id="sidebarPlanMeta">
           <!-- populated by JS -->
@@ -652,7 +652,7 @@
           <p>The Company takes care to perform all services without causing damage. Customer agrees to notify the Company of any pre-existing surface conditions, fragile materials, or special care instructions prior to service. The Company is not responsible for damage to surfaces that are already cracked, eroded, or in a deteriorated state that is not reasonably visible. Claims for damage must be submitted within 48 hours of service.</p>
 
           <h3>8. HOA Documentation</h3>
-          <p>Upon request, the Company will provide a service completion certificate suitable for HOA compliance purposes. This documentation is included at no extra charge for Standard and Premium plan customers.</p>
+          <p>Upon request, the Company will provide a service completion certificate suitable for HOA compliance purposes. This documentation is included at no extra charge for Bragging Rights and The Show-Off plan customers.</p>
 
           <h3>9. Governing Law</h3>
           <p>This Agreement is governed by the laws of the State of Florida. Any disputes shall be resolved in Miami-Dade County, Florida.</p>
@@ -676,7 +676,7 @@
           <div class="customer-form-wrapper">
             <div class="form-grid-2" style="margin-bottom:.85rem;">
               <div>
-                <label class="form-label" for="cf_fname">First Name *</label>
+                <label class="form-label" for="cf_fname">First name *</label>
                 <input class="form-input" type="text" id="cf_fname" name="cf_fname" placeholder="Maria" required autocomplete="given-name">
               </div>
               <div>
@@ -687,17 +687,17 @@
 
             <div class="form-grid-2" style="margin-bottom:.85rem;">
               <div>
-                <label class="form-label" for="cf_email">Email Address *</label>
+                <label class="form-label" for="cf_email">Email address *</label>
                 <input class="form-input" type="email" id="cf_email" name="cf_email" placeholder="you@email.com" required autocomplete="email">
               </div>
               <div>
-                <label class="form-label" for="cf_phone">Phone Number *</label>
+                <label class="form-label" for="cf_phone">Phone number *</label>
                 <input class="form-input" type="tel" id="cf_phone" name="cf_phone" placeholder="(305) 000-0000" required autocomplete="tel">
               </div>
             </div>
 
             <div class="form-row">
-              <label class="form-label" for="cf_address">Property Address *</label>
+              <label class="form-label" for="cf_address">Property address *</label>
               <input class="form-input" type="text" id="cf_address" name="cf_address" placeholder="123 SW 8th St, Miami, FL 33130" required autocomplete="street-address">
             </div>
 
@@ -746,7 +746,7 @@
 
         <!-- Success state -->
         <div class="form-success" id="formSuccess">
-          <div class="success-icon">✅</div>
+          <div class="success-icon"><span class="ico-badge"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12.2 2.8 2.8L16 9.5"/></svg></span></div>
           <div class="success-headline">Agreement Signed!</div>
           <p class="success-sub">You're all set, <strong id="successName"></strong>. We've received your signed agreement and will be in touch soon.</p>
           <ul class="success-steps">
@@ -754,7 +754,7 @@
             <li><span class="ss-num">2</span><span>You'll receive a call or text within <strong>24 hours</strong> to confirm your rate and first service date.</span></li>
             <li><span class="ss-num">3</span><span>Once you approve the quote, we'll send a <strong>secure payment link</strong> to activate your monthly billing - and you're on the schedule.</span></li>
           </ul>
-          <a href="index.html" class="success-cta">Back to Home</a>
+          <a href="index.html" class="success-cta">Back to home</a>
         </div>
 
       </div>
@@ -780,34 +780,34 @@
   /* ── Plan data ───────────────────────────────────────────────────── */
   const PLANS = {
     essentials: {
-      name: 'Essentials',
+      name: 'Humble Brag',
       tagline: 'One full clean per year - great for maintaining a property already in good shape.',
       visits: '1 visit / year',
       freq: 'Annual',
       includes: 'Driveway + 1 surface per visit',
       priceDisplay: '$199<span style="font-size:1.1rem;font-weight:700;">/year</span>',
       priceNote: 'Custom-quoted based on your property.<br>Final rate confirmed before billing.',
-      label: 'Essentials - Annual (1×/year, from $199)',
+      label: 'Humble Brag - Annual (1×/year, from $199)',
     },
     standard: {
-      name: 'Standard',
+      name: 'Bragging Rights',
       tagline: 'Two cleanings per year - the right balance for most Miami homes.',
       visits: '2 visits / year',
       freq: 'Bi-Annual',
       includes: 'Driveway · Patio · 1 bonus surface',
       priceDisplay: '$179<span style="font-size:1.1rem;font-weight:700;">/visit</span>',
       priceNote: 'Custom-quoted based on your property.<br>Final rate confirmed before billing.',
-      label: 'Standard - Bi-Annual (2×/year, from $179/visit)',
+      label: 'Bragging Rights - Bi-Annual (2×/year, from $179/visit)',
     },
     premium: {
-      name: 'Premium',
+      name: 'The Show-Off',
       tagline: 'Four visits per year - for homes that need to stay spotless.',
       visits: '4 visits / year',
       freq: 'Quarterly',
       includes: 'Driveway · Patio · House exterior · Roof wash (1×)',
       priceDisplay: '$159<span style="font-size:1.1rem;font-weight:700;">/visit</span>',
       priceNote: 'Custom-quoted based on your property.<br>Final rate confirmed before billing.',
-      label: 'Premium - Quarterly (4×/year, from $159/visit)',
+      label: 'The Show-Off - Quarterly (4×/year, from $159/visit)',
     },
   };
 
@@ -834,21 +834,21 @@
 
   document.getElementById('sidebarPlanMeta').innerHTML = `
     <div class="plan-meta-item">
-      <div class="plan-meta-icon">📅</div>
+      <div class="plan-meta-icon"><span class="ico-badge"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="m9 15 2 2 4-4"/></svg></span></div>
       <div class="plan-meta-text">
         <strong>${plan.visits}</strong>
         <span>${plan.freq} service</span>
       </div>
     </div>
     <div class="plan-meta-item">
-      <div class="plan-meta-icon">🧹</div>
+      <div class="plan-meta-icon"><span class="ico-badge"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/></svg></span></div>
       <div class="plan-meta-text">
         <strong>What's Cleaned</strong>
         <span>${plan.includes}</span>
       </div>
     </div>
     <div class="plan-meta-item">
-      <div class="plan-meta-icon">📆</div>
+      <div class="plan-meta-icon"><span class="ico-badge"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="m9 15 2 2 4-4"/></svg></span></div>
       <div class="plan-meta-text">
         <strong>12-Month Commitment</strong>
         <span>Monthly auto-pay via Stripe</span>
@@ -915,7 +915,7 @@
   /* ── Nav scroll ──────────────────────────────────────────────────── */
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
+    nav && nav.classList.toggle('scrolled', window.scrollY > 40);
   });
 </script>
 </body>

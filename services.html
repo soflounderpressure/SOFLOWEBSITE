@@ -406,7 +406,7 @@
     ]
   }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Barlow:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="quoti.css">
 </head>
 <body class="legacy-top">
@@ -415,7 +415,7 @@
 <!-- ── Nav ──────────────────────────────────────────────────────────────────── -->
 <div class="navbar"><nav class="nav"><a class="logo" href="index.html"><b>SoFlo</b><span>UnderPressure</span></a>
  <ul class="nav-links"><li><a href="services.html">Services</a></li><li><a href="services/soft-washing.html">Soft Washing</a></li><li><a href="service-areas.html">Areas</a></li><li><a href="blog.html">Blog</a></li><li><a href="membership.html">Plans</a></li><li><a href="about.html">About</a></li></ul>
- <div class="nav-cta"><a class="nav-call" href="tel:3058946336">(305) 894-6336</a><a class="btn btn-yellow" href="quote.html">Get a Quote</a></div><a class="burger" href="quote.html">Menu</a></nav></div>
+ <div class="nav-cta"><a class="nav-call" href="tel:3058946336">(305) 894-6336</a><a class="btn btn-yellow" href="quote.html">Get a quote</a></div><a class="burger" href="quote.html">Menu</a></nav></div>
 
 <!-- ── Trust strip ──────────────────────────────────────────────────────────── -->
 <div class="strip" style="margin-top:4.5rem;">
@@ -460,7 +460,7 @@
           <span class="svc-price-label">Starting at</span>
           <span class="svc-price">$149 <span>/ average home</span></span>
         </div>
-        <a href="quote.html" class="svc-cta">Get a Quote</a>
+        <a href="quote.html" class="svc-cta">Get a quote</a>
       </div>
     </div>
 
@@ -481,7 +481,7 @@
           <span class="svc-price-label">Starting at</span>
           <span class="svc-price">$129 <span>/ average patio</span></span>
         </div>
-        <a href="quote.html" class="svc-cta">Get a Quote</a>
+        <a href="quote.html" class="svc-cta">Get a quote</a>
       </div>
     </div>
 
@@ -502,7 +502,7 @@
           <span class="svc-price-label">Starting at</span>
           <span class="svc-price">$299 <span>/ average roof</span></span>
         </div>
-        <a href="quote.html" class="svc-cta">Get a Quote</a>
+        <a href="quote.html" class="svc-cta">Get a quote</a>
       </div>
     </div>
 
@@ -523,7 +523,7 @@
           <span class="svc-price-label">Starting at</span>
           <span class="svc-price">$99 <span>/ average fence</span></span>
         </div>
-        <a href="quote.html" class="svc-cta">Get a Quote</a>
+        <a href="quote.html" class="svc-cta">Get a quote</a>
       </div>
     </div>
 
@@ -544,7 +544,7 @@
           <span class="svc-price-label">Starting at</span>
           <span class="svc-price">$249 <span>/ average home</span></span>
         </div>
-        <a href="quote.html" class="svc-cta">Get a Quote</a>
+        <a href="quote.html" class="svc-cta">Get a quote</a>
       </div>
     </div>
 
@@ -565,7 +565,7 @@
           <span class="svc-price-label">Starting at</span>
           <span class="svc-price">$199 <span>/ storefront</span></span>
         </div>
-        <a href="quote.html" class="svc-cta">Get a Quote</a>
+        <a href="quote.html" class="svc-cta">Get a quote</a>
       </div>
     </div>
 
@@ -604,7 +604,7 @@
       <div class="step reveal">
   <figure class="slot step-photo" style="--ar:1 / 1"><img src="Pictures/B08-process-quote.jpg" alt="1. Get a quote - SoFlo UnderPressure" loading="lazy" onload="this.classList.add('is-loaded')" onerror="this.remove()" decoding="async" width="1600" height="892"><figcaption class="slot__ph"><b>B08</b><span>1. Get a quote</span><i>1:1</i></figcaption></figure>
         <div class="step-num">1</div>
-        <div class="step-title">Get a Quote</div>
+        <div class="step-title">Get a quote</div>
         <p class="step-desc">Fill out our online form or call us. We'll review your info (and any photos you send) and get back to you with a price.</p>
       </div>
       <div class="step reveal reveal-delay-1">
@@ -692,14 +692,14 @@
 <div class="hoa-banner">
   <div class="hoa-inner reveal">
     <div>
-      <div class="hoa-label">HOA Notice</div>
+      <div class="hoa-label">HOA notice</div>
       <h2 class="hoa-headline">Call Us Before<br>Your HOA Does</h2>
       <p class="hoa-sub">Mold on the driveway. Green on the roof. That letter in the mail. We've seen it. We fix it - fast.</p>
     </div>
     <div class="hoa-action">
       <a href="tel:3058946336" class="hoa-phone">(305) 894-6336</a>
-      <div class="hoa-phone-label">Call or Text Anytime</div>
-      <a href="quote.html" class="btn-hoa">Get a Free Quote</a>
+      <div class="hoa-phone-label">Call or text anytime</div>
+      <a href="quote.html" class="btn-hoa">Get a free quote</a>
     </div>
   </div>
 </div>
@@ -716,7 +716,7 @@
   // Nav scroll
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
+    nav && nav.classList.toggle('scrolled', window.scrollY > 40);
   });
 
   // Scroll reveal

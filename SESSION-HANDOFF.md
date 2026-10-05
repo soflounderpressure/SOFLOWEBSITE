@@ -73,6 +73,14 @@ Production website for **SoFlo UnderPressure** — a Miami pressure-washing comp
 - Homepage: compact service tiles, icon steps with number badges, plan cards with identical feature rows and honest strike-through (from the membership comparison table), homepage FAQ (6 answers verbatim from faq.html + matching FAQPage JSON-LD).
 - Footer on all 73 pages has a Service Areas column; footer copy no longer says "Professional".
 
+**V5 (2026-10-05), Saul's feedback: "not everything all caps", "too much rounding", "menu bar isn't consistent".**
+- No all-caps anywhere: `html :not(#_){text-transform:none;letter-spacing:normal}` at the end of quoti.css (the :not(#_) adds id weight so it beats every older class rule, including page-level <style> blocks). UI labels and buttons are sentence case in the HTML ("Get a free quote"). Headings keep their authored case.
+- Display font is now **Archivo 800/900** (crisp). Rubik was dropped because its soft letterforms read as rounded. Every page loads `Archivo:wght@700;800;900&family=Barlow:wght@700`.
+- Radius scale: 6px chips, 10px buttons/controls, 14px cards/photos/nav. Circles only for the logo badge, step icons and functional dots. The $99 hero sticker is a squared tag.
+- Nav: identical on all pages. Legacy pages' style.css styles bare `nav` and was pinning it to the top-left; a `.navbar ...:not(#_)` block at the end of quoti.css normalizes it. Verified pixel-identical geometry on 16 page types.
+- Emoji replaced with inline SVG line icons (`.ico`, `.ico-badge`) on 39 pages. Old nav scroll handlers are null-guarded on 9 pages.
+- **Plan names (display only): Humble Brag (1x/yr), Bragging Rights (2x), The Show-Off (4x).** Internal keys stay essentials/standard/premium (quote.html?plan=, contract.html PLANS). Names appear on the homepage, membership, the quote banner, contract (incl. the HOA documentation clause) and 3 articles.
+
 
 
 - Tokens: `--navy #1C2B3A, --sky #C6E8F7, --periwinkle #6475D0, --peri-dk #4454B0, --yellow #FFD84D, --coral #FF7055, --paper #F4FAFE`. Fonts: Barlow Condensed (display `--fd`) + Barlow (body `--fb`). Radii `--r/--r-lg/--r-xl/--pill`.

@@ -787,3 +787,94 @@ footer,footer.ft-flush{background:var(--navy)!important}
 .faq-group-title{font-family:var(--fx)!important;font-weight:900!important;color:var(--navy)!important;letter-spacing:-.01em}
 .area-pill{border:none!important;box-shadow:var(--card-sh)!important}
 .sec-head.center + .service-link-grid,.sec-head.center ~ .service-link-grid{justify-content:center}
+
+/* ── line icons (replaced emoji, 2026-10-04) ── */
+.ico{width:1.15em;height:1.15em;vertical-align:-.2em;flex:none}
+a .ico,label .ico,button .ico{margin-right:.4em}
+.ico-badge{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:50%;background:var(--aqua-lt);color:var(--aqua-ink);flex:none;vertical-align:middle}
+.ico-badge .ico{width:26px;height:26px;margin:0}
+.blk-navy .ico-badge,.about-cta .ico-badge,.process-section .ico-badge{background:rgba(255,255,255,.1);color:var(--yellow)}
+/* containers that used to size an emoji glyph: let the badge set the size */
+.value-icon,.contact-card-icon,.why-icon,.svc-btn__icon,.upload-icon,.sidebar-item__icon,.quick-link-icon,.plan-meta-icon,.confetti-icon,.card-body>div[style*="font-size:2rem"]{
+  font-size:1rem!important;line-height:1!important;background:none!important;width:auto!important;height:auto!important;box-shadow:none!important}
+.quick-link-icon .ico-badge,.sidebar-item__icon .ico-badge,.plan-meta-icon .ico-badge{width:40px;height:40px}
+.quick-link-icon .ico-badge .ico,.sidebar-item__icon .ico-badge .ico,.plan-meta-icon .ico-badge .ico{width:20px;height:20px}
+.svc-btn.selected .ico-badge,.svc-btn.is-selected .ico-badge{background:var(--yellow);color:var(--navy)}
+.confetti-icon .ico-badge{width:84px;height:84px;background:var(--yellow);color:var(--navy)}
+.confetti-icon .ico-badge .ico{width:42px;height:42px}
+/* weather chart on plans page: bare icon, no badge */
+.mo-icon{font-size:1rem!important;line-height:1}
+.mo-icon .ico-badge{width:auto;height:auto;background:none;color:inherit}
+.mo-icon .ico-badge .ico{width:20px;height:20px}
+.month-dot.hot .mo-icon{color:var(--coral)}
+.eyebrow .ico,.breadcrumb .ico{width:1.1em;height:1.1em;margin-right:.3em;vertical-align:-.22em}
+/* plan names (Brag set): keep each on one line */
+.pc h3{font-size:clamp(1.5rem,2.3vw,1.9rem)!important;white-space:nowrap;letter-spacing:-.02em!important}
+
+/* ═══════════════════════════════════════════════════════════════
+   V5 (2026-10-05): calmer. Saul: "not everything all caps",
+   "too much rounding". Normal-case type, tight radius scale.
+   ═══════════════════════════════════════════════════════════════ */
+/* 1. no all-caps anywhere; drop the wide tracking that only suited caps */
+html :not(#_){text-transform:none!important;letter-spacing:normal!important} /* :not(#_) adds id weight so this beats every older class rule */
+
+/* 2. one radius scale: 6 chips / 10 controls / 14 cards+photos. circles only for logo + step icons */
+:root{--r:10px;--r-lg:14px;--r-xl:16px;--pill:10px;--radius-sm:6px;--radius-md:10px;--radius-lg:14px;--radius-xl:16px}
+.btn,.btn-primary,.btn-secondary,.btn-hero-primary,.btn-hero-secondary,.btn-hoa,.btn-next,.form-submit,.plan-cta,.svc-cta,.success-cta,
+.nav-call,.nav .btn,.burger,.contact-option,.nav-cta,.nav-mobile-cta{border-radius:10px!important}
+.nav{border-radius:14px!important}
+.tile-l i,.pc-flag,.svc-badge,.svc-btn__tag,.trust-pill,.service-price-tag,.map-label,.work-photo__label,.step-bubble,
+.work figcaption,.blk-aqua .card .price,.service-link-grid a,.area-pill,.tag{border-radius:6px!important}
+.card,.svc-card,.service-card,.value-card,.article-card,.area-card,.review-card,.contact-card,.promise,.plan-card,.pc,.tile,
+.band,.hoa-inner,.post-cta,.how,.strip,.story-badge-float,.area-map-embed,.slot,.page-photo,.plan-summary-card,.svc-btn,
+.blk-aqua .card,.blk-foam .promise,.split-media img,.hero-media img.shot,header.hero .hero-media img.shot,.work figure,
+.story-img,.step,.faq-item,.hfaq .faq-item{border-radius:14px!important}
+.tile img{border-radius:14px 14px 0 0!important}
+.ico-badge{border-radius:10px!important}
+footer,footer.ft-flush{border-radius:0!important}
+/* $99 sticker: square tag instead of a circle */
+.hx-badge{border-radius:10px!important;width:auto!important;height:auto!important;padding:.9rem 1.1rem!important;transform:rotate(-4deg)!important}
+.hx-badge small{max-width:none!important}
+
+/* 3. type roles in normal case */
+.btn,.btn-primary,.btn-secondary,.btn-hoa,.btn-next,.form-submit,.plan-cta,.svc-cta{font-size:.98rem!important;font-weight:700!important}
+.nav-links a{font-family:var(--fb)!important;font-weight:600!important;font-size:.95rem!important}
+.nav-call{font-family:var(--fb)!important;font-weight:700!important;font-size:.9rem!important}
+.eyebrow,.h1-lead,.section-eyebrow,.card .tag,.pc-k,.plan-eyebrow,.breadcrumb,.area-county{font-family:var(--fb)!important;font-weight:600!important;font-size:.95rem!important}
+.h1-lead{font-size:1rem!important}
+.tile-l b,.card h3,.svc-name,.value-title,.flow h3,.step-title,.promise b,.faq-q,.hfaq summary,.faq-item summary,.fcol h5,.plan-name,.svc-btn__name{
+  font-family:var(--fb)!important;font-weight:700!important}
+.tile-l b{font-size:1.15rem!important}
+.flow h3{font-size:1.25rem!important}
+.hfaq summary,.faq-item summary,.faq-q{font-size:1.05rem!important}
+.fcol h5{font-size:.95rem!important}
+.mq span{letter-spacing:-.01em!important}
+/* display headings: tight tracking survives the reset (higher specificity) */
+.hx h1:not(#_),.bh h2:not(#_),.cta-end h2:not(#_),.pc h3:not(#_),header.hero h1:not(#_),.page-title:not(#_),.hero-title:not(#_),.section-title:not(#_),.sec-head h2:not(#_),.band h2:not(#_),.post-body h2:not(#_),.faq-group-title:not(#_),.mq span:not(#_){letter-spacing:-.025em!important}
+/* display font: Archivo (crisp, no soft corners) replaces Rubik */
+:root{--fx:'Archivo','Barlow',sans-serif}
+.hx h1,.bh h2,.cta-end h2,.pc h3,header.hero h1,.page-title,.hero-title,.section-title,.sec-head h2,.band h2,.post-body h2,.faq-group-title,
+.pc-price,.logo b,.mq span,.hx-badge b,.flow .dot,.hoa-headline,.story-badge-float .num{font-family:var(--fx)!important;font-weight:800!important}
+.hx h1{font-weight:900!important}
+.blk-foam .split-media img:not(.split-mascot):not(#_){border-radius:14px!important}
+
+/* ── ONE nav on every page. style.css (legacy pages) styles bare `nav`
+      and pinned the bar to the top-left; :not(#_) outranks it everywhere ── */
+.navbar:not(#_){position:fixed!important;top:0!important;left:0!important;right:0!important;z-index:200!important;height:auto!important;
+  padding:1rem clamp(1rem,4vw,2rem)!important;display:flex!important;justify-content:center!important;background:transparent!important;box-shadow:none!important;pointer-events:none}
+.navbar .nav:not(#_){position:relative!important;top:auto!important;left:auto!important;right:auto!important;transform:none!important;margin:0!important;
+  width:100%!important;max-width:1200px!important;height:auto!important;min-height:0!important;display:flex!important;align-items:center!important;justify-content:space-between!important;
+  padding:.55rem .55rem .55rem .7rem!important;background:rgba(16,38,58,.86)!important;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.08)!important;border-radius:14px!important;box-shadow:0 12px 30px -10px rgba(0,0,0,.35)!important;transition:none!important;pointer-events:auto}
+.navbar .nav-links:not(#_){display:flex;gap:1.8rem!important;margin:0!important;padding:0!important}
+.navbar .nav-links a:not(#_){display:inline!important;min-height:0!important;padding:0!important;line-height:1.4!important}
+.navbar .nav-cta:not(#_){display:flex!important;align-items:center;gap:.45rem!important;padding:0!important;margin:0!important;min-height:0!important;box-shadow:none!important;transform:none!important}
+.navbar .logo:not(#_){display:flex!important;align-items:center!important;gap:.55rem!important;min-height:0!important}
+.navbar .logo b:not(#_){font-family:var(--fx)!important;font-weight:800!important;font-size:1.3rem!important;line-height:1!important}
+.navbar .logo span:not(#_){font-family:var(--fd)!important;font-weight:700!important;font-size:1rem!important;line-height:1!important}
+.navbar .nav-call:not(#_),.navbar .nav .btn:not(#_){min-height:44px!important;display:inline-flex!important;align-items:center!important}
+@media(max-width:960px){
+  .navbar .nav-links:not(#_),.navbar .nav-call:not(#_),.navbar .nav-cta .btn:not(#_){display:none!important}
+  .navbar .burger:not(#_){display:inline-flex!important}
+  .navbar .nav:not(#_){padding:.5rem .5rem .5rem .6rem!important}
+}
