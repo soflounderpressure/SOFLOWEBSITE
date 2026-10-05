@@ -65,6 +65,15 @@ Production website for **SoFlo UnderPressure** — a Miami pressure-washing comp
 - Missing photo slots show the mascot on aqua instead of the slot code.
 - Old notes below about the bubble background are superseded.
 
+**V4 (2026-10-04), benchmarked against bananacleaning.com by measuring its live CSS.** The V4 blocks at the bottom of quoti.css override V3:
+- Palette: sand #FBF7EF base, soft aqua #A8DCF0 / tint #E3F3F8, butter yellow #FFE08A, navy #10263A, coral CTA #C24A33 (AA with white text).
+- Soft cards (28px radius, soft shadow). No hard outlines or offset shadows anywhere.
+- Type roles: Rubik 900 headlines (with a coral wave underline on section heads), Barlow Condensed 800 labels, Barlow body, small tracked-caps flat pill buttons.
+- Logo = round yellow mascot badge via CSS `.logo::before` (no HTML change), dark glass nav, coral Get a Quote.
+- Homepage: compact service tiles, icon steps with number badges, plan cards with identical feature rows and honest strike-through (from the membership comparison table), homepage FAQ (6 answers verbatim from faq.html + matching FAQPage JSON-LD).
+- Footer on all 73 pages has a Service Areas column; footer copy no longer says "Professional".
+
+
 
 - Tokens: `--navy #1C2B3A, --sky #C6E8F7, --periwinkle #6475D0, --peri-dk #4454B0, --yellow #FFD84D, --coral #FF7055, --paper #F4FAFE`. Fonts: Barlow Condensed (display `--fd`) + Barlow (body `--fb`). Radii `--r/--r-lg/--r-xl/--pill`.
 - Floating pill nav, giant display hero, soft-rounded cards, dark footer + water-drop mascot.
