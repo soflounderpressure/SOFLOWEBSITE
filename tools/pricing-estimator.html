@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>SoFlo Pricing Estimator (internal)</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#10263A; --mid:#3A4F63; --sand:#FBF7EF; --sand-2:#F4ECDA;
+  --aqua:#A8DCF0; --aqua-lt:#E3F3F8; --aqua-ink:#1A76A0;
+  --yellow:#FFE08A; --coral:#C24A33; --coral-dk:#A63C28; --white:#fff;
+  --fx:'Archivo',sans-serif; --fb:'Barlow',sans-serif;
+  --line:rgba(16,38,58,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--fb);background:var(--sand);color:var(--navy);line-height:1.5;padding:1.5rem 1rem 4rem}
+.wrap{max-width:860px;margin:0 auto}
+h1{font-family:var(--fx);font-weight:900;font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.02;letter-spacing:-.01em}
+.tag{display:inline-block;font-family:var(--fx);font-weight:800;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);background:#fff;border:1px solid var(--line);padding:.35rem .7rem;border-radius:6px;margin-bottom:.9rem}
+.sub{color:var(--mid);margin:.5rem 0 1.6rem;max-width:60ch;font-size:.98rem}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.4rem;margin-bottom:1.1rem;box-shadow:0 10px 30px rgba(16,38,58,.05)}
+.card h2{font-family:var(--fx);font-weight:800;font-size:1.05rem;text-transform:uppercase;letter-spacing:.02em;margin-bottom:.9rem}
+label{font-family:var(--fb);font-weight:600}
+.surfaces{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+@media(max-width:560px){.surfaces{grid-template-columns:1fr}}
+.surf{display:flex;align-items:center;gap:.7rem;border:1.5px solid var(--line);border-radius:10px;padding:.8rem .9rem;cursor:pointer;transition:border-color .15s,background .15s}
+.surf:hover{border-color:var(--aqua-ink)}
+.surf.on{border-color:var(--aqua-ink);background:var(--aqua-lt)}
+.surf input{width:20px;height:20px;accent-color:var(--aqua-ink);flex:none}
+.surf .nm{font-weight:600}
+.surf .pr{margin-left:auto;font-family:var(--fx);font-weight:800;color:var(--aqua-ink);font-size:.9rem}
+.row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.3rem}
+.seg{display:flex;flex-wrap:wrap;gap:.5rem}
+.seg button{font-family:var(--fx);font-weight:700;font-size:.82rem;letter-spacing:.02em;border:1.5px solid var(--line);background:#fff;color:var(--navy);padding:.6rem .95rem;border-radius:10px;cursor:pointer;transition:all .15s}
+.seg button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.field{margin-bottom:1rem}
+.field>label{display:block;font-family:var(--fx);font-weight:800;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-bottom:.5rem}
+.check{display:flex;align-items:center;gap:.6rem;font-size:.95rem}
+.check input{width:20px;height:20px;accent-color:var(--aqua-ink)}
+/* result */
+.result{background:var(--navy);color:#fff;border-radius:14px;padding:1.5rem 1.4rem;position:sticky;bottom:0}
+.result .lbl{font-family:var(--fx);font-weight:800;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--aqua)}
+.result .big{font-family:var(--fx);font-weight:900;font-size:clamp(2.2rem,8vw,3.2rem);line-height:1;margin:.2rem 0}
+.result .range{color:rgba(255,255,255,.7);font-size:.9rem}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.15)}
+@media(max-width:560px){.plans{grid-template-columns:1fr}}
+.plan{background:rgba(255,255,255,.06);border-radius:10px;padding:.8rem}
+.plan .pn{font-family:var(--fx);font-weight:800;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--aqua)}
+.plan .pv{font-family:var(--fx);font-weight:900;font-size:1.3rem;margin-top:.15rem}
+.plan .pa{color:rgba(255,255,255,.6);font-size:.72rem;margin-top:.1rem}
+.note{font-size:.8rem;color:rgba(255,255,255,.6);margin-top:1rem;line-height:1.45}
+.actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+.btn{font-family:var(--fx);font-weight:800;font-size:.85rem;letter-spacing:.03em;border:none;border-radius:10px;padding:.8rem 1.2rem;cursor:pointer}
+.btn-coral{background:var(--coral);color:#fff}.btn-coral:hover{background:var(--coral-dk)}
+.btn-ghost{background:rgba(255,255,255,.1);color:#fff}
+.commercial-note{background:var(--yellow);color:var(--navy);border-radius:10px;padding:.7rem .9rem;font-size:.85rem;font-weight:600;margin-top:.6rem;display:none}
+.commercial-note.show{display:block}
+footer{max-width:860px;margin:1.5rem auto 0;color:var(--mid);font-size:.78rem;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="tag">Internal tool &middot; not public</span>
+  <h1>Pricing estimator</h1>
+  <p class="sub">Quick ballpark for a job. These are starting prices scaled by size and condition, the same logic behind the flat quote. Always confirm on site or from photos before you send a number.</p>
+
+  <div class="card">
+    <h2>1. Surfaces</h2>
+    <div class="surfaces" id="surfaces"></div>
+    <div class="commercial-note" id="commNote">Commercial storefront is custom. Add it to the notes and quote on site, it is not in the estimate below.</div>
+    <label class="check" style="margin-top:.9rem"><input type="checkbox" id="commercial"> Commercial storefront (custom, excluded from estimate)</label>
+  </div>
+
+  <div class="card">
+    <h2>2. Size of the job</h2>
+    <div class="field">
+      <label>Overall property / surface size</label>
+      <div class="seg" id="size"></div>
+    </div>
+    <div class="field" style="margin-bottom:0">
+      <label>Growth / condition</label>
+      <div class="seg" id="cond"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>3. Access</h2>
+    <label class="check"><input type="checkbox" id="twostory"> Two-story (adds to house &amp; roof)</label>
+    <label class="check" style="margin-top:.7rem"><input type="checkbox" id="tightaccess"> Tight access / heavy landscaping (adds 10%)</label>
+  </div>
+
+  <div class="result" id="result">
+    <div class="lbl">One-off estimate</div>
+    <div class="big" id="total">$0</div>
+    <div class="range" id="range">Pick at least one surface.</div>
+    <div class="plans" id="plans" hidden>
+      <div class="plan"><div class="pn">Bragging Rights &middot; 2x/yr</div><div class="pv" id="p2">$0</div><div class="pa" id="p2a">per visit</div></div>
+      <div class="plan"><div class="pn">The Show-Off &middot; 4x/yr</div><div class="pv" id="p4">$0</div><div class="pa" id="p4a">per visit</div></div>
+      <div class="plan"><div class="pn">Humble Brag &middot; 1x/yr</div><div class="pv" id="p1">$0</div><div class="pa">quote based</div></div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-coral" id="copyBtn">Copy estimate</button>
+      <button class="btn btn-ghost" id="resetBtn">Reset</button>
+    </div>
+    <p class="note">Estimate only. One-off shows a typical range around the midpoint. Plan per-visit prices assume a property kept on schedule, so each visit is a lighter maintenance clean. Final number is always set after seeing the property or photos.</p>
+  </div>
+</div>
+<footer>SoFlo UnderPressure internal estimator &middot; keep this link private &middot; not indexed, not linked from the site.</footer>
+
+<script>
+const SURFACES=[
+  {id:'driveway',nm:'Driveway',base:99,soft:false},
+  {id:'patio',nm:'Patio / pool deck',base:129,soft:false},
+  {id:'fence',nm:'Fence',base:99,soft:false},
+  {id:'house',nm:'House exterior (soft wash)',base:249,soft:true},
+  {id:'roof',nm:'Roof soft wash',base:299,soft:true},
+];
+const SIZES=[['Small',1.0],['Medium',1.5],['Large',2.1],['X-large',2.8]];
+const CONDS=[['Light',1.0],['Moderate',1.25],['Heavy',1.55]];
+let state={surf:new Set(),size:1,cond:1,twostory:false,tight:false,commercial:false};
+
+const $=s=>document.querySelector(s);
+// build surfaces
+const sw=$('#surfaces');
+SURFACES.forEach(s=>{
+  const el=document.createElement('label');el.className='surf';el.dataset.id=s.id;
+  el.innerHTML=`<input type="checkbox"><span class="nm">${s.nm}</span><span class="pr">from $${s.base}</span>`;
+  el.querySelector('input').addEventListener('change',e=>{
+    e.target.checked?state.surf.add(s.id):state.surf.delete(s.id);
+    el.classList.toggle('on',e.target.checked);calc();
+  });
+  sw.appendChild(el);
+});
+// segmented controls
+function seg(container,items,onPick,defaultIdx){
+  const c=$(container);
+  items.forEach((it,i)=>{
+    const b=document.createElement('button');b.textContent=it[0];
+    if(i===defaultIdx)b.classList.add('on');
+    b.addEventListener('click',()=>{[...c.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');onPick(it[1]);calc();});
+    c.appendChild(b);
+  });
+}
+seg('#size',SIZES,v=>state.size=v,0);
+seg('#cond',CONDS,v=>state.cond=v,0);
+$('#twostory').addEventListener('change',e=>{state.twostory=e.target.checked;calc();});
+$('#tightaccess').addEventListener('change',e=>{state.tight=e.target.checked;calc();});
+$('#commercial').addEventListener('change',e=>{state.commercial=e.target.checked;$('#commNote').classList.toggle('show',e.target.checked);});
+
+const money=n=>'$'+Math.round(n).toLocaleString('en-US');
+function oneOff(){
+  let t=0;
+  SURFACES.forEach(s=>{
+    if(!state.surf.has(s.id))return;
+    let p=s.base*state.size*state.cond;
+    if(state.twostory&&(s.id==='house'||s.id==='roof'))p*=1.2;
+    t+=p;
+  });
+  if(state.tight)t*=1.10;
+  return t;
+}
+function calc(){
+  const t=oneOff();
+  if(t<=0||state.surf.size===0){
+    $('#total').textContent='$0';
+    $('#range').textContent='Pick at least one surface.';
+    $('#plans').hidden=true;return;
+  }
+  $('#total').textContent=money(t);
+  $('#range').textContent='Typical range '+money(t*0.9)+' to '+money(t*1.15);
+  $('#plans').hidden=false;
+  $('#p2').textContent=money(t*0.85);$('#p2a').textContent='per visit · '+money(t*0.85*2)+'/yr';
+  $('#p4').textContent=money(t*0.75);$('#p4a').textContent='per visit · '+money(t*0.75*4)+'/yr';
+  $('#p1').textContent=money(t);
+}
+$('#copyBtn').addEventListener('click',()=>{
+  const t=oneOff();
+  const picked=SURFACES.filter(s=>state.surf.has(s.id)).map(s=>s.nm);
+  const sizeNm=SIZES.find(x=>x[1]===state.size)[0], condNm=CONDS.find(x=>x[1]===state.cond)[0];
+  let txt=`SoFlo estimate\nSurfaces: ${picked.join(', ')||'none'}`;
+  if(state.commercial)txt+=', Commercial storefront (custom)';
+  txt+=`\nSize: ${sizeNm} · Condition: ${condNm}`;
+  if(state.twostory)txt+=' · 2-story';
+  if(state.tight)txt+=' · tight access';
+  txt+=`\nOne-off: ${money(t)} (range ${money(t*0.9)}-${money(t*1.15)})`;
+  if(t>0)txt+=`\nPlan per visit: 2x/yr ${money(t*0.85)} · 4x/yr ${money(t*0.75)}`;
+  txt+=`\n(Estimate only, confirm on site.)`;
+  navigator.clipboard.writeText(txt).then(()=>{const b=$('#copyBtn');b.textContent='Copied';setTimeout(()=>b.textContent='Copy estimate',1500);});
+});
+$('#resetBtn').addEventListener('click',()=>location.reload());
+calc();
+</script>
+</body>
+</html>
