@@ -358,6 +358,10 @@ function pushToSheet(lead){
   const u=sheetUrl();if(!u)return;
   fetch(u,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(lead)}).catch(()=>{});
 }
+function pushPhotoToSheet(l,dataURL){
+  const u=sheetUrl();if(!u)return;
+  fetch(u,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({type:'photo',leadId:l.id,name:l.name||'',address:l.address||'',photo:dataURL,created:new Date().toISOString()})}).catch(()=>{});
+}
 function setStatus(){$('#sheetStatus').innerHTML=sheetUrl()?'<span class="pill-ok">Sheet sync on</span>':'<span class="pill-off">Not set (browser-only)</span>';}
 $('#openSettings').onclick=()=>{$('#sheetUrl').value=sheetUrl();$('#tmplBox').value=getTmpl();setStatus();$('#setDlg').showModal();};
 $('#saveSet').onclick=()=>{localStorage.setItem(LS_URL,$('#sheetUrl').value.trim());setStatus();updateSyncFoot();};
@@ -414,7 +418,7 @@ function openLead(id){
   $('#sendQuoteBtn').onclick=()=>openSend(l);
   $('#custViewBtn').onclick=()=>openCustomer(l);
   renderPhotos(l.id);
-  $('#photoInput').onchange=async e=>{for(const f of e.target.files){try{const d=await fileToThumb(f);await addPhoto(l.id,d);}catch(err){}}renderPhotos(l.id);e.target.value='';};
+  $('#photoInput').onchange=async e=>{for(const f of e.target.files){try{const d=await fileToThumb(f);await addPhoto(l.id,d);pushPhotoToSheet(l,d);}catch(err){}}renderPhotos(l.id);e.target.value='';};
   $('#saveLead').onclick=()=>{l.notes=$('#editNotes').value;l.status=$('#editStatus').value;save(a);pushToSheet(l);$('#dlg').close();renderLeads();};
   $('#closeLead').onclick=()=>$('#dlg').close();
   $('#delLead').onclick=()=>{if(confirm('Delete this lead?')){save(a.filter(x=>x.id!==id));delPhotosFor(id);$('#dlg').close();renderLeads();}};
