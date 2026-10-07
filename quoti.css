@@ -878,3 +878,11 @@ footer,footer.ft-flush{border-radius:0!important}
   .navbar .burger:not(#_){display:inline-flex!important}
   .navbar .nav:not(#_){padding:.5rem .5rem .5rem .6rem!important}
 }
+
+/* ── hero content must never flash invisible (above the fold) ──────────
+   legacy .reveal starts opacity:0 until JS adds .visible, which flashes
+   the hero (esp. on mobile). Force hero reveals visible; below-fold
+   reveals still animate on scroll. */
+.page-hero .reveal,.services-hero .reveal,.quote-hero .reveal,.area-hero .reveal,
+.contract-hero .reveal,.resources-hero .reveal,.svc-hero .reveal,header.hero .reveal{
+  opacity:1!important;transform:none!important}
