@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
 :root{
   --navy:#10263A; --mid:#3A4F63; --sand:#FBF7EF; --sand-2:#F4ECDA;
@@ -32,7 +33,7 @@ label{font-weight:600}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem}
 @media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr}}
-.f label{display:block;font-family:var(--fx);font-weight:800;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);margin-bottom:.35rem}
+.f label{display:block;font-family:var(--fx);font-weight:800;font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.35rem}
 .f input,.f select,.f textarea{width:100%;font-family:var(--fb);font-size:16px;border:1.5px solid var(--line);border-radius:10px;padding:.6rem .7rem;background:#fff;color:var(--navy)}
 .f textarea{min-height:68px;resize:vertical}
 .surfaces{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
@@ -62,6 +63,16 @@ label{font-weight:600}
 .btn-sm{font-size:.76rem;padding:.4rem .7rem;border-radius:8px}
 .actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
 .note{font-size:.78rem;color:var(--mid);margin-top:.8rem;line-height:1.45}
+/* desktop: form left, estimate sticky on the right */
+.estimate-layout{display:grid;grid-template-columns:1fr 348px;gap:1rem;align-items:start}
+.form-col{min-width:0}
+.summary-col{position:sticky;top:1rem}
+@media(max-width:960px){.estimate-layout{grid-template-columns:1fr}.summary-col{position:static}}
+/* accessibility: keyboard focus, hit areas */
+:focus-visible{outline:3px solid var(--aqua-ink);outline-offset:2px;border-radius:4px}
+.seg button{min-height:40px}
+.surf{min-height:46px}.check{min-height:40px}
+.f input,.f select{min-height:46px}
 .save-row{position:sticky;bottom:0;background:var(--sand);padding:.9rem 0;margin-top:.5rem;border-top:1px solid var(--line);display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
 .msg{font-weight:700;color:var(--green);font-size:.9rem}
 /* pipeline */
@@ -102,12 +113,14 @@ footer{max-width:1000px;margin:1.5rem auto 0;color:var(--mid);font-size:.76rem;t
 
   <!-- NEW ESTIMATE -->
   <div class="panel on" id="panel-new">
+   <div class="estimate-layout">
+    <div class="form-col">
     <div class="card">
       <h2>Customer</h2>
       <div class="grid2">
         <div class="f"><label>Name</label><input id="c_name" placeholder="First Last"></div>
-        <div class="f"><label>Phone</label><input id="c_phone" placeholder="(305) ..."></div>
-        <div class="f"><label>Email</label><input id="c_email" placeholder="name@email.com"></div>
+        <div class="f"><label>Phone</label><input id="c_phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(305) ..."></div>
+        <div class="f"><label>Email</label><input id="c_email" type="email" inputmode="email" autocomplete="email" placeholder="name@email.com"></div>
         <div class="f"><label>Address</label><input id="c_addr" placeholder="Street, city"></div>
       </div>
       <div class="grid3" style="margin-top:.8rem">
@@ -120,41 +133,52 @@ footer{max-width:1000px;margin:1.5rem auto 0;color:var(--mid);font-size:.76rem;t
     <div class="card">
       <h2>1. Surfaces</h2>
       <div class="surfaces" id="surfaces"></div>
+      <div class="f" id="roofTypeWrap" hidden style="margin-top:.9rem"><label>Roof type</label><div class="seg" id="roofType"></div></div>
       <label class="check" style="margin-top:.8rem"><input type="checkbox" id="commercial"> Commercial storefront (custom, excluded from estimate)</label>
     </div>
     <div class="card">
       <h2>2. Size &amp; condition</h2>
-      <div class="f" style="margin-bottom:.9rem"><label>Overall size</label><div class="seg" id="size"></div></div>
+      <div class="f" style="margin-bottom:.45rem"><label>Overall size</label><div class="seg" id="size"></div></div>
+      <p class="note" style="margin:0 0 .9rem">Rough bucket, not exact footage. Small = 1-car drive / small yard. X-large = big estate or long commercial run.</p>
       <div class="f"><label>Growth / condition</label><div class="seg" id="cond"></div></div>
     </div>
     <div class="card">
-      <h2>3. Access</h2>
+      <h2>3. Access &amp; site</h2>
       <label class="check"><input type="checkbox" id="twostory"> Two-story (adds to house &amp; roof)</label>
       <label class="check" style="margin-top:.6rem"><input type="checkbox" id="tightaccess"> Tight access / heavy landscaping (+10%)</label>
+      <label class="check" style="margin-top:.6rem"><input type="checkbox" id="water" checked> Working water spigot on site</label>
+    </div>
+    <div class="card">
+      <h2>4. Add-ons &amp; problem areas</h2>
+      <div class="surfaces" id="addons"></div>
     </div>
 
-    <div class="card" style="padding:0;overflow:hidden">
-      <div class="result">
-        <div class="lbl">One-off estimate</div>
-        <div class="big" id="total">$0</div>
-        <div class="range" id="range">Pick at least one surface.</div>
-        <div class="plans" id="plans" hidden>
-          <div class="plan"><div class="pn">Bragging Rights &middot; 2x</div><div class="pv" id="p2">$0</div><div class="pa" id="p2a">per visit</div></div>
-          <div class="plan"><div class="pn">The Show-Off &middot; 4x</div><div class="pv" id="p4">$0</div><div class="pa" id="p4a">per visit</div></div>
-          <div class="plan"><div class="pn">Humble Brag &middot; 1x</div><div class="pv" id="p1">$0</div><div class="pa">quote based</div></div>
+      <div class="f"><label>Job notes</label><textarea id="c_notes" placeholder="Surfaces detail, gate code, dog, parking, anything useful..."></textarea></div>
+    </div><!-- /form-col -->
+
+    <div class="summary-col">
+      <div class="card" style="padding:0;overflow:hidden">
+        <div class="result">
+          <div class="lbl">One-off estimate</div>
+          <div class="big" id="total">$0</div>
+          <div class="range" id="range">Pick at least one surface.</div>
+          <div class="plans" id="plans" hidden>
+            <div class="plan"><div class="pn">Bragging Rights &middot; 2x</div><div class="pv" id="p2">$0</div><div class="pa" id="p2a">per visit</div></div>
+            <div class="plan"><div class="pn">The Show-Off &middot; 4x</div><div class="pv" id="p4">$0</div><div class="pa" id="p4a">per visit</div></div>
+            <div class="plan"><div class="pn">Humble Brag &middot; 1x</div><div class="pv" id="p1">$0</div><div class="pa">quote based</div></div>
+          </div>
         </div>
       </div>
-    </div>
-
-    <div class="f"><label>Job notes</label><textarea id="c_notes" placeholder="Surfaces detail, gate code, dog, parking, anything useful..."></textarea></div>
+      <p class="note">Estimate only. One-off shows a typical range. Plan per-visit assumes a property kept on schedule. Confirm on site or from photos before sending a number.</p>
+    </div><!-- /summary-col -->
+   </div><!-- /estimate-layout -->
 
     <div class="save-row">
       <button class="btn btn-coral" id="saveBtn">Save lead</button>
       <button class="btn btn-ghost" id="copyBtn">Copy estimate</button>
       <button class="btn btn-ghost" id="clearBtn">Clear form</button>
-      <span class="msg" id="saveMsg"></span>
+      <span class="msg" id="saveMsg" role="status" aria-live="polite"></span>
     </div>
-    <p class="note">Estimate only. One-off shows a typical range. Plan per-visit assumes a property kept on schedule. Confirm on site or from photos before sending a number.</p>
   </div>
 
   <!-- LEADS -->
@@ -180,24 +204,54 @@ footer{max-width:1000px;margin:1.5rem auto 0;color:var(--mid);font-size:.76rem;t
 <dialog id="dlg"><div class="dlg" id="dlgBody"></div></dialog>
 <!-- settings dialog -->
 <dialog id="setDlg"><div class="dlg">
-  <h3>Sync settings</h3>
-  <p class="kv">Optional. Paste a Google Apps Script Web App URL and every saved lead is also appended to your Google Sheet (backup + any device). Leave blank to keep data only in this browser.</p>
-  <div class="f" style="margin:.8rem 0"><label>Google Apps Script URL</label><input id="sheetUrl" placeholder="https://script.google.com/macros/s/.../exec"></div>
+  <h3>Settings</h3>
+  <div class="f" style="margin:.8rem 0"><label>Google Sheet sync URL (Apps Script /exec)</label><input id="sheetUrl" placeholder="https://script.google.com/macros/s/.../exec"></div>
   <p class="kv" id="sheetStatus"></p>
-  <div class="actions"><button class="btn btn-navy btn-sm" id="saveSet">Save</button><button class="btn btn-ghost btn-sm" id="testSet">Send test row</button><button class="btn btn-ghost btn-sm" id="closeSet">Close</button></div>
-  <p class="note" style="margin-top:1rem">Setup: in Google Drive make a Sheet, Extensions &rarr; Apps Script, paste the script from the handoff doc, Deploy &rarr; Web app &rarr; Execute as you, Access anyone, copy the /exec URL here.</p>
+  <div class="actions" style="margin-bottom:1rem"><button class="btn btn-navy btn-sm" id="saveSet">Save</button><button class="btn btn-ghost btn-sm" id="testSet">Send test row</button></div>
+  <div class="f" style="margin:.4rem 0"><label>Quote message template</label><textarea id="tmplBox" style="min-height:150px"></textarea></div>
+  <p class="note">Tokens: <b>{name}</b> {surfaces} {range} {low} {high}. This is the text that pre-fills when you send a quote. You can still edit each message before sending.</p>
+  <div class="actions" style="margin-top:.8rem"><button class="btn btn-navy btn-sm" id="saveTmpl">Save template</button><button class="btn btn-ghost btn-sm" id="resetTmpl">Reset to default</button><button class="btn btn-ghost btn-sm" id="closeSet">Close</button></div>
 </div></dialog>
+
+<!-- send quote dialog -->
+<dialog id="sendDlg"><div class="dlg">
+  <h3>Send quote</h3>
+  <p class="kv" id="sendTo"></p>
+  <div class="f" style="margin:.5rem 0"><label>Message (edit before sending)</label><textarea id="sendMsg" style="min-height:170px"></textarea></div>
+  <div class="actions">
+    <button class="btn btn-coral btn-sm" id="sendSMS">Text (SMS)</button>
+    <button class="btn btn-navy btn-sm" id="sendWA">WhatsApp</button>
+    <button class="btn btn-ghost btn-sm" id="sendGV">Google Voice</button>
+    <button class="btn btn-ghost btn-sm" id="sendShare">Share / AirDrop</button>
+    <button class="btn btn-ghost btn-sm" id="sendQR">QR code</button>
+    <button class="btn btn-ghost btn-sm" id="sendCopy">Copy</button>
+  </div>
+  <div id="qrBox" hidden style="margin-top:1rem;text-align:center"></div>
+  <div class="actions" style="margin-top:1rem"><button class="btn btn-ghost btn-sm" id="closeSend">Close</button></div>
+  <p class="note" id="sendNote"></p>
+</div></dialog>
+
+<!-- customer view dialog -->
+<dialog id="custDlg"><div class="dlg" id="custBody"></div></dialog>
 
 <script>
 const LS='soflo_leads_v1', LS_URL='soflo_sheet_url';
 const SURFACES=[
   {id:'driveway',nm:'Driveway',base:99},{id:'patio',nm:'Patio / pool deck',base:129},
   {id:'fence',nm:'Fence',base:99},{id:'house',nm:'House exterior (soft wash)',base:249},
-  {id:'roof',nm:'Roof soft wash',base:299},
+  {id:'roof',nm:'Roof soft wash',base:299},{id:'screen',nm:'Screen enclosure / pool cage',base:99},
 ];
 const SIZES=[['Small',1.0],['Medium',1.5],['Large',2.1],['X-large',2.8]];
 const CONDS=[['Light',1.0],['Moderate',1.25],['Heavy',1.55]];
-let st={surf:new Set(),size:1,cond:1,sizeNm:'Small',condNm:'Light',twostory:false,tight:false,commercial:false};
+const ROOFTYPES=['Tile (barrel/flat)','Shingle','Metal','Flat / low-slope'];
+const ADDONS=[
+  {id:'oil',nm:'Oil stain pretreat',amt:40},
+  {id:'rust',nm:'Rust / fertilizer stain',amt:50},
+  {id:'gutter',nm:'Gutter face brightening',amt:75},
+  {id:'seal',nm:'Surface sealing (separate quote)',amt:0,flag:true},
+];
+let st={surf:new Set(),size:1,cond:1,sizeNm:'Small',condNm:'Light',twostory:false,tight:false,
+  commercial:false,roofType:'Tile (barrel/flat)',water:true,addons:new Set()};
 const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
 const money=n=>'$'+Math.round(n).toLocaleString('en-US');
 const load=()=>{try{return JSON.parse(localStorage.getItem(LS))||[]}catch(e){return[]}};
@@ -215,26 +269,61 @@ const sw=$('#surfaces');
 SURFACES.forEach(s=>{
   const el=document.createElement('label');el.className='surf';el.dataset.id=s.id;
   el.innerHTML=`<input type="checkbox"><span>${s.nm}</span><span class="pr">from $${s.base}</span>`;
-  el.querySelector('input').addEventListener('change',e=>{e.target.checked?st.surf.add(s.id):st.surf.delete(s.id);el.classList.toggle('on',e.target.checked);calc();});
+  el.querySelector('input').addEventListener('change',e=>{
+    e.target.checked?st.surf.add(s.id):st.surf.delete(s.id);el.classList.toggle('on',e.target.checked);
+    if(s.id==='roof')$('#roofTypeWrap').hidden=!e.target.checked;
+    calc();
+  });
   sw.appendChild(el);
 });
-function seg(sel,items,set,nmset,def){const c=$(sel);items.forEach((it,i)=>{const b=document.createElement('button');b.textContent=it[0];if(i===def)b.classList.add('on');b.onclick=()=>{[...c.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');set(it[1]);nmset(it[0]);calc();};c.appendChild(b);});}
+// add-ons (same chip UI as surfaces)
+const aw=$('#addons');
+ADDONS.forEach(a=>{
+  const el=document.createElement('label');el.className='surf';el.dataset.id=a.id;
+  el.innerHTML=`<input type="checkbox"><span>${a.nm}</span><span class="pr">${a.flag?'+ quote':'+$'+a.amt}</span>`;
+  el.querySelector('input').addEventListener('change',e=>{e.target.checked?st.addons.add(a.id):st.addons.delete(a.id);el.classList.toggle('on',e.target.checked);calc();});
+  aw.appendChild(el);
+});
+function seg(sel,items,set,nmset,def){const c=$(sel);items.forEach((it,i)=>{const b=document.createElement('button');const lbl=Array.isArray(it)?it[0]:it;b.textContent=lbl;if(i===def)b.classList.add('on');b.onclick=()=>{[...c.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');set(Array.isArray(it)?it[1]:it);nmset(lbl);calc();};c.appendChild(b);});}
 seg('#size',SIZES,v=>st.size=v,n=>st.sizeNm=n,0);
 seg('#cond',CONDS,v=>st.cond=v,n=>st.condNm=n,0);
+seg('#roofType',ROOFTYPES,v=>st.roofType=v,n=>st.roofType=n,0);
 $('#twostory').onchange=e=>{st.twostory=e.target.checked;calc();};
 $('#tightaccess').onchange=e=>{st.tight=e.target.checked;calc();};
+$('#water').onchange=e=>{st.water=e.target.checked;calc();};
 $('#commercial').onchange=e=>{st.commercial=e.target.checked;};
 
-function oneOff(){let t=0;SURFACES.forEach(s=>{if(!st.surf.has(s.id))return;let p=s.base*st.size*st.cond;if(st.twostory&&(s.id==='house'||s.id==='roof'))p*=1.2;t+=p;});if(st.tight)t*=1.10;return t;}
+function oneOff(){
+  let t=0;
+  SURFACES.forEach(s=>{
+    if(!st.surf.has(s.id))return;
+    let p=s.base*st.size*st.cond;
+    if(st.twostory&&(s.id==='house'||s.id==='roof'))p*=1.2;
+    if(s.id==='roof'&&st.roofType.indexOf('Tile')===0)p*=1.1; // tile = slower, careful
+    t+=p;
+  });
+  if(st.tight)t*=1.10;
+  ADDONS.forEach(a=>{if(st.addons.has(a.id)&&!a.flag)t+=a.amt;});
+  if(!st.water)t+=50; // no spigot = bring a tank
+  return t;
+}
 function calc(){const t=oneOff();if(t<=0){$('#total').textContent='$0';$('#range').textContent='Pick at least one surface.';$('#plans').hidden=true;return t;}
-  $('#total').textContent=money(t);$('#range').textContent='Typical range '+money(t*0.9)+' to '+money(t*1.15);$('#plans').hidden=false;
+  let extra='';
+  if(st.addons.has('seal'))extra+=' · + sealing quote';
+  if(!st.water)extra+=' · tank job';
+  $('#total').textContent=money(t);$('#range').textContent='Typical range '+money(t*0.9)+' to '+money(t*1.15)+extra;$('#plans').hidden=false;
   $('#p2').textContent=money(t*0.85);$('#p2a').textContent=money(t*0.85*2)+'/yr';
   $('#p4').textContent=money(t*0.75);$('#p4a').textContent=money(t*0.75*4)+'/yr';
   $('#p1').textContent=money(t);return t;}
 
 function summaryText(){
   const t=oneOff();const picked=SURFACES.filter(s=>st.surf.has(s.id)).map(s=>s.nm);
-  let x=`Surfaces: ${picked.join(', ')||'none'}${st.commercial?', Commercial (custom)':''}\nSize: ${st.sizeNm} · Condition: ${st.condNm}${st.twostory?' · 2-story':''}${st.tight?' · tight access':''}\nOne-off: ${money(t)} (${money(t*0.9)}-${money(t*1.15)})`;
+  const add=ADDONS.filter(a=>st.addons.has(a.id)).map(a=>a.nm);
+  let x=`Surfaces: ${picked.join(', ')||'none'}${st.commercial?', Commercial (custom)':''}`;
+  if(st.surf.has('roof'))x+=`\nRoof: ${st.roofType}`;
+  x+=`\nSize: ${st.sizeNm} · Condition: ${st.condNm}${st.twostory?' · 2-story':''}${st.tight?' · tight access':''}${!st.water?' · no water (tank)':''}`;
+  if(add.length)x+=`\nAdd-ons: ${add.join(', ')}`;
+  x+=`\nOne-off: ${money(t)} (${money(t*0.9)}-${money(t*1.15)})`;
   if(t>0)x+=`\nPlan/visit: 2x ${money(t*0.85)} · 4x ${money(t*0.75)}`;
   return x;
 }
@@ -250,6 +339,8 @@ $('#saveBtn').onclick=()=>{
     name, phone:$('#c_phone').value.trim(), email:$('#c_email').value.trim(), address:$('#c_addr').value.trim(),
     ptype:$('#c_ptype').value, source:$('#c_src').value, prefDate:$('#c_date').value,
     surfaces:SURFACES.filter(s=>st.surf.has(s.id)).map(s=>s.nm).join(', ')+(st.commercial?' + Commercial':''),
+    roofType:st.surf.has('roof')?st.roofType:'', water:st.water,
+    addons:ADDONS.filter(a=>st.addons.has(a.id)).map(a=>a.nm).join(', '),
     size:st.sizeNm, condition:st.condNm, twostory:st.twostory, tight:st.tight,
     estimate:Math.round(t), estLow:Math.round(t*0.9), estHigh:Math.round(t*1.15),
     plan2:Math.round(t*0.85), plan4:Math.round(t*0.75),
@@ -267,8 +358,11 @@ function pushToSheet(lead){
   const u=sheetUrl();if(!u)return;
   fetch(u,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(lead)}).catch(()=>{});
 }
-$('#openSettings').onclick=()=>{$('#sheetUrl').value=sheetUrl();$('#sheetStatus').innerHTML=sheetUrl()?'<span class="pill-ok">Sync on</span>':'<span class="pill-off">Not set (browser-only)</span>';$('#setDlg').showModal();};
-$('#saveSet').onclick=()=>{localStorage.setItem(LS_URL,$('#sheetUrl').value.trim());$('#setDlg').close();updateSyncFoot();};
+function setStatus(){$('#sheetStatus').innerHTML=sheetUrl()?'<span class="pill-ok">Sheet sync on</span>':'<span class="pill-off">Not set (browser-only)</span>';}
+$('#openSettings').onclick=()=>{$('#sheetUrl').value=sheetUrl();$('#tmplBox').value=getTmpl();setStatus();$('#setDlg').showModal();};
+$('#saveSet').onclick=()=>{localStorage.setItem(LS_URL,$('#sheetUrl').value.trim());setStatus();updateSyncFoot();};
+$('#saveTmpl').onclick=()=>{localStorage.setItem('soflo_tmpl',$('#tmplBox').value);$('#saveTmpl').textContent='Saved';setTimeout(()=>$('#saveTmpl').textContent='Save template',1200);};
+$('#resetTmpl').onclick=()=>{localStorage.removeItem('soflo_tmpl');$('#tmplBox').value=getTmpl();};
 $('#closeSet').onclick=()=>$('#setDlg').close();
 $('#testSet').onclick=()=>{const u=$('#sheetUrl').value.trim();if(!u){alert('Paste a URL first');return;}fetch(u,{method:'POST',mode:'no-cors',body:JSON.stringify({id:Date.now(),name:'TEST ROW',status:'New',created:new Date().toISOString()})}).then(()=>alert('Sent. Check your Sheet for a TEST ROW.')).catch(e=>alert('Error: '+e.message));};
 function updateSyncFoot(){$('#syncFoot').innerHTML=sheetUrl()?' &middot; <span class="pill-ok">Sheet sync on</span>':'';}
@@ -307,24 +401,98 @@ function openLead(id){
     <div class="kv"><b>Phone</b> ${esc(l.phone||'-')} &middot; <b>Email</b> ${esc(l.email||'-')}</div>
     <div class="kv"><b>Address</b> ${esc(l.address||'-')}</div>
     <div class="kv"><b>Type</b> ${esc(l.ptype)} &middot; <b>Source</b> ${esc(l.source||'-')} &middot; <b>Preferred</b> ${esc(l.prefDate||'-')}</div>
-    <div class="kv"><b>Job</b> ${esc(l.surfaces||'-')} &middot; ${esc(l.size)}/${esc(l.condition)}${l.twostory?' · 2-story':''}${l.tight?' · tight':''}</div>
+    <div class="kv"><b>Job</b> ${esc(l.surfaces||'-')}${l.roofType?' ('+esc(l.roofType)+')':''} &middot; ${esc(l.size)}/${esc(l.condition)}${l.twostory?' · 2-story':''}${l.tight?' · tight':''}${l.water===false?' · no water':''}</div>
+    ${l.addons?`<div class="kv"><b>Add-ons</b> ${esc(l.addons)}</div>`:''}
     <div class="kv"><b>Estimate</b> ${money(l.estimate)} (${money(l.estLow)}-${money(l.estHigh)}) &middot; plan 2x ${money(l.plan2)} · 4x ${money(l.plan4)}</div>
     <div class="f" style="margin:.7rem 0"><label>Notes</label><textarea id="editNotes">${esc(l.notes||'')}</textarea></div>
     <div class="f" style="margin-bottom:.8rem"><label>Status</label><select id="editStatus">${['New','Quoted','Scheduled','Won','Lost'].map(s=>`<option ${s===l.status?'selected':''}>${s}</option>`).join('')}</select></div>
-    <div class="actions"><button class="btn btn-navy btn-sm" id="saveLead">Save changes</button><button class="btn btn-ghost btn-sm" id="closeLead">Close</button><button class="btn btn-ghost btn-sm" id="delLead" style="color:var(--red);margin-left:auto">Delete</button></div>`;
+    <div class="actions" style="margin-bottom:.7rem"><button class="btn btn-coral btn-sm" id="sendQuoteBtn">Send quote</button><button class="btn btn-navy btn-sm" id="custViewBtn">Customer view</button></div>
+    <div class="f"><label>Photos</label><div id="photoGrid" style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.5rem"></div>
+      <label class="btn btn-ghost btn-sm" style="cursor:pointer;display:inline-block">Add photos<input id="photoInput" type="file" accept="image/*" capture="environment" multiple hidden></label></div>
+    <div class="actions" style="margin-top:.8rem"><button class="btn btn-navy btn-sm" id="saveLead">Save changes</button><button class="btn btn-ghost btn-sm" id="closeLead">Close</button><button class="btn btn-ghost btn-sm" id="delLead" style="color:var(--red);margin-left:auto">Delete</button></div>`;
   $('#dlg').showModal();
+  $('#sendQuoteBtn').onclick=()=>openSend(l);
+  $('#custViewBtn').onclick=()=>openCustomer(l);
+  renderPhotos(l.id);
+  $('#photoInput').onchange=async e=>{for(const f of e.target.files){try{const d=await fileToThumb(f);await addPhoto(l.id,d);}catch(err){}}renderPhotos(l.id);e.target.value='';};
   $('#saveLead').onclick=()=>{l.notes=$('#editNotes').value;l.status=$('#editStatus').value;save(a);pushToSheet(l);$('#dlg').close();renderLeads();};
   $('#closeLead').onclick=()=>$('#dlg').close();
-  $('#delLead').onclick=()=>{if(confirm('Delete this lead?')){save(a.filter(x=>x.id!==id));$('#dlg').close();renderLeads();}};
+  $('#delLead').onclick=()=>{if(confirm('Delete this lead?')){save(a.filter(x=>x.id!==id));delPhotosFor(id);$('#dlg').close();renderLeads();}};
 }
 $('#search').oninput=renderLeads;$('#filterStatus').onchange=renderLeads;
 $('#exportBtn').onclick=()=>{
   const a=load();if(!a.length){alert('No leads to export.');return;}
-  const cols=['created','name','phone','email','address','ptype','source','prefDate','surfaces','size','condition','twostory','tight','estimate','estLow','estHigh','plan2','plan4','status','notes'];
+  const cols=['created','name','phone','email','address','ptype','source','prefDate','surfaces','roofType','addons','water','size','condition','twostory','tight','estimate','estLow','estHigh','plan2','plan4','status','notes'];
   const csv=[cols.join(',')].concat(a.map(l=>cols.map(c=>`"${String(l[c]==null?'':l[c]).replace(/"/g,'""')}"`).join(','))).join('\n');
   const blob=new Blob([csv],{type:'text/csv'});const u=URL.createObjectURL(blob);const link=document.createElement('a');link.href=u;link.download='soflo-leads-'+new Date().toISOString().slice(0,10)+'.csv';link.click();URL.revokeObjectURL(u);
 };
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+/* ===== config + preset ===== */
+const DEF_SHEET='https://script.google.com/macros/s/AKfycbxbmLDTj-5Op2DRiO3cvykGkikTUduMXLgZRJb5lGXfhxVPVEN6xuBWBS3Kbfw7w72Z/exec';
+const DEF_TMPL="Hi {name}, thanks for reaching out to SoFlo UnderPressure.\n\nYour estimate for {surfaces}: {range}.\nThat's a flat price we lock in after a quick look at the property or a couple of photos. No hourly, no surprises on the invoice.\n\nWant to grab a day this week? Reply here or call (305) 894-6336.\n- Saul, SoFlo UnderPressure";
+if(localStorage.getItem(LS_URL)===null){try{localStorage.setItem(LS_URL,DEF_SHEET);}catch(e){}}
+function getTmpl(){try{return localStorage.getItem('soflo_tmpl')||DEF_TMPL;}catch(e){return DEF_TMPL;}}
+const digits=s=>String(s||'').replace(/\D/g,'');
+const intl=p=>{const d=digits(p);return d.length===10?'1'+d:d;};
+function rangeStr(l){return (l.estLow&&l.estHigh)?(money(l.estLow)+' to '+money(l.estHigh)):'(estimate pending)';}
+function quoteText(l,price){
+  return getTmpl()
+    .replace(/{name}/g,(l.name||'there').split(' ')[0])
+    .replace(/{surfaces}/g,l.surfaces||'your property')
+    .replace(/{range}/g,price||rangeStr(l))
+    .replace(/{low}/g,money(l.estLow||0)).replace(/{high}/g,money(l.estHigh||0));
+}
+
+/* ===== send quote (buttons bound once) ===== */
+let _sendLead=null;
+function openSend(l,price){
+  _sendLead=l;
+  $('#sendTo').innerHTML=l.phone?('To <b>'+esc(l.name||'')+'</b> &middot; '+esc(l.phone)):('<b>'+esc(l.name||'(no name)')+'</b> &middot; no phone on file (SMS and WhatsApp need a number)');
+  $('#sendMsg').value=quoteText(l,price);
+  $('#qrBox').hidden=true;$('#qrBox').innerHTML='';$('#sendNote').textContent='';
+  $('#sendDlg').showModal();
+}
+$('#closeSend').onclick=()=>$('#sendDlg').close();
+$('#sendCopy').onclick=()=>{navigator.clipboard.writeText($('#sendMsg').value).then(()=>$('#sendNote').textContent='Copied.');};
+$('#sendSMS').onclick=()=>{const p=digits(_sendLead.phone);if(!p){$('#sendNote').textContent='No phone number on this lead.';return;}location.href='sms:'+p+'?&body='+encodeURIComponent($('#sendMsg').value);};
+$('#sendWA').onclick=()=>{const p=intl(_sendLead.phone);const base=p?('https://wa.me/'+p+'?text='):'https://wa.me/?text=';window.open(base+encodeURIComponent($('#sendMsg').value),'_blank');};
+$('#sendGV').onclick=()=>{navigator.clipboard.writeText($('#sendMsg').value).then(()=>{window.open('https://voice.google.com/u/0/messages','_blank');$('#sendNote').textContent='Text copied. Open the conversation in Google Voice and paste.';});};
+$('#sendShare').onclick=async()=>{if(navigator.share){try{await navigator.share({text:$('#sendMsg').value});}catch(e){}}else{$('#sendNote').textContent='Share sheet (and AirDrop) only works on a phone or Mac Safari. Use Copy or the other buttons here.';}};
+$('#sendQR').onclick=()=>{const box=$('#qrBox');if(!box.hidden){box.hidden=true;return;}box.innerHTML='';if(typeof QRCode==='undefined'){box.textContent='QR library did not load (offline?).';box.hidden=false;return;}new QRCode(box,{text:$('#sendMsg').value,width:200,height:200,colorDark:'#10263A',colorLight:'#ffffff'});box.hidden=false;$('#sendNote').textContent='Customer scans this to get the quote.';};
+
+/* ===== customer view ===== */
+function openCustomer(l){
+  const svc=(l.surfaces||'').split(',').map(s=>s.trim()).filter(Boolean);
+  $('#custBody').innerHTML=`<div style="text-align:center">
+    <div style="font-family:var(--fx);font-weight:900;font-size:1.5rem;color:var(--navy)">SoFlo UnderPressure</div>
+    <div style="color:var(--mid);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;font-weight:800">Pressure &amp; soft washing &middot; Miami</div></div>
+  <h3 style="margin-top:1.1rem">Estimate for ${esc((l.name||'you').split(' ')[0])}</h3>
+  <ul style="margin:.5rem 0 1rem;padding-left:1.1rem;color:var(--navy)">${svc.map(s=>`<li style="margin:.25rem 0">${esc(s)}</li>`).join('')||'<li>Exterior cleaning</li>'}</ul>
+  <div style="background:var(--aqua-lt);border-radius:12px;padding:1.1rem;text-align:center">
+    <div style="font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--aqua-ink)">Your price</div>
+    <div class="f" style="max-width:240px;margin:.35rem auto 0"><input id="custPrice" value="${esc(rangeStr(l))}" style="text-align:center;font-family:var(--fx);font-weight:900;font-size:1.5rem;color:var(--navy);background:#fff"></div>
+    <div style="font-size:.76rem;color:var(--mid);margin-top:.35rem">Flat price, confirmed after a quick look. No hourly, no surprises.</div></div>
+  <p class="kv" style="margin-top:.9rem;text-align:center">Licensed &amp; insured &middot; Owner on every job<br>(305) 894-6336 &middot; SoFlo.Underpressure@gmail.com</p>
+  <div class="actions" style="margin-top:1rem;justify-content:center"><button class="btn btn-coral btn-sm" id="custSend">Send this to customer</button><button class="btn btn-ghost btn-sm" id="custClose">Close</button></div>`;
+  $('#custDlg').showModal();
+  $('#custClose').onclick=()=>$('#custDlg').close();
+  $('#custSend').onclick=()=>{const price=$('#custPrice').value.trim();$('#custDlg').close();openSend(l,price);};
+}
+
+/* ===== photos (IndexedDB, device-local) ===== */
+let _db;
+function db(){return new Promise((res,rej)=>{if(_db)return res(_db);const r=indexedDB.open('soflo_crm',1);r.onupgradeneeded=e=>{const s=e.target.result.createObjectStore('photos',{keyPath:'id',autoIncrement:true});s.createIndex('lead','leadId');};r.onsuccess=e=>{_db=e.target.result;res(_db);};r.onerror=()=>rej(r.error);});}
+async function addPhoto(leadId,data){const d=await db();return new Promise((res,rej)=>{const t=d.transaction('photos','readwrite');t.objectStore('photos').add({leadId,data,ts:Date.now()});t.oncomplete=res;t.onerror=()=>rej(t.error);});}
+async function getPhotos(leadId){const d=await db();return new Promise(res=>{const r=d.transaction('photos').objectStore('photos').index('lead').getAll(leadId);r.onsuccess=()=>res(r.result||[]);r.onerror=()=>res([]);});}
+async function rmPhoto(pid){const d=await db();return new Promise(res=>{const t=d.transaction('photos','readwrite');t.objectStore('photos').delete(pid);t.oncomplete=res;});}
+async function delPhotosFor(leadId){const ps=await getPhotos(leadId);for(const p of ps)await rmPhoto(p.id);}
+async function renderPhotos(leadId){
+  const g=$('#photoGrid');if(!g)return;const ps=await getPhotos(leadId);
+  g.innerHTML=ps.map(p=>`<img src="${p.data}" data-pid="${p.id}" style="width:72px;height:72px;object-fit:cover;border-radius:8px;border:1px solid var(--line);cursor:pointer" title="Click to delete">`).join('')||'<span class="kv" style="margin:0">No photos yet.</span>';
+  g.querySelectorAll('img').forEach(im=>im.onclick=async()=>{if(confirm('Delete this photo?')){await rmPhoto(+im.dataset.pid);renderPhotos(leadId);}});
+}
+function fileToThumb(file){return new Promise((res,rej)=>{const img=new Image();const u=URL.createObjectURL(file);img.onload=()=>{const m=1200;let w=img.width,h=img.height;if(w>m||h>m){const r=Math.min(m/w,m/h);w=Math.round(w*r);h=Math.round(h*r);}const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);URL.revokeObjectURL(u);res(c.toDataURL('image/jpeg',0.72));};img.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('bad image'));};img.src=u;});}
+
 // init
 $('#leadCount').textContent=load().length?'('+load().length+')':'';
 updateSyncFoot();calc();
