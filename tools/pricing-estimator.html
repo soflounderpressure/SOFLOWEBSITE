@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>SoFlo Pricing Estimator (internal)</title>
+<title>SoFlo Estimator + Leads (internal)</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,186 +14,320 @@
   --navy:#10263A; --mid:#3A4F63; --sand:#FBF7EF; --sand-2:#F4ECDA;
   --aqua:#A8DCF0; --aqua-lt:#E3F3F8; --aqua-ink:#1A76A0;
   --yellow:#FFE08A; --coral:#C24A33; --coral-dk:#A63C28; --white:#fff;
+  --green:#2E7D5B; --red:#B23B3B; --line:rgba(16,38,58,.12);
   --fx:'Archivo',sans-serif; --fb:'Barlow',sans-serif;
-  --line:rgba(16,38,58,.12);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--fb);background:var(--sand);color:var(--navy);line-height:1.5;padding:1.5rem 1rem 4rem}
-.wrap{max-width:860px;margin:0 auto}
-h1{font-family:var(--fx);font-weight:900;font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.02;letter-spacing:-.01em}
-.tag{display:inline-block;font-family:var(--fx);font-weight:800;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);background:#fff;border:1px solid var(--line);padding:.35rem .7rem;border-radius:6px;margin-bottom:.9rem}
-.sub{color:var(--mid);margin:.5rem 0 1.6rem;max-width:60ch;font-size:.98rem}
-.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.4rem;margin-bottom:1.1rem;box-shadow:0 10px 30px rgba(16,38,58,.05)}
-.card h2{font-family:var(--fx);font-weight:800;font-size:1.05rem;text-transform:uppercase;letter-spacing:.02em;margin-bottom:.9rem}
-label{font-family:var(--fb);font-weight:600}
-.surfaces{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+body{font-family:var(--fb);background:var(--sand);color:var(--navy);line-height:1.5;padding:1.3rem 1rem 5rem}
+.wrap{max-width:1000px;margin:0 auto}
+h1{font-family:var(--fx);font-weight:900;font-size:clamp(1.6rem,4.5vw,2.3rem);line-height:1.02}
+.tag{display:inline-block;font-family:var(--fx);font-weight:800;font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);background:#fff;border:1px solid var(--line);padding:.3rem .65rem;border-radius:6px;margin-bottom:.7rem}
+.tabs{display:flex;gap:.4rem;margin:1.1rem 0 1.3rem;flex-wrap:wrap}
+.tabs button{font-family:var(--fx);font-weight:800;font-size:.85rem;letter-spacing:.02em;border:1.5px solid var(--line);background:#fff;color:var(--navy);padding:.65rem 1.2rem;border-radius:10px;cursor:pointer}
+.tabs button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.panel{display:none}.panel.on{display:block}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:1.3rem;margin-bottom:1rem;box-shadow:0 10px 30px rgba(16,38,58,.05)}
+.card h2{font-family:var(--fx);font-weight:800;font-size:1rem;text-transform:uppercase;letter-spacing:.02em;margin-bottom:.9rem}
+label{font-weight:600}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem}
+@media(max-width:640px){.grid2,.grid3{grid-template-columns:1fr}}
+.f label{display:block;font-family:var(--fx);font-weight:800;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);margin-bottom:.35rem}
+.f input,.f select,.f textarea{width:100%;font-family:var(--fb);font-size:16px;border:1.5px solid var(--line);border-radius:10px;padding:.6rem .7rem;background:#fff;color:var(--navy)}
+.f textarea{min-height:68px;resize:vertical}
+.surfaces{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
 @media(max-width:560px){.surfaces{grid-template-columns:1fr}}
-.surf{display:flex;align-items:center;gap:.7rem;border:1.5px solid var(--line);border-radius:10px;padding:.8rem .9rem;cursor:pointer;transition:border-color .15s,background .15s}
-.surf:hover{border-color:var(--aqua-ink)}
+.surf{display:flex;align-items:center;gap:.65rem;border:1.5px solid var(--line);border-radius:10px;padding:.7rem .8rem;cursor:pointer}
 .surf.on{border-color:var(--aqua-ink);background:var(--aqua-lt)}
-.surf input{width:20px;height:20px;accent-color:var(--aqua-ink);flex:none}
-.surf .nm{font-weight:600}
-.surf .pr{margin-left:auto;font-family:var(--fx);font-weight:800;color:var(--aqua-ink);font-size:.9rem}
-.row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.3rem}
-.seg{display:flex;flex-wrap:wrap;gap:.5rem}
-.seg button{font-family:var(--fx);font-weight:700;font-size:.82rem;letter-spacing:.02em;border:1.5px solid var(--line);background:#fff;color:var(--navy);padding:.6rem .95rem;border-radius:10px;cursor:pointer;transition:all .15s}
+.surf input{width:19px;height:19px;accent-color:var(--aqua-ink);flex:none}
+.surf .pr{margin-left:auto;font-family:var(--fx);font-weight:800;color:var(--aqua-ink);font-size:.88rem}
+.seg{display:flex;flex-wrap:wrap;gap:.45rem}
+.seg button{font-family:var(--fx);font-weight:700;font-size:.8rem;border:1.5px solid var(--line);background:#fff;color:var(--navy);padding:.55rem .9rem;border-radius:10px;cursor:pointer}
 .seg button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
-.field{margin-bottom:1rem}
-.field>label{display:block;font-family:var(--fx);font-weight:800;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-bottom:.5rem}
-.check{display:flex;align-items:center;gap:.6rem;font-size:.95rem}
-.check input{width:20px;height:20px;accent-color:var(--aqua-ink)}
-/* result */
-.result{background:var(--navy);color:#fff;border-radius:14px;padding:1.5rem 1.4rem;position:sticky;bottom:0}
-.result .lbl{font-family:var(--fx);font-weight:800;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--aqua)}
-.result .big{font-family:var(--fx);font-weight:900;font-size:clamp(2.2rem,8vw,3.2rem);line-height:1;margin:.2rem 0}
-.result .range{color:rgba(255,255,255,.7);font-size:.9rem}
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.15)}
+.check{display:flex;align-items:center;gap:.55rem;font-size:.95rem}.check input{width:19px;height:19px;accent-color:var(--aqua-ink)}
+.result{background:var(--navy);color:#fff;border-radius:14px;padding:1.3rem}
+.result .lbl{font-family:var(--fx);font-weight:800;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--aqua)}
+.result .big{font-family:var(--fx);font-weight:900;font-size:clamp(2rem,7vw,2.8rem);line-height:1;margin:.15rem 0}
+.result .range{color:rgba(255,255,255,.7);font-size:.88rem}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.9rem;padding-top:.9rem;border-top:1px solid rgba(255,255,255,.15)}
 @media(max-width:560px){.plans{grid-template-columns:1fr}}
-.plan{background:rgba(255,255,255,.06);border-radius:10px;padding:.8rem}
-.plan .pn{font-family:var(--fx);font-weight:800;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--aqua)}
-.plan .pv{font-family:var(--fx);font-weight:900;font-size:1.3rem;margin-top:.15rem}
-.plan .pa{color:rgba(255,255,255,.6);font-size:.72rem;margin-top:.1rem}
-.note{font-size:.8rem;color:rgba(255,255,255,.6);margin-top:1rem;line-height:1.45}
-.actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
-.btn{font-family:var(--fx);font-weight:800;font-size:.85rem;letter-spacing:.03em;border:none;border-radius:10px;padding:.8rem 1.2rem;cursor:pointer}
+.plan{background:rgba(255,255,255,.06);border-radius:10px;padding:.7rem}
+.plan .pn{font-family:var(--fx);font-weight:800;font-size:.68rem;letter-spacing:.05em;text-transform:uppercase;color:var(--aqua)}
+.plan .pv{font-family:var(--fx);font-weight:900;font-size:1.2rem;margin-top:.1rem}
+.plan .pa{color:rgba(255,255,255,.6);font-size:.7rem}
+.btn{font-family:var(--fx);font-weight:800;font-size:.85rem;border:none;border-radius:10px;padding:.75rem 1.2rem;cursor:pointer}
 .btn-coral{background:var(--coral);color:#fff}.btn-coral:hover{background:var(--coral-dk)}
-.btn-ghost{background:rgba(255,255,255,.1);color:#fff}
-.commercial-note{background:var(--yellow);color:var(--navy);border-radius:10px;padding:.7rem .9rem;font-size:.85rem;font-weight:600;margin-top:.6rem;display:none}
-.commercial-note.show{display:block}
-footer{max-width:860px;margin:1.5rem auto 0;color:var(--mid);font-size:.78rem;text-align:center}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-ghost{background:#fff;color:var(--navy);border:1.5px solid var(--line)}
+.btn-sm{font-size:.76rem;padding:.4rem .7rem;border-radius:8px}
+.actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem}
+.note{font-size:.78rem;color:var(--mid);margin-top:.8rem;line-height:1.45}
+.save-row{position:sticky;bottom:0;background:var(--sand);padding:.9rem 0;margin-top:.5rem;border-top:1px solid var(--line);display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
+.msg{font-weight:700;color:var(--green);font-size:.9rem}
+/* pipeline */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:.6rem;margin-bottom:1rem}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:.8rem}
+.stat .n{font-family:var(--fx);font-weight:900;font-size:1.5rem}
+.stat .l{font-size:.72rem;color:var(--mid);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.toolbar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.9rem;align-items:center}
+.toolbar input,.toolbar select{font-family:var(--fb);font-size:15px;border:1.5px solid var(--line);border-radius:9px;padding:.5rem .7rem;background:#fff}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+th,td{text-align:left;padding:.6rem .7rem;font-size:.86rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--fx);font-weight:800;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);background:var(--sand-2)}
+tr:last-child td{border-bottom:none}
+.badge{font-family:var(--fx);font-weight:800;font-size:.66rem;letter-spacing:.04em;text-transform:uppercase;padding:.2rem .5rem;border-radius:6px;color:#fff;white-space:nowrap}
+.b-new{background:var(--aqua-ink)}.b-quoted{background:#C58A1A}.b-scheduled{background:#5B4FB2}.b-won{background:var(--green)}.b-lost{background:var(--red)}
+.tbl-wrap{overflow-x:auto}
+.empty{text-align:center;color:var(--mid);padding:2.5rem 1rem;font-size:.95rem}
+.link{color:var(--aqua-ink);font-weight:700;cursor:pointer;text-decoration:underline}
+dialog{border:none;border-radius:16px;padding:0;max-width:560px;width:92%;box-shadow:0 30px 80px rgba(0,0,0,.3)}
+dialog .dlg{padding:1.4rem}
+dialog h3{font-family:var(--fx);font-weight:900;font-size:1.3rem;margin-bottom:.2rem}
+.kv{font-size:.9rem;margin:.3rem 0;color:var(--mid)}.kv b{color:var(--navy)}
+.settings-open{font-size:.8rem;color:var(--mid);cursor:pointer;text-decoration:underline;margin-left:auto}
+footer{max-width:1000px;margin:1.5rem auto 0;color:var(--mid);font-size:.76rem;text-align:center}
+.pill-ok{color:var(--green);font-weight:700}.pill-off{color:var(--mid)}
 </style>
 </head>
 <body>
 <div class="wrap">
   <span class="tag">Internal tool &middot; not public</span>
-  <h1>Pricing estimator</h1>
-  <p class="sub">Quick ballpark for a job. These are starting prices scaled by size and condition, the same logic behind the flat quote. Always confirm on site or from photos before you send a number.</p>
-
-  <div class="card">
-    <h2>1. Surfaces</h2>
-    <div class="surfaces" id="surfaces"></div>
-    <div class="commercial-note" id="commNote">Commercial storefront is custom. Add it to the notes and quote on site, it is not in the estimate below.</div>
-    <label class="check" style="margin-top:.9rem"><input type="checkbox" id="commercial"> Commercial storefront (custom, excluded from estimate)</label>
+  <h1>Estimator + leads</h1>
+  <div class="tabs">
+    <button data-tab="new" class="on">New estimate</button>
+    <button data-tab="leads">Leads <span id="leadCount"></span></button>
+    <span class="settings-open" id="openSettings">Sync settings</span>
   </div>
 
-  <div class="card">
-    <h2>2. Size of the job</h2>
-    <div class="field">
-      <label>Overall property / surface size</label>
-      <div class="seg" id="size"></div>
+  <!-- NEW ESTIMATE -->
+  <div class="panel on" id="panel-new">
+    <div class="card">
+      <h2>Customer</h2>
+      <div class="grid2">
+        <div class="f"><label>Name</label><input id="c_name" placeholder="First Last"></div>
+        <div class="f"><label>Phone</label><input id="c_phone" placeholder="(305) ..."></div>
+        <div class="f"><label>Email</label><input id="c_email" placeholder="name@email.com"></div>
+        <div class="f"><label>Address</label><input id="c_addr" placeholder="Street, city"></div>
+      </div>
+      <div class="grid3" style="margin-top:.8rem">
+        <div class="f"><label>Property type</label><select id="c_ptype"><option>Residential</option><option>Commercial</option><option>HOA / Property mgr</option></select></div>
+        <div class="f"><label>Lead source</label><select id="c_src"><option>Website quote form</option><option>Phone call</option><option>Referral</option><option>Google / GBP</option><option>Repeat customer</option><option>Walk-up / flyer</option><option>Other</option></select></div>
+        <div class="f"><label>Preferred date</label><input id="c_date" type="date"></div>
+      </div>
     </div>
-    <div class="field" style="margin-bottom:0">
-      <label>Growth / condition</label>
-      <div class="seg" id="cond"></div>
+
+    <div class="card">
+      <h2>1. Surfaces</h2>
+      <div class="surfaces" id="surfaces"></div>
+      <label class="check" style="margin-top:.8rem"><input type="checkbox" id="commercial"> Commercial storefront (custom, excluded from estimate)</label>
     </div>
+    <div class="card">
+      <h2>2. Size &amp; condition</h2>
+      <div class="f" style="margin-bottom:.9rem"><label>Overall size</label><div class="seg" id="size"></div></div>
+      <div class="f"><label>Growth / condition</label><div class="seg" id="cond"></div></div>
+    </div>
+    <div class="card">
+      <h2>3. Access</h2>
+      <label class="check"><input type="checkbox" id="twostory"> Two-story (adds to house &amp; roof)</label>
+      <label class="check" style="margin-top:.6rem"><input type="checkbox" id="tightaccess"> Tight access / heavy landscaping (+10%)</label>
+    </div>
+
+    <div class="card" style="padding:0;overflow:hidden">
+      <div class="result">
+        <div class="lbl">One-off estimate</div>
+        <div class="big" id="total">$0</div>
+        <div class="range" id="range">Pick at least one surface.</div>
+        <div class="plans" id="plans" hidden>
+          <div class="plan"><div class="pn">Bragging Rights &middot; 2x</div><div class="pv" id="p2">$0</div><div class="pa" id="p2a">per visit</div></div>
+          <div class="plan"><div class="pn">The Show-Off &middot; 4x</div><div class="pv" id="p4">$0</div><div class="pa" id="p4a">per visit</div></div>
+          <div class="plan"><div class="pn">Humble Brag &middot; 1x</div><div class="pv" id="p1">$0</div><div class="pa">quote based</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="f"><label>Job notes</label><textarea id="c_notes" placeholder="Surfaces detail, gate code, dog, parking, anything useful..."></textarea></div>
+
+    <div class="save-row">
+      <button class="btn btn-coral" id="saveBtn">Save lead</button>
+      <button class="btn btn-ghost" id="copyBtn">Copy estimate</button>
+      <button class="btn btn-ghost" id="clearBtn">Clear form</button>
+      <span class="msg" id="saveMsg"></span>
+    </div>
+    <p class="note">Estimate only. One-off shows a typical range. Plan per-visit assumes a property kept on schedule. Confirm on site or from photos before sending a number.</p>
   </div>
 
-  <div class="card">
-    <h2>3. Access</h2>
-    <label class="check"><input type="checkbox" id="twostory"> Two-story (adds to house &amp; roof)</label>
-    <label class="check" style="margin-top:.7rem"><input type="checkbox" id="tightaccess"> Tight access / heavy landscaping (adds 10%)</label>
-  </div>
-
-  <div class="result" id="result">
-    <div class="lbl">One-off estimate</div>
-    <div class="big" id="total">$0</div>
-    <div class="range" id="range">Pick at least one surface.</div>
-    <div class="plans" id="plans" hidden>
-      <div class="plan"><div class="pn">Bragging Rights &middot; 2x/yr</div><div class="pv" id="p2">$0</div><div class="pa" id="p2a">per visit</div></div>
-      <div class="plan"><div class="pn">The Show-Off &middot; 4x/yr</div><div class="pv" id="p4">$0</div><div class="pa" id="p4a">per visit</div></div>
-      <div class="plan"><div class="pn">Humble Brag &middot; 1x/yr</div><div class="pv" id="p1">$0</div><div class="pa">quote based</div></div>
+  <!-- LEADS -->
+  <div class="panel" id="panel-leads">
+    <div class="stats" id="stats"></div>
+    <div class="toolbar">
+      <input id="search" placeholder="Search name, phone, address..." style="flex:1;min-width:160px">
+      <select id="filterStatus"><option value="">All statuses</option><option>New</option><option>Quoted</option><option>Scheduled</option><option>Won</option><option>Lost</option></select>
+      <button class="btn btn-ghost btn-sm" id="exportBtn">Export CSV</button>
     </div>
-    <div class="actions">
-      <button class="btn btn-coral" id="copyBtn">Copy estimate</button>
-      <button class="btn btn-ghost" id="resetBtn">Reset</button>
+    <div class="tbl-wrap">
+      <table id="leadsTable">
+        <thead><tr><th>Date</th><th>Name</th><th>Contact</th><th>Job</th><th>Est.</th><th>Status</th><th></th></tr></thead>
+        <tbody id="leadsBody"></tbody>
+      </table>
     </div>
-    <p class="note">Estimate only. One-off shows a typical range around the midpoint. Plan per-visit prices assume a property kept on schedule, so each visit is a lighter maintenance clean. Final number is always set after seeing the property or photos.</p>
+    <div class="empty" id="leadsEmpty" hidden>No leads yet. Save one from the New estimate tab.</div>
   </div>
 </div>
-<footer>SoFlo UnderPressure internal estimator &middot; keep this link private &middot; not indexed, not linked from the site.</footer>
+<footer>SoFlo UnderPressure internal &middot; data saved in this browser (localStorage)<span id="syncFoot"></span> &middot; keep this link private</footer>
+
+<!-- lead detail dialog -->
+<dialog id="dlg"><div class="dlg" id="dlgBody"></div></dialog>
+<!-- settings dialog -->
+<dialog id="setDlg"><div class="dlg">
+  <h3>Sync settings</h3>
+  <p class="kv">Optional. Paste a Google Apps Script Web App URL and every saved lead is also appended to your Google Sheet (backup + any device). Leave blank to keep data only in this browser.</p>
+  <div class="f" style="margin:.8rem 0"><label>Google Apps Script URL</label><input id="sheetUrl" placeholder="https://script.google.com/macros/s/.../exec"></div>
+  <p class="kv" id="sheetStatus"></p>
+  <div class="actions"><button class="btn btn-navy btn-sm" id="saveSet">Save</button><button class="btn btn-ghost btn-sm" id="testSet">Send test row</button><button class="btn btn-ghost btn-sm" id="closeSet">Close</button></div>
+  <p class="note" style="margin-top:1rem">Setup: in Google Drive make a Sheet, Extensions &rarr; Apps Script, paste the script from the handoff doc, Deploy &rarr; Web app &rarr; Execute as you, Access anyone, copy the /exec URL here.</p>
+</div></dialog>
 
 <script>
+const LS='soflo_leads_v1', LS_URL='soflo_sheet_url';
 const SURFACES=[
-  {id:'driveway',nm:'Driveway',base:99,soft:false},
-  {id:'patio',nm:'Patio / pool deck',base:129,soft:false},
-  {id:'fence',nm:'Fence',base:99,soft:false},
-  {id:'house',nm:'House exterior (soft wash)',base:249,soft:true},
-  {id:'roof',nm:'Roof soft wash',base:299,soft:true},
+  {id:'driveway',nm:'Driveway',base:99},{id:'patio',nm:'Patio / pool deck',base:129},
+  {id:'fence',nm:'Fence',base:99},{id:'house',nm:'House exterior (soft wash)',base:249},
+  {id:'roof',nm:'Roof soft wash',base:299},
 ];
 const SIZES=[['Small',1.0],['Medium',1.5],['Large',2.1],['X-large',2.8]];
 const CONDS=[['Light',1.0],['Moderate',1.25],['Heavy',1.55]];
-let state={surf:new Set(),size:1,cond:1,twostory:false,tight:false,commercial:false};
+let st={surf:new Set(),size:1,cond:1,sizeNm:'Small',condNm:'Light',twostory:false,tight:false,commercial:false};
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
+const money=n=>'$'+Math.round(n).toLocaleString('en-US');
+const load=()=>{try{return JSON.parse(localStorage.getItem(LS))||[]}catch(e){return[]}};
+const save=a=>{try{localStorage.setItem(LS,JSON.stringify(a))}catch(e){alert('Could not save: '+e.message)}};
 
-const $=s=>document.querySelector(s);
-// build surfaces
+// tabs
+$$('.tabs button[data-tab]').forEach(b=>b.addEventListener('click',()=>{
+  $$('.tabs button[data-tab]').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  $$('.panel').forEach(p=>p.classList.remove('on'));$('#panel-'+b.dataset.tab).classList.add('on');
+  if(b.dataset.tab==='leads')renderLeads();
+}));
+
+// surfaces + segments
 const sw=$('#surfaces');
 SURFACES.forEach(s=>{
   const el=document.createElement('label');el.className='surf';el.dataset.id=s.id;
-  el.innerHTML=`<input type="checkbox"><span class="nm">${s.nm}</span><span class="pr">from $${s.base}</span>`;
-  el.querySelector('input').addEventListener('change',e=>{
-    e.target.checked?state.surf.add(s.id):state.surf.delete(s.id);
-    el.classList.toggle('on',e.target.checked);calc();
-  });
+  el.innerHTML=`<input type="checkbox"><span>${s.nm}</span><span class="pr">from $${s.base}</span>`;
+  el.querySelector('input').addEventListener('change',e=>{e.target.checked?st.surf.add(s.id):st.surf.delete(s.id);el.classList.toggle('on',e.target.checked);calc();});
   sw.appendChild(el);
 });
-// segmented controls
-function seg(container,items,onPick,defaultIdx){
-  const c=$(container);
-  items.forEach((it,i)=>{
-    const b=document.createElement('button');b.textContent=it[0];
-    if(i===defaultIdx)b.classList.add('on');
-    b.addEventListener('click',()=>{[...c.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');onPick(it[1]);calc();});
-    c.appendChild(b);
-  });
-}
-seg('#size',SIZES,v=>state.size=v,0);
-seg('#cond',CONDS,v=>state.cond=v,0);
-$('#twostory').addEventListener('change',e=>{state.twostory=e.target.checked;calc();});
-$('#tightaccess').addEventListener('change',e=>{state.tight=e.target.checked;calc();});
-$('#commercial').addEventListener('change',e=>{state.commercial=e.target.checked;$('#commNote').classList.toggle('show',e.target.checked);});
+function seg(sel,items,set,nmset,def){const c=$(sel);items.forEach((it,i)=>{const b=document.createElement('button');b.textContent=it[0];if(i===def)b.classList.add('on');b.onclick=()=>{[...c.children].forEach(x=>x.classList.remove('on'));b.classList.add('on');set(it[1]);nmset(it[0]);calc();};c.appendChild(b);});}
+seg('#size',SIZES,v=>st.size=v,n=>st.sizeNm=n,0);
+seg('#cond',CONDS,v=>st.cond=v,n=>st.condNm=n,0);
+$('#twostory').onchange=e=>{st.twostory=e.target.checked;calc();};
+$('#tightaccess').onchange=e=>{st.tight=e.target.checked;calc();};
+$('#commercial').onchange=e=>{st.commercial=e.target.checked;};
 
-const money=n=>'$'+Math.round(n).toLocaleString('en-US');
-function oneOff(){
-  let t=0;
-  SURFACES.forEach(s=>{
-    if(!state.surf.has(s.id))return;
-    let p=s.base*state.size*state.cond;
-    if(state.twostory&&(s.id==='house'||s.id==='roof'))p*=1.2;
-    t+=p;
-  });
-  if(state.tight)t*=1.10;
-  return t;
+function oneOff(){let t=0;SURFACES.forEach(s=>{if(!st.surf.has(s.id))return;let p=s.base*st.size*st.cond;if(st.twostory&&(s.id==='house'||s.id==='roof'))p*=1.2;t+=p;});if(st.tight)t*=1.10;return t;}
+function calc(){const t=oneOff();if(t<=0){$('#total').textContent='$0';$('#range').textContent='Pick at least one surface.';$('#plans').hidden=true;return t;}
+  $('#total').textContent=money(t);$('#range').textContent='Typical range '+money(t*0.9)+' to '+money(t*1.15);$('#plans').hidden=false;
+  $('#p2').textContent=money(t*0.85);$('#p2a').textContent=money(t*0.85*2)+'/yr';
+  $('#p4').textContent=money(t*0.75);$('#p4a').textContent=money(t*0.75*4)+'/yr';
+  $('#p1').textContent=money(t);return t;}
+
+function summaryText(){
+  const t=oneOff();const picked=SURFACES.filter(s=>st.surf.has(s.id)).map(s=>s.nm);
+  let x=`Surfaces: ${picked.join(', ')||'none'}${st.commercial?', Commercial (custom)':''}\nSize: ${st.sizeNm} · Condition: ${st.condNm}${st.twostory?' · 2-story':''}${st.tight?' · tight access':''}\nOne-off: ${money(t)} (${money(t*0.9)}-${money(t*1.15)})`;
+  if(t>0)x+=`\nPlan/visit: 2x ${money(t*0.85)} · 4x ${money(t*0.75)}`;
+  return x;
 }
-function calc(){
+$('#copyBtn').onclick=()=>{navigator.clipboard.writeText(summaryText()).then(()=>{const b=$('#copyBtn');b.textContent='Copied';setTimeout(()=>b.textContent='Copy estimate',1400);});};
+$('#clearBtn').onclick=()=>{if(confirm('Clear the form?'))location.reload();};
+
+$('#saveBtn').onclick=()=>{
+  const name=$('#c_name').value.trim();
+  if(!name && st.surf.size===0){$('#saveMsg').textContent='Add a name or pick surfaces first.';$('#saveMsg').style.color='var(--red)';return;}
   const t=oneOff();
-  if(t<=0||state.surf.size===0){
-    $('#total').textContent='$0';
-    $('#range').textContent='Pick at least one surface.';
-    $('#plans').hidden=true;return;
-  }
-  $('#total').textContent=money(t);
-  $('#range').textContent='Typical range '+money(t*0.9)+' to '+money(t*1.15);
-  $('#plans').hidden=false;
-  $('#p2').textContent=money(t*0.85);$('#p2a').textContent='per visit · '+money(t*0.85*2)+'/yr';
-  $('#p4').textContent=money(t*0.75);$('#p4a').textContent='per visit · '+money(t*0.75*4)+'/yr';
-  $('#p1').textContent=money(t);
+  const lead={
+    id:Date.now(), created:new Date().toISOString(),
+    name, phone:$('#c_phone').value.trim(), email:$('#c_email').value.trim(), address:$('#c_addr').value.trim(),
+    ptype:$('#c_ptype').value, source:$('#c_src').value, prefDate:$('#c_date').value,
+    surfaces:SURFACES.filter(s=>st.surf.has(s.id)).map(s=>s.nm).join(', ')+(st.commercial?' + Commercial':''),
+    size:st.sizeNm, condition:st.condNm, twostory:st.twostory, tight:st.tight,
+    estimate:Math.round(t), estLow:Math.round(t*0.9), estHigh:Math.round(t*1.15),
+    plan2:Math.round(t*0.85), plan4:Math.round(t*0.75),
+    status:'New', notes:$('#c_notes').value.trim()
+  };
+  const all=load();all.unshift(lead);save(all);
+  pushToSheet(lead);
+  $('#saveMsg').style.color='var(--green)';$('#saveMsg').textContent='Saved. '+all.length+' lead'+(all.length>1?'s':'')+' stored.';
+  $('#leadCount').textContent='('+all.length+')';
+};
+
+// Google Sheets sync (optional)
+function sheetUrl(){return localStorage.getItem(LS_URL)||'';}
+function pushToSheet(lead){
+  const u=sheetUrl();if(!u)return;
+  fetch(u,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(lead)}).catch(()=>{});
 }
-$('#copyBtn').addEventListener('click',()=>{
-  const t=oneOff();
-  const picked=SURFACES.filter(s=>state.surf.has(s.id)).map(s=>s.nm);
-  const sizeNm=SIZES.find(x=>x[1]===state.size)[0], condNm=CONDS.find(x=>x[1]===state.cond)[0];
-  let txt=`SoFlo estimate\nSurfaces: ${picked.join(', ')||'none'}`;
-  if(state.commercial)txt+=', Commercial storefront (custom)';
-  txt+=`\nSize: ${sizeNm} · Condition: ${condNm}`;
-  if(state.twostory)txt+=' · 2-story';
-  if(state.tight)txt+=' · tight access';
-  txt+=`\nOne-off: ${money(t)} (range ${money(t*0.9)}-${money(t*1.15)})`;
-  if(t>0)txt+=`\nPlan per visit: 2x/yr ${money(t*0.85)} · 4x/yr ${money(t*0.75)}`;
-  txt+=`\n(Estimate only, confirm on site.)`;
-  navigator.clipboard.writeText(txt).then(()=>{const b=$('#copyBtn');b.textContent='Copied';setTimeout(()=>b.textContent='Copy estimate',1500);});
-});
-$('#resetBtn').addEventListener('click',()=>location.reload());
-calc();
+$('#openSettings').onclick=()=>{$('#sheetUrl').value=sheetUrl();$('#sheetStatus').innerHTML=sheetUrl()?'<span class="pill-ok">Sync on</span>':'<span class="pill-off">Not set (browser-only)</span>';$('#setDlg').showModal();};
+$('#saveSet').onclick=()=>{localStorage.setItem(LS_URL,$('#sheetUrl').value.trim());$('#setDlg').close();updateSyncFoot();};
+$('#closeSet').onclick=()=>$('#setDlg').close();
+$('#testSet').onclick=()=>{const u=$('#sheetUrl').value.trim();if(!u){alert('Paste a URL first');return;}fetch(u,{method:'POST',mode:'no-cors',body:JSON.stringify({id:Date.now(),name:'TEST ROW',status:'New',created:new Date().toISOString()})}).then(()=>alert('Sent. Check your Sheet for a TEST ROW.')).catch(e=>alert('Error: '+e.message));};
+function updateSyncFoot(){$('#syncFoot').innerHTML=sheetUrl()?' &middot; <span class="pill-ok">Sheet sync on</span>':'';}
+
+// leads table
+function statusBadge(s){const m={New:'b-new',Quoted:'b-quoted',Scheduled:'b-scheduled',Won:'b-won',Lost:'b-lost'};return `<span class="badge ${m[s]||'b-new'}">${s}</span>`;}
+function renderStats(){
+  const a=load();const by=s=>a.filter(l=>l.status===s).length;
+  const pipe=a.filter(l=>['New','Quoted','Scheduled'].includes(l.status)).reduce((x,l)=>x+(l.estimate||0),0);
+  const won=a.filter(l=>l.status==='Won').reduce((x,l)=>x+(l.estimate||0),0);
+  $('#stats').innerHTML=[
+    ['Total',a.length],['New',by('New')],['Scheduled',by('Scheduled')],
+    ['Pipeline',money(pipe)],['Won',money(won)]
+  ].map(([l,n])=>`<div class="stat"><div class="n">${n}</div><div class="l">${l}</div></div>`).join('');
+}
+function renderLeads(){
+  renderStats();
+  const a=load();const q=($('#search').value||'').toLowerCase();const fs=$('#filterStatus').value;
+  const rows=a.filter(l=>(!fs||l.status===fs)&&(!q||[l.name,l.phone,l.address,l.email].join(' ').toLowerCase().includes(q)));
+  $('#leadCount').textContent=a.length?'('+a.length+')':'';
+  $('#leadsEmpty').hidden=rows.length>0;
+  $('#leadsBody').innerHTML=rows.map(l=>`<tr>
+    <td>${new Date(l.created).toLocaleDateString()}</td>
+    <td><span class="link" data-id="${l.id}">${esc(l.name)||'(no name)'}</span><br><small style="color:var(--mid)">${esc(l.ptype||'')}</small></td>
+    <td>${esc(l.phone||'')}<br><small style="color:var(--mid)">${esc(l.address||'')}</small></td>
+    <td style="max-width:170px">${esc(l.surfaces||'')}</td>
+    <td><b>${money(l.estimate||0)}</b></td>
+    <td>${statusBadge(l.status)}</td>
+    <td><span class="link" data-id="${l.id}">Open</span></td></tr>`).join('');
+  $$('#leadsBody .link').forEach(x=>x.onclick=()=>openLead(+x.dataset.id));
+}
+function openLead(id){
+  const a=load();const l=a.find(x=>x.id===id);if(!l)return;
+  $('#dlgBody').innerHTML=`<h3>${esc(l.name)||'(no name)'}</h3>
+    <div class="kv"><b>Status</b> ${statusBadge(l.status)}</div>
+    <div class="kv"><b>Phone</b> ${esc(l.phone||'-')} &middot; <b>Email</b> ${esc(l.email||'-')}</div>
+    <div class="kv"><b>Address</b> ${esc(l.address||'-')}</div>
+    <div class="kv"><b>Type</b> ${esc(l.ptype)} &middot; <b>Source</b> ${esc(l.source||'-')} &middot; <b>Preferred</b> ${esc(l.prefDate||'-')}</div>
+    <div class="kv"><b>Job</b> ${esc(l.surfaces||'-')} &middot; ${esc(l.size)}/${esc(l.condition)}${l.twostory?' · 2-story':''}${l.tight?' · tight':''}</div>
+    <div class="kv"><b>Estimate</b> ${money(l.estimate)} (${money(l.estLow)}-${money(l.estHigh)}) &middot; plan 2x ${money(l.plan2)} · 4x ${money(l.plan4)}</div>
+    <div class="f" style="margin:.7rem 0"><label>Notes</label><textarea id="editNotes">${esc(l.notes||'')}</textarea></div>
+    <div class="f" style="margin-bottom:.8rem"><label>Status</label><select id="editStatus">${['New','Quoted','Scheduled','Won','Lost'].map(s=>`<option ${s===l.status?'selected':''}>${s}</option>`).join('')}</select></div>
+    <div class="actions"><button class="btn btn-navy btn-sm" id="saveLead">Save changes</button><button class="btn btn-ghost btn-sm" id="closeLead">Close</button><button class="btn btn-ghost btn-sm" id="delLead" style="color:var(--red);margin-left:auto">Delete</button></div>`;
+  $('#dlg').showModal();
+  $('#saveLead').onclick=()=>{l.notes=$('#editNotes').value;l.status=$('#editStatus').value;save(a);pushToSheet(l);$('#dlg').close();renderLeads();};
+  $('#closeLead').onclick=()=>$('#dlg').close();
+  $('#delLead').onclick=()=>{if(confirm('Delete this lead?')){save(a.filter(x=>x.id!==id));$('#dlg').close();renderLeads();}};
+}
+$('#search').oninput=renderLeads;$('#filterStatus').onchange=renderLeads;
+$('#exportBtn').onclick=()=>{
+  const a=load();if(!a.length){alert('No leads to export.');return;}
+  const cols=['created','name','phone','email','address','ptype','source','prefDate','surfaces','size','condition','twostory','tight','estimate','estLow','estHigh','plan2','plan4','status','notes'];
+  const csv=[cols.join(',')].concat(a.map(l=>cols.map(c=>`"${String(l[c]==null?'':l[c]).replace(/"/g,'""')}"`).join(','))).join('\n');
+  const blob=new Blob([csv],{type:'text/csv'});const u=URL.createObjectURL(blob);const link=document.createElement('a');link.href=u;link.download='soflo-leads-'+new Date().toISOString().slice(0,10)+'.csv';link.click();URL.revokeObjectURL(u);
+};
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+// init
+$('#leadCount').textContent=load().length?'('+load().length+')':'';
+updateSyncFoot();calc();
 </script>
 </body>
 </html>
