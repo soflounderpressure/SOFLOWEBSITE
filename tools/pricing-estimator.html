@@ -75,6 +75,17 @@ label{font-weight:600}
 .f input,.f select{min-height:46px}
 .save-row{position:sticky;bottom:0;background:var(--sand);padding:.9rem 0;margin-top:.5rem;border-top:1px solid var(--line);display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
 .msg{font-weight:700;color:var(--green);font-size:.9rem}
+/* door-knock wizard */
+#wizDlg{max-width:520px;width:94%}
+.wiz-q{font-family:var(--fx);font-weight:900;font-size:1.4rem;line-height:1.1;margin-bottom:.9rem;color:var(--navy)}
+.wiz-opts{display:grid;gap:.6rem}
+.wiz-opt{display:flex;align-items:center;gap:.7rem;min-height:58px;border:2px solid var(--line);border-radius:12px;padding:.9rem 1.1rem;font-family:var(--fx);font-weight:700;font-size:1.08rem;background:#fff;cursor:pointer;text-align:left;color:var(--navy);width:100%}
+.wiz-opt:active{transform:scale(.99)}
+.wiz-opt.on{border-color:var(--aqua-ink);background:var(--aqua-lt)}
+.wiz-opt .pr{margin-left:auto;color:var(--aqua-ink);font-weight:800;font-size:.95rem}
+.wiz-prog{font-family:var(--fx);font-weight:800;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid)}
+.wiz-price{font-family:var(--fx);font-weight:900;font-size:2.6rem;color:var(--navy);text-align:center;margin:.3rem 0;line-height:1}
+#wizNext{min-height:52px;padding-inline:1.6rem}
 /* pipeline */
 .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:.6rem;margin-bottom:1rem}
 @media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}}
@@ -108,7 +119,8 @@ footer{max-width:1000px;margin:1.5rem auto 0;color:var(--mid);font-size:.76rem;t
   <div class="tabs">
     <button data-tab="new" class="on">New estimate</button>
     <button data-tab="leads">Leads <span id="leadCount"></span></button>
-    <span class="settings-open" id="openSettings">Sync settings</span>
+    <button id="wizBtn" style="background:var(--coral);color:#fff;border-color:var(--coral)">Door-knock mode</button>
+    <span class="settings-open" id="openSettings">Settings</span>
   </div>
 
   <!-- NEW ESTIMATE -->
@@ -234,20 +246,32 @@ footer{max-width:1000px;margin:1.5rem auto 0;color:var(--mid);font-size:.76rem;t
 <!-- customer view dialog -->
 <dialog id="custDlg"><div class="dlg" id="custBody"></div></dialog>
 
+<!-- door-knock wizard -->
+<dialog id="wizDlg"><div class="dlg">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.9rem">
+    <div class="wiz-prog" id="wizProg"></div>
+    <button class="btn btn-ghost btn-sm" id="wizClose">Close</button>
+  </div>
+  <div id="wizBody"></div>
+  <div class="actions" style="margin-top:1.1rem"><button class="btn btn-ghost btn-sm" id="wizBack">Back</button><button class="btn btn-coral" id="wizNext" style="margin-left:auto">Next</button></div>
+</div></dialog>
+
 <script>
 const LS='soflo_leads_v1', LS_URL='soflo_sheet_url';
+const MIN_JOB=175; // floor: covers trip, SH pretreat, fuel, wear
 const SURFACES=[
-  {id:'driveway',nm:'Driveway',base:99},{id:'patio',nm:'Patio / pool deck',base:129},
-  {id:'fence',nm:'Fence',base:99},{id:'house',nm:'House exterior (soft wash)',base:249},
-  {id:'roof',nm:'Roof soft wash',base:299},{id:'screen',nm:'Screen enclosure / pool cage',base:99},
+  {id:'driveway',nm:'Driveway',base:149},{id:'walkway',nm:'Walkway / sidewalk',base:99},
+  {id:'patio',nm:'Patio / pool deck',base:179},{id:'fence',nm:'Fence',base:149},
+  {id:'house',nm:'House exterior (soft wash)',base:299},{id:'roof',nm:'Roof soft wash',base:399},
+  {id:'screen',nm:'Screen enclosure / pool cage',base:149},
 ];
 const SIZES=[['Small',1.0],['Medium',1.5],['Large',2.1],['X-large',2.8]];
 const CONDS=[['Light',1.0],['Moderate',1.25],['Heavy',1.55]];
 const ROOFTYPES=['Tile (barrel/flat)','Shingle','Metal','Flat / low-slope'];
 const ADDONS=[
-  {id:'oil',nm:'Oil stain pretreat',amt:40},
-  {id:'rust',nm:'Rust / fertilizer stain',amt:50},
-  {id:'gutter',nm:'Gutter face brightening',amt:75},
+  {id:'oil',nm:'Oil stain pretreat',amt:50},
+  {id:'rust',nm:'Rust / fertilizer stain',amt:65},
+  {id:'gutter',nm:'Gutter face brightening',amt:95},
   {id:'seal',nm:'Surface sealing (separate quote)',amt:0,flag:true},
 ];
 let st={surf:new Set(),size:1,cond:1,sizeNm:'Small',condNm:'Light',twostory:false,tight:false,
@@ -305,6 +329,7 @@ function oneOff(){
   if(st.tight)t*=1.10;
   ADDONS.forEach(a=>{if(st.addons.has(a.id)&&!a.flag)t+=a.amt;});
   if(!st.water)t+=50; // no spigot = bring a tank
+  if(t>0&&t<MIN_JOB)t=MIN_JOB; // minimum job
   return t;
 }
 function calc(){const t=oneOff();if(t<=0){$('#total').textContent='$0';$('#range').textContent='Pick at least one surface.';$('#plans').hidden=true;return t;}
@@ -330,13 +355,11 @@ function summaryText(){
 $('#copyBtn').onclick=()=>{navigator.clipboard.writeText(summaryText()).then(()=>{const b=$('#copyBtn');b.textContent='Copied';setTimeout(()=>b.textContent='Copy estimate',1400);});};
 $('#clearBtn').onclick=()=>{if(confirm('Clear the form?'))location.reload();};
 
-$('#saveBtn').onclick=()=>{
-  const name=$('#c_name').value.trim();
-  if(!name && st.surf.size===0){$('#saveMsg').textContent='Add a name or pick surfaces first.';$('#saveMsg').style.color='var(--red)';return;}
+function buildLead(){
   const t=oneOff();
-  const lead={
+  return {
     id:Date.now(), created:new Date().toISOString(),
-    name, phone:$('#c_phone').value.trim(), email:$('#c_email').value.trim(), address:$('#c_addr').value.trim(),
+    name:$('#c_name').value.trim(), phone:$('#c_phone').value.trim(), email:$('#c_email').value.trim(), address:$('#c_addr').value.trim(),
     ptype:$('#c_ptype').value, source:$('#c_src').value, prefDate:$('#c_date').value,
     surfaces:SURFACES.filter(s=>st.surf.has(s.id)).map(s=>s.nm).join(', ')+(st.commercial?' + Commercial':''),
     roofType:st.surf.has('roof')?st.roofType:'', water:st.water,
@@ -346,10 +369,12 @@ $('#saveBtn').onclick=()=>{
     plan2:Math.round(t*0.85), plan4:Math.round(t*0.75),
     status:'New', notes:$('#c_notes').value.trim()
   };
-  const all=load();all.unshift(lead);save(all);
-  pushToSheet(lead);
-  $('#saveMsg').style.color='var(--green)';$('#saveMsg').textContent='Saved. '+all.length+' lead'+(all.length>1?'s':'')+' stored.';
-  $('#leadCount').textContent='('+all.length+')';
+}
+function commitLead(lead){const all=load();all.unshift(lead);save(all);pushToSheet(lead);$('#leadCount').textContent='('+all.length+')';return all.length;}
+$('#saveBtn').onclick=()=>{
+  if(!$('#c_name').value.trim() && st.surf.size===0){$('#saveMsg').textContent='Add a name or pick surfaces first.';$('#saveMsg').style.color='var(--red)';return;}
+  const n=commitLead(buildLead());
+  $('#saveMsg').style.color='var(--green)';$('#saveMsg').textContent='Saved. '+n+' lead'+(n>1?'s':'')+' stored.';
 };
 
 // Google Sheets sync (optional)
@@ -497,6 +522,64 @@ async function renderPhotos(leadId){
   g.querySelectorAll('img').forEach(im=>im.onclick=async()=>{if(confirm('Delete this photo?')){await rmPhoto(+im.dataset.pid);renderPhotos(leadId);}});
 }
 function fileToThumb(file){return new Promise((res,rej)=>{const img=new Image();const u=URL.createObjectURL(file);img.onload=()=>{const m=1200;let w=img.width,h=img.height;if(w>m||h>m){const r=Math.min(m/w,m/h);w=Math.round(w*r);h=Math.round(h*r);}const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);URL.revokeObjectURL(u);res(c.toDataURL('image/jpeg',0.72));};img.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('bad image'));};img.src=u;});}
+
+/* ===== door-knock wizard ===== */
+const WIZ=['surfaces','roof','size','cond','extras','finish'];
+let wizI=0;
+function wizSteps(){return WIZ.filter(s=>s!=='roof'||st.surf.has('roof'));}
+function wizOpen(){
+  st={surf:new Set(),size:1,cond:1,sizeNm:'Small',condNm:'Light',twostory:false,tight:false,commercial:false,roofType:'Tile (barrel/flat)',water:true,addons:new Set()};
+  ['c_name','c_phone','c_email','c_addr','c_notes'].forEach(id=>{const el=$('#'+id);if(el)el.value='';});
+  wizI=0;wizRender();$('#wizDlg').showModal();
+}
+function wizRender(){
+  const steps=wizSteps(),key=steps[wizI],b=$('#wizBody');
+  $('#wizProg').textContent='Step '+(wizI+1)+' of '+steps.length;
+  $('#wizBack').style.visibility=wizI===0?'hidden':'visible';
+  $('#wizNext').textContent=(key==='finish')?'Save lead':'Next';
+  const optBtn=(label,on,pr)=>{const el=document.createElement('button');el.className='wiz-opt'+(on?' on':'');el.innerHTML=esc(label)+(pr?'<span class="pr">'+pr+'</span>':'');return el;};
+  if(key==='surfaces'){
+    b.innerHTML='<div class="wiz-q">What are we cleaning?</div><div class="wiz-opts" id="wizSurf"></div>';
+    SURFACES.forEach(s=>{const el=optBtn(s.nm,st.surf.has(s.id),'$'+s.base+'+');el.onclick=()=>{st.surf.has(s.id)?st.surf.delete(s.id):st.surf.add(s.id);el.classList.toggle('on');};$('#wizSurf').appendChild(el);});
+  } else if(key==='roof'){
+    b.innerHTML='<div class="wiz-q">Roof type?</div><div class="wiz-opts" id="wizRoof"></div>';
+    ROOFTYPES.forEach(rt=>{const el=optBtn(rt,st.roofType===rt);el.onclick=()=>{st.roofType=rt;wizGo(1);};$('#wizRoof').appendChild(el);});
+  } else if(key==='size'){
+    b.innerHTML='<div class="wiz-q">How big?</div><div class="wiz-opts" id="wizSize"></div><p class="note" style="margin-top:.6rem">Rough bucket. Small = 1-car / small yard. XL = big estate or long run.</p>';
+    SIZES.forEach(it=>{const el=optBtn(it[0],st.sizeNm===it[0]);el.onclick=()=>{st.size=it[1];st.sizeNm=it[0];wizGo(1);};$('#wizSize').appendChild(el);});
+  } else if(key==='cond'){
+    b.innerHTML='<div class="wiz-q">How dirty?</div><div class="wiz-opts" id="wizCond"></div>';
+    CONDS.forEach(it=>{const el=optBtn(it[0],st.condNm===it[0]);el.onclick=()=>{st.cond=it[1];st.condNm=it[0];wizGo(1);};$('#wizCond').appendChild(el);});
+  } else if(key==='extras'){
+    b.innerHTML='<div class="wiz-q">Anything else?</div><div class="wiz-opts" id="wizEx"></div><div class="wiz-q" style="font-size:1.05rem;margin:1.1rem 0 .5rem">Add-ons</div><div class="wiz-opts" id="wizAdd"></div>';
+    const ex=$('#wizEx');
+    [['twostory','Two-story',st.twostory],['nowater','No water on site (tank)',!st.water],['tight','Tight access / landscaping',st.tight]].forEach(([k,lbl,on])=>{
+      const el=optBtn(lbl,on);el.onclick=()=>{el.classList.toggle('on');const v=el.classList.contains('on');if(k==='twostory')st.twostory=v;if(k==='tight')st.tight=v;if(k==='nowater')st.water=!v;};ex.appendChild(el);
+    });
+    ADDONS.forEach(a=>{const el=optBtn(a.nm,st.addons.has(a.id),a.flag?'+quote':'+$'+a.amt);el.onclick=()=>{st.addons.has(a.id)?st.addons.delete(a.id):st.addons.add(a.id);el.classList.toggle('on');};$('#wizAdd').appendChild(el);});
+  } else if(key==='finish'){
+    const t=oneOff();
+    b.innerHTML=`<div class="wiz-q">Who's it for?</div>
+      <div class="f" style="margin-bottom:.6rem"><label>Name</label><input id="wizName" value="${esc($('#c_name').value)}"></div>
+      <div class="f" style="margin-bottom:1rem"><label>Phone</label><input id="wizPhone" type="tel" inputmode="tel" value="${esc($('#c_phone').value)}"></div>
+      <div style="background:var(--aqua-lt);border-radius:12px;padding:1.1rem;text-align:center">
+        <div style="font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;font-weight:800;color:var(--aqua-ink)">Estimate</div>
+        <div class="wiz-price">${money(t)}</div>
+        <div class="note" style="margin:0">Range ${money(t*0.9)} to ${money(t*1.15)}</div>
+      </div>`;
+  }
+}
+function syncWizNames(){const n=$('#wizName'),p=$('#wizPhone');if(n)$('#c_name').value=n.value;if(p)$('#c_phone').value=p.value;}
+function wizGo(d){const steps=wizSteps();syncWizNames();const ni=wizI+d;if(ni<0)return;if(ni>=steps.length){wizFinish();return;}wizI=ni;wizRender();}
+function wizFinish(){
+  syncWizNames();
+  if(!$('#c_name').value.trim() && st.surf.size===0){alert('Pick at least one surface first.');return;}
+  const lead=buildLead();commitLead(lead);$('#wizDlg').close();openCustomer(lead);
+}
+$('#wizBtn').onclick=wizOpen;
+$('#wizClose').onclick=()=>$('#wizDlg').close();
+$('#wizBack').onclick=()=>wizGo(-1);
+$('#wizNext').onclick=()=>{const steps=wizSteps();(steps[wizI]==='finish')?wizFinish():wizGo(1);};
 
 // init
 $('#leadCount').textContent=load().length?'('+load().length+')':'';
