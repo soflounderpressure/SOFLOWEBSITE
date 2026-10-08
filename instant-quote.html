@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<title>Instant Pressure Washing Quote | SoFlo UnderPressure</title>
+<meta name="description" content="Get an instant ballpark price for pressure washing or soft washing in Miami-Dade and Broward. Pick your surfaces and see an estimate in seconds, then we confirm a flat price.">
+<meta name="keywords" content="instant pressure washing quote Miami, pressure washing cost calculator, soft washing estimate Miami-Dade, get a quote pressure washing">
+<meta name="geo.region" content="US-FL">
+<link rel="canonical" href="https://sofloup.com/instant-quote.html">
+<meta property="og:title" content="Instant Pressure Washing Quote | SoFlo UnderPressure">
+<meta property="og:description" content="Pick your surfaces, see a ballpark price in seconds. Miami-Dade & Broward.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sofloup.com/instant-quote.html">
+<meta property="og:image" content="https://sofloup.com/Pictures/og-default.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://sofloup.com/Pictures/og-default.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,900;1,900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700;800;900&family=Barlow:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quoti.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"Home","item":"https://sofloup.com/"},
+{"@type":"ListItem","position":2,"name":"Instant Quote"}]}
+</script>
+<style>
+.iq{max-width:1000px;margin:0 auto;padding-inline:clamp(1.25rem,4vw,3rem)}
+.iq-grid{display:grid;grid-template-columns:1fr 360px;gap:1.4rem;align-items:start;margin-top:1.5rem}
+@media(max-width:860px){.iq-grid{grid-template-columns:1fr}}
+.iq-card{background:#fff;border-radius:var(--r-lg);box-shadow:var(--sh);padding:1.6rem}
+.iq-card h2{font-family:var(--fd);font-weight:800;text-transform:uppercase;font-size:1.1rem;letter-spacing:.02em;color:var(--navy);margin-bottom:1rem}
+.iq-surf{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+@media(max-width:560px){.iq-surf{grid-template-columns:1fr}}
+.opt{display:flex;align-items:center;gap:.7rem;min-height:52px;border:2px solid var(--line,rgba(24,43,63,.14));border-radius:var(--r);padding:.8rem 1rem;cursor:pointer;font-family:var(--fd);font-weight:700;color:var(--navy)}
+.opt.on{border-color:var(--aqua-ink);background:var(--aqua-lt)}
+.opt input{width:20px;height:20px;accent-color:var(--aqua-ink);flex:none}
+.opt .pr{margin-left:auto;color:var(--aqua-ink);font-weight:800;font-size:.9rem}
+.seg{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.4rem}
+.seg button{font-family:var(--fd);font-weight:700;font-size:.9rem;border:2px solid var(--line,rgba(24,43,63,.14));background:#fff;color:var(--navy);padding:.65rem 1.1rem;border-radius:var(--r);cursor:pointer;min-height:46px}
+.seg button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.iq-field{margin-bottom:1rem}
+.iq-field label{display:block;font-family:var(--fd);font-weight:800;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.4rem}
+.iq-field input{width:100%;font-size:16px;border:1.5px solid var(--line,rgba(24,43,63,.14));border-radius:var(--r);padding:.75rem .9rem;background:#fff;min-height:48px;font-family:var(--fb)}
+.iq-check{display:flex;align-items:center;gap:.6rem;font-size:.95rem;margin-bottom:.6rem}
+.iq-check input{width:20px;height:20px;accent-color:var(--aqua-ink)}
+.iq-result{background:var(--navy);color:#fff;border-radius:var(--r-lg);padding:1.6rem;position:sticky;top:6.5rem}
+.iq-result .lbl{font-family:var(--fd);font-weight:800;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--aqua)}
+.iq-result .big{font-family:var(--fd);font-weight:900;font-size:clamp(2.2rem,6vw,3rem);line-height:1.02;margin:.25rem 0}
+.iq-result .sm{color:rgba(255,255,255,.72);font-size:.9rem}
+.iq-disc{background:var(--sand-2,#EADFC4);border-radius:var(--r);padding:1rem 1.1rem;font-size:.86rem;color:var(--mid);line-height:1.5;margin-top:1rem}
+.iq-disc b{color:var(--navy)}
+.iq-sent{display:none;background:var(--aqua-lt);border-radius:var(--r-lg);padding:1.6rem;text-align:center}
+.iq-sent.show{display:block}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="navbar">
+  <nav class="nav">
+    <a class="logo" href="index.html"><b>SoFlo</b><span>UnderPressure</span></a>
+    <ul class="nav-links"><li><a href="services.html">Services</a></li><li><a href="services/soft-washing.html">Soft Washing</a></li><li><a href="service-areas.html">Areas</a></li><li><a href="blog.html">Blog</a></li><li><a href="membership.html">Plans</a></li><li><a href="about.html">About</a></li></ul>
+    <div class="nav-cta">
+      <a class="nav-call" href="tel:3058946336">(305) 894-6336</a>
+      <a class="btn btn-yellow" href="quote.html">Get a quote</a>
+    </div>
+    <a class="burger" href="quote.html">Menu</a>
+  </nav>
+</div>
+
+<header class="page-hero" id="main" style="max-width:1000px;margin:0 auto;padding-inline:clamp(1.25rem,4vw,3rem)">
+  <div class="section-eyebrow" style="font-family:var(--fd);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.8rem;color:var(--peri-dk)">Instant estimate</div>
+  <h1 class="page-title" style="font-family:var(--fd);font-weight:900;text-transform:uppercase;font-size:clamp(2.4rem,7vw,4.4rem);line-height:.95;color:var(--navy);margin:.4rem 0 .6rem">See your price<br><em style="font-style:normal;color:var(--coral)">in seconds.</em></h1>
+  <p style="color:var(--mid);max-width:52ch;font-size:1.05rem">Pick what needs cleaning and get a real ballpark right now. No waiting, no pushy sales. We confirm a flat price after a quick look.</p>
+</header>
+
+<main class="iq" style="padding-bottom:4rem">
+  <div class="iq-grid">
+    <div>
+      <div class="iq-card" style="margin-bottom:1.1rem">
+        <h2>1. What needs cleaning?</h2>
+        <div class="iq-surf" id="surf"></div>
+      </div>
+      <div class="iq-card" style="margin-bottom:1.1rem">
+        <h2>2. How big is the property?</h2>
+        <div class="seg" id="size"></div>
+        <p style="font-size:.84rem;color:var(--mid);margin-top:.6rem">Small = 1-car drive / small yard. X-large = big estate or long run. A rough pick is fine.</p>
+      </div>
+      <div class="iq-card" style="margin-bottom:1.1rem">
+        <h2>3. How dirty is it?</h2>
+        <div class="seg" id="cond"></div>
+        <div style="margin-top:1rem">
+          <label class="iq-check"><input type="checkbox" id="twostory"> Two-story home</label>
+          <label class="iq-check" id="tileWrap" style="display:none"><input type="checkbox" id="tile"> Barrel / clay tile roof</label>
+          <label class="iq-check"><input type="checkbox" id="stains"> Heavy oil or rust stains</label>
+        </div>
+      </div>
+      <div class="iq-card" id="contactCard">
+        <h2>4. Where do we send it?</h2>
+        <div class="iq-field"><label>Name</label><input id="c_name" autocomplete="name"></div>
+        <div class="iq-field"><label>Phone</label><input id="c_phone" type="tel" inputmode="tel" autocomplete="tel"></div>
+        <div class="iq-field"><label>Email</label><input id="c_email" type="email" autocomplete="email"></div>
+        <div class="iq-field"><label>Property address</label><input id="c_addr" autocomplete="street-address"></div>
+        <input class="hp" id="company" tabindex="-1" autocomplete="off" placeholder="Company">
+        <button class="btn btn-primary" id="sendBtn" style="width:100%;justify-content:center">Send me this estimate →</button>
+        <p id="formMsg" style="font-size:.86rem;margin-top:.7rem;font-weight:700"></p>
+      </div>
+      <div class="iq-sent" id="sent">
+        <div style="font-family:var(--fd);font-weight:900;font-size:1.6rem;color:var(--navy)">Got it. We'll be in touch.</div>
+        <p style="color:var(--mid);margin-top:.5rem">We'll confirm your flat price today, usually within a few hours. Or call us now at <a href="tel:3058946336" style="color:var(--peri-dk);font-weight:700">(305) 894-6336</a>.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="iq-result">
+        <div class="lbl">Your estimate</div>
+        <div class="big" id="range">Pick a surface</div>
+        <div class="sm" id="sub">Select what needs cleaning to see your price.</div>
+      </div>
+      <div class="iq-disc">
+        <b>Heads up:</b> this is an instant ballpark from what you picked. Your <b>final flat price is confirmed after we see the property or a couple of photos</b>. Tough access, heavy buildup, extra surfaces, or an easier job than expected can move the number up or down. No surprises on the invoice, we agree the price before any work starts.
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="ft-flush"><div class="wrap">
+  <div class="fgrid">
+    <div class="fbrand">
+      <img src="Pictures/mascot-wave.png" alt="SoFlo UnderPressure mascot" loading="lazy" decoding="async" width="520" height="474">
+      <div class="logo"><b style="color:#fff">SoFlo</b> <span style="color:#A0AEEF">UnderPressure</span></div>
+      <p>Pressure washing &amp; soft washing in Miami-Dade and Broward. Licensed, insured, owner-operated.</p>
+    </div>
+    <div class="fcol"><h5>Services</h5>
+      <a href="services/driveway-pressure-washing.html">Driveways</a>
+      <a href="services/roof-soft-washing.html">Roof Soft Wash</a>
+      <a href="services/house-soft-washing.html">House Exterior</a>
+      <a href="services/patio-pool-deck-cleaning.html">Patios &amp; Decks</a>
+      <a href="services/fence-cleaning.html">Fences</a>
+      <a href="services/commercial-storefront-cleaning.html">Storefronts</a></div>
+    <div class="fcol"><h5>Company</h5>
+      <a href="about.html">About</a><a href="membership.html">Plans</a>
+      <a href="service-areas.html">Service Areas</a><a href="blog.html">Blog</a><a href="resources.html">Guides</a>
+      <a href="faq.html">FAQ</a><a href="contact.html">Contact</a></div>
+    <div class="fcol"><h5>Get In Touch</h5>
+      <a href="tel:3058946336">(305) 894-6336</a>
+      <a href="mailto:SoFlo.Underpressure@gmail.com">Email us</a>
+      <p style="color:rgba(255,255,255,.55);font-size:.9rem;margin-top:.6rem">Sun - Thu 8am - 8pm<br>Fri 8am - 3pm</p></div>
+  </div>
+  <div class="fbot"><span>© 2026 SoFlo UnderPressure · Licensed &amp; Insured</span><span>Miami-Dade &amp; Broward County</span></div>
+</div></footer>
+
+<script>
+var EXEC='https://script.google.com/macros/s/AKfycbz3ZdK_OlRdHWjsGmSIh-L5EW-JemAcLsoSDLmSb8DWM7EwKSp_LjfBsUhElnn6c2nZ/exec';
+var P={driveway:149,walkway:99,patio:179,fence:149,house:299,roof:399,screen:149};
+var SURF=[['driveway','Driveway'],['walkway','Walkway / sidewalk'],['patio','Patio / pool deck'],['fence','Fence'],['house','House exterior (soft wash)'],['roof','Roof soft wash'],['screen','Screen enclosure / pool cage']];
+var SIZES=[['Small',1],['Medium',1.5],['Large',2.1],['X-large',2.8]];
+var CONDS=[['Light',1],['Moderate',1.25],['Heavy',1.55]];
+var MIN=175;
+var st={surf:{},size:1,sizeNm:'Small',cond:1,condNm:'Light',twostory:false,tile:false,stains:false};
+var $=function(s){return document.querySelector(s)};
+var money=function(n){return '$'+Math.round(n).toLocaleString('en-US')};
+
+var sw=$('#surf');
+SURF.forEach(function(s){
+  var el=document.createElement('label');el.className='opt';
+  el.innerHTML='<input type="checkbox"><span>'+s[1]+'</span><span class="pr">from $'+P[s[0]]+'</span>';
+  el.querySelector('input').addEventListener('change',function(e){st.surf[s[0]]=e.target.checked;el.classList.toggle('on',e.target.checked);if(s[0]==='roof')$('#tileWrap').style.display=e.target.checked?'flex':'none';calc();});
+  sw.appendChild(el);
+});
+function seg(sel,items,setv,setn,def){var c=$(sel);items.forEach(function(it,i){var b=document.createElement('button');b.textContent=it[0];if(i===def)b.classList.add('on');b.onclick=function(){[].forEach.call(c.children,function(x){x.classList.remove('on')});b.classList.add('on');setv(it[1]);setn(it[0]);calc();};c.appendChild(b);});}
+seg('#size',SIZES,function(v){st.size=v},function(n){st.sizeNm=n},0);
+seg('#cond',CONDS,function(v){st.cond=v},function(n){st.condNm=n},0);
+$('#twostory').onchange=function(e){st.twostory=e.target.checked;calc();};
+$('#tile').onchange=function(e){st.tile=e.target.checked;calc();};
+$('#stains').onchange=function(e){st.stains=e.target.checked;calc();};
+
+function total(){
+  var t=0,any=false;
+  SURF.forEach(function(s){if(!st.surf[s[0]])return;any=true;var p=P[s[0]]*st.size*st.cond;
+    if(st.twostory&&(s[0]==='house'||s[0]==='roof'))p*=1.2;
+    if(s[0]==='roof'&&st.tile)p*=1.1;t+=p;});
+  if(st.stains)t+=50;
+  if(t>0&&t<MIN)t=MIN;
+  return any?t:0;
+}
+function calc(){
+  var t=total();
+  if(t<=0){$('#range').textContent='Pick a surface';$('#sub').textContent='Select what needs cleaning to see your price.';return;}
+  $('#range').textContent=money(t*0.9)+' – '+money(t*1.2);
+  $('#sub').textContent='Ballpark range. We confirm a flat price after a quick look.';
+}
+function surfText(){return SURF.filter(function(s){return st.surf[s[0]]}).map(function(s){return s[1]}).join(', ');}
+
+$('#sendBtn').onclick=function(){
+  if($('#company').value){return;} // honeypot
+  var name=$('#c_name').value.trim(),phone=$('#c_phone').value.trim();
+  if(!Object.keys(st.surf).some(function(k){return st.surf[k]})){$('#formMsg').style.color='var(--coral)';$('#formMsg').textContent='Pick at least one surface first.';return;}
+  if(!name||!phone){$('#formMsg').style.color='var(--coral)';$('#formMsg').textContent='Add your name and phone so we can send it.';return;}
+  var t=total();
+  var lead={id:Date.now(),created:new Date().toISOString(),name:name,phone:phone,email:$('#c_email').value.trim(),address:$('#c_addr').value.trim(),
+    ptype:'Residential',source:'Instant estimator (website)',surfaces:surfText(),size:st.sizeNm,condition:st.condNm,twostory:st.twostory,
+    estimate:Math.round(t),estLow:Math.round(t*0.9),estHigh:Math.round(t*1.2),status:'New',notes:'Customer self-estimate'+(st.tile?' · tile roof':'')+(st.stains?' · heavy stains':'')};
+  $('#sendBtn').disabled=true;$('#sendBtn').textContent='Sending...';
+  fetch(EXEC,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(lead)})
+    .then(function(){done();}).catch(function(){done();});
+  setTimeout(done,2500);
+};
+var finished=false;
+function done(){if(finished)return;finished=true;$('#contactCard').style.display='none';$('#sent').classList.add('show');$('#sent').scrollIntoView({behavior:'smooth',block:'center'});}
+calc();
+</script>
+</body>
+</html>
