@@ -432,9 +432,10 @@ $('#exportBtn').onclick=()=>{
 };
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 /* ===== config + preset ===== */
-const DEF_SHEET='https://script.google.com/macros/s/AKfycbxbmLDTj-5Op2DRiO3cvykGkikTUduMXLgZRJb5lGXfhxVPVEN6xuBWBS3Kbfw7w72Z/exec';
+const DEF_SHEET='https://script.google.com/macros/s/AKfycbz3ZdK_OlRdHWjsGmSIh-L5EW-JemAcLsoSDLmSb8DWM7EwKSp_LjfBsUhElnn6c2nZ/exec';
+const OLD_SHEETS=['https://script.google.com/macros/s/AKfycbxbmLDTj-5Op2DRiO3cvykGkikTUduMXLgZRJb5lGXfhxVPVEN6xuBWBS3Kbfw7w72Z/exec'];
 const DEF_TMPL="Hi {name}, thanks for reaching out to SoFlo UnderPressure.\n\nYour estimate for {surfaces}: {range}.\nThat's a flat price we lock in after a quick look at the property or a couple of photos. No hourly, no surprises on the invoice.\n\nWant to grab a day this week? Reply here or call (305) 894-6336.\n- Saul, SoFlo UnderPressure";
-if(localStorage.getItem(LS_URL)===null){try{localStorage.setItem(LS_URL,DEF_SHEET);}catch(e){}}
+try{var _cur=localStorage.getItem(LS_URL);if(_cur===null||OLD_SHEETS.indexOf(_cur)>=0)localStorage.setItem(LS_URL,DEF_SHEET);}catch(e){}
 function getTmpl(){try{return localStorage.getItem('soflo_tmpl')||DEF_TMPL;}catch(e){return DEF_TMPL;}}
 const digits=s=>String(s||'').replace(/\D/g,'');
 const intl=p=>{const d=digits(p);return d.length===10?'1'+d:d;};
