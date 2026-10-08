@@ -220,6 +220,10 @@ footer{max-width:1000px;margin:1.5rem auto 0;color:var(--mid);font-size:.76rem;t
   <div class="f" style="margin:.8rem 0"><label>Google Sheet sync URL (Apps Script /exec)</label><input id="sheetUrl" placeholder="https://script.google.com/macros/s/.../exec"></div>
   <p class="kv" id="sheetStatus"></p>
   <div class="actions" style="margin-bottom:1rem"><button class="btn btn-navy btn-sm" id="saveSet">Save</button><button class="btn btn-ghost btn-sm" id="testSet">Send test row</button></div>
+  <div style="border-top:1px solid var(--line);margin:.4rem 0 1rem"></div>
+  <div class="f"><label>Pricing (edit anytime)</label><div id="pricingGrid"></div></div>
+  <div class="actions" style="margin-bottom:1.2rem"><button class="btn btn-navy btn-sm" id="savePricing">Save pricing</button><button class="btn btn-ghost btn-sm" id="resetPricing">Reset to default</button></div>
+  <div style="border-top:1px solid var(--line);margin:.4rem 0 1rem"></div>
   <div class="f" style="margin:.4rem 0"><label>Quote message template</label><textarea id="tmplBox" style="min-height:150px"></textarea></div>
   <p class="note">Tokens: <b>{name}</b> {surfaces} {range} {low} {high}. This is the text that pre-fills when you send a quote. You can still edit each message before sending.</p>
   <div class="actions" style="margin-top:.8rem"><button class="btn btn-navy btn-sm" id="saveTmpl">Save template</button><button class="btn btn-ghost btn-sm" id="resetTmpl">Reset to default</button><button class="btn btn-ghost btn-sm" id="closeSet">Close</button></div>
@@ -258,21 +262,25 @@ footer{max-width:1000px;margin:1.5rem auto 0;color:var(--mid);font-size:.76rem;t
 
 <script>
 const LS='soflo_leads_v1', LS_URL='soflo_sheet_url';
-const MIN_JOB=175; // floor: covers trip, SH pretreat, fuel, wear
+const DEF_PRICING={driveway:149,walkway:99,patio:179,fence:149,house:299,roof:399,screen:149,
+  oil:50,rust:65,gutter:95,min:175,tile:1.1,twostory:1.2,nowater:50,tight:1.10};
+function loadPricing(){try{return JSON.parse(localStorage.getItem('soflo_pricing'))||{};}catch(e){return{};}}
+let PRICING=Object.assign({},DEF_PRICING,loadPricing());
+const base=id=>Number(PRICING[id])||0;
 const SURFACES=[
-  {id:'driveway',nm:'Driveway',base:149},{id:'walkway',nm:'Walkway / sidewalk',base:99},
-  {id:'patio',nm:'Patio / pool deck',base:179},{id:'fence',nm:'Fence',base:149},
-  {id:'house',nm:'House exterior (soft wash)',base:299},{id:'roof',nm:'Roof soft wash',base:399},
-  {id:'screen',nm:'Screen enclosure / pool cage',base:149},
+  {id:'driveway',nm:'Driveway'},{id:'walkway',nm:'Walkway / sidewalk'},
+  {id:'patio',nm:'Patio / pool deck'},{id:'fence',nm:'Fence'},
+  {id:'house',nm:'House exterior (soft wash)'},{id:'roof',nm:'Roof soft wash'},
+  {id:'screen',nm:'Screen enclosure / pool cage'},
 ];
 const SIZES=[['Small',1.0],['Medium',1.5],['Large',2.1],['X-large',2.8]];
 const CONDS=[['Light',1.0],['Moderate',1.25],['Heavy',1.55]];
 const ROOFTYPES=['Tile (barrel/flat)','Shingle','Metal','Flat / low-slope'];
 const ADDONS=[
-  {id:'oil',nm:'Oil stain pretreat',amt:50},
-  {id:'rust',nm:'Rust / fertilizer stain',amt:65},
-  {id:'gutter',nm:'Gutter face brightening',amt:95},
-  {id:'seal',nm:'Surface sealing (separate quote)',amt:0,flag:true},
+  {id:'oil',nm:'Oil stain pretreat'},
+  {id:'rust',nm:'Rust / fertilizer stain'},
+  {id:'gutter',nm:'Gutter face brightening'},
+  {id:'seal',nm:'Surface sealing (separate quote)',flag:true},
 ];
 let st={surf:new Set(),size:1,cond:1,sizeNm:'Small',condNm:'Light',twostory:false,tight:false,
   commercial:false,roofType:'Tile (barrel/flat)',water:true,addons:new Set()};
@@ -292,7 +300,7 @@ $$('.tabs button[data-tab]').forEach(b=>b.addEventListener('click',()=>{
 const sw=$('#surfaces');
 SURFACES.forEach(s=>{
   const el=document.createElement('label');el.className='surf';el.dataset.id=s.id;
-  el.innerHTML=`<input type="checkbox"><span>${s.nm}</span><span class="pr">from $${s.base}</span>`;
+  el.innerHTML=`<input type="checkbox"><span>${s.nm}</span><span class="pr">from $${base(s.id)}</span>`;
   el.querySelector('input').addEventListener('change',e=>{
     e.target.checked?st.surf.add(s.id):st.surf.delete(s.id);el.classList.toggle('on',e.target.checked);
     if(s.id==='roof')$('#roofTypeWrap').hidden=!e.target.checked;
@@ -304,7 +312,7 @@ SURFACES.forEach(s=>{
 const aw=$('#addons');
 ADDONS.forEach(a=>{
   const el=document.createElement('label');el.className='surf';el.dataset.id=a.id;
-  el.innerHTML=`<input type="checkbox"><span>${a.nm}</span><span class="pr">${a.flag?'+ quote':'+$'+a.amt}</span>`;
+  el.innerHTML=`<input type="checkbox"><span>${a.nm}</span><span class="pr">${a.flag?'+ quote':'+$'+base(a.id)}</span>`;
   el.querySelector('input').addEventListener('change',e=>{e.target.checked?st.addons.add(a.id):st.addons.delete(a.id);el.classList.toggle('on',e.target.checked);calc();});
   aw.appendChild(el);
 });
@@ -321,15 +329,15 @@ function oneOff(){
   let t=0;
   SURFACES.forEach(s=>{
     if(!st.surf.has(s.id))return;
-    let p=s.base*st.size*st.cond;
-    if(st.twostory&&(s.id==='house'||s.id==='roof'))p*=1.2;
-    if(s.id==='roof'&&st.roofType.indexOf('Tile')===0)p*=1.1; // tile = slower, careful
+    let p=base(s.id)*st.size*st.cond;
+    if(st.twostory&&(s.id==='house'||s.id==='roof'))p*=Number(PRICING.twostory)||1;
+    if(s.id==='roof'&&st.roofType.indexOf('Tile')===0)p*=Number(PRICING.tile)||1; // tile = slower, careful
     t+=p;
   });
-  if(st.tight)t*=1.10;
-  ADDONS.forEach(a=>{if(st.addons.has(a.id)&&!a.flag)t+=a.amt;});
-  if(!st.water)t+=50; // no spigot = bring a tank
-  if(t>0&&t<MIN_JOB)t=MIN_JOB; // minimum job
+  if(st.tight)t*=Number(PRICING.tight)||1;
+  ADDONS.forEach(a=>{if(st.addons.has(a.id)&&!a.flag)t+=base(a.id);});
+  if(!st.water)t+=Number(PRICING.nowater)||0; // no spigot = bring a tank
+  const mn=Number(PRICING.min)||0;if(t>0&&t<mn)t=mn; // minimum job
   return t;
 }
 function calc(){const t=oneOff();if(t<=0){$('#total').textContent='$0';$('#range').textContent='Pick at least one surface.';$('#plans').hidden=true;return t;}
@@ -388,7 +396,12 @@ function pushPhotoToSheet(l,dataURL){
   fetch(u,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({type:'photo',leadId:l.id,name:l.name||'',address:l.address||'',photo:dataURL,created:new Date().toISOString()})}).catch(()=>{});
 }
 function setStatus(){$('#sheetStatus').innerHTML=sheetUrl()?'<span class="pill-ok">Sheet sync on</span>':'<span class="pill-off">Not set (browser-only)</span>';}
-$('#openSettings').onclick=()=>{$('#sheetUrl').value=sheetUrl();$('#tmplBox').value=getTmpl();setStatus();$('#setDlg').showModal();};
+const PRICE_FIELDS=[['driveway','Driveway $'],['walkway','Walkway $'],['patio','Patio/deck $'],['fence','Fence $'],['house','House $'],['roof','Roof $'],['screen','Screen $'],['oil','Oil add-on $'],['rust','Rust add-on $'],['gutter','Gutter add-on $'],['min','Job minimum $'],['nowater','No-water fee $'],['tile','Tile mult x'],['twostory','2-story mult x'],['tight','Tight mult x']];
+function renderPricingInputs(){$('#pricingGrid').innerHTML='<div class="grid3">'+PRICE_FIELDS.map(function(f){var k=f[0];var step=/tile|twostory|tight/.test(k)?'0.05':'1';return '<div class="f"><label style="font-size:.66rem">'+f[1]+'</label><input id="pf_'+k+'" type="number" step="'+step+'" value="'+PRICING[k]+'"></div>';}).join('')+'</div>';}
+function updateChipPrices(){SURFACES.forEach(function(s){var el=document.querySelector('#surfaces .surf[data-id="'+s.id+'"] .pr');if(el)el.textContent='from $'+base(s.id);});ADDONS.forEach(function(a){var el=document.querySelector('#addons .surf[data-id="'+a.id+'"] .pr');if(el)el.textContent=a.flag?'+ quote':'+$'+base(a.id);});}
+$('#savePricing').onclick=function(){var o={};PRICE_FIELDS.forEach(function(f){var v=parseFloat($('#pf_'+f[0]).value);if(!isNaN(v))o[f[0]]=v;});PRICING=Object.assign({},DEF_PRICING,o);try{localStorage.setItem('soflo_pricing',JSON.stringify(PRICING));}catch(e){}updateChipPrices();calc();$('#savePricing').textContent='Saved';setTimeout(function(){$('#savePricing').textContent='Save pricing';},1200);};
+$('#resetPricing').onclick=function(){PRICING=Object.assign({},DEF_PRICING);try{localStorage.removeItem('soflo_pricing');}catch(e){}renderPricingInputs();updateChipPrices();calc();};
+$('#openSettings').onclick=()=>{$('#sheetUrl').value=sheetUrl();$('#tmplBox').value=getTmpl();renderPricingInputs();setStatus();$('#setDlg').showModal();};
 $('#saveSet').onclick=()=>{localStorage.setItem(LS_URL,$('#sheetUrl').value.trim());setStatus();updateSyncFoot();};
 $('#saveTmpl').onclick=()=>{localStorage.setItem('soflo_tmpl',$('#tmplBox').value);$('#saveTmpl').textContent='Saved';setTimeout(()=>$('#saveTmpl').textContent='Save template',1200);};
 $('#resetTmpl').onclick=()=>{localStorage.removeItem('soflo_tmpl');$('#tmplBox').value=getTmpl();};
@@ -540,7 +553,7 @@ function wizRender(){
   const optBtn=(label,on,pr)=>{const el=document.createElement('button');el.className='wiz-opt'+(on?' on':'');el.innerHTML=esc(label)+(pr?'<span class="pr">'+pr+'</span>':'');return el;};
   if(key==='surfaces'){
     b.innerHTML='<div class="wiz-q">What are we cleaning?</div><div class="wiz-opts" id="wizSurf"></div>';
-    SURFACES.forEach(s=>{const el=optBtn(s.nm,st.surf.has(s.id),'$'+s.base+'+');el.onclick=()=>{st.surf.has(s.id)?st.surf.delete(s.id):st.surf.add(s.id);el.classList.toggle('on');};$('#wizSurf').appendChild(el);});
+    SURFACES.forEach(s=>{const el=optBtn(s.nm,st.surf.has(s.id),'$'+base(s.id)+'+');el.onclick=()=>{st.surf.has(s.id)?st.surf.delete(s.id):st.surf.add(s.id);el.classList.toggle('on');};$('#wizSurf').appendChild(el);});
   } else if(key==='roof'){
     b.innerHTML='<div class="wiz-q">Roof type?</div><div class="wiz-opts" id="wizRoof"></div>';
     ROOFTYPES.forEach(rt=>{const el=optBtn(rt,st.roofType===rt);el.onclick=()=>{st.roofType=rt;wizGo(1);};$('#wizRoof').appendChild(el);});
@@ -556,7 +569,7 @@ function wizRender(){
     [['twostory','Two-story',st.twostory],['nowater','No water on site (tank)',!st.water],['tight','Tight access / landscaping',st.tight]].forEach(([k,lbl,on])=>{
       const el=optBtn(lbl,on);el.onclick=()=>{el.classList.toggle('on');const v=el.classList.contains('on');if(k==='twostory')st.twostory=v;if(k==='tight')st.tight=v;if(k==='nowater')st.water=!v;};ex.appendChild(el);
     });
-    ADDONS.forEach(a=>{const el=optBtn(a.nm,st.addons.has(a.id),a.flag?'+quote':'+$'+a.amt);el.onclick=()=>{st.addons.has(a.id)?st.addons.delete(a.id):st.addons.add(a.id);el.classList.toggle('on');};$('#wizAdd').appendChild(el);});
+    ADDONS.forEach(a=>{const el=optBtn(a.nm,st.addons.has(a.id),a.flag?'+quote':'+$'+base(a.id));el.onclick=()=>{st.addons.has(a.id)?st.addons.delete(a.id):st.addons.add(a.id);el.classList.toggle('on');};$('#wizAdd').appendChild(el);});
   } else if(key==='finish'){
     const t=oneOff();
     b.innerHTML=`<div class="wiz-q">Who's it for?</div>
