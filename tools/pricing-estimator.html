@@ -84,6 +84,12 @@ const fileToThumb=file=>new Promise((res,rej)=>{const img=new Image();const u=UR
 const sheetUrl=()=>lsGet(LS_URL,'');
 const pushLead=l=>{const u=sheetUrl();if(u)fetch(u,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(l)}).catch(()=>{});};
 const pushPhoto=(l,data)=>{const u=sheetUrl();if(u)fetch(u,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({type:'photo',leadId:l.id,name:l.name||'',address:l.address||'',photo:data,created:new Date().toISOString()})}).catch(()=>{});};
+const pushKnock=k=>{const u=sheetUrl();if(u)fetch(u,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(Object.assign({type:'knock'},k))}).catch(()=>{});};
+
+/* ===== geolocation ===== */
+const getLoc=()=>new Promise((res,rej)=>{if(!navigator.geolocation)return rej(new Error('No geolocation on this device'));navigator.geolocation.getCurrentPosition(p=>res(p.coords),e=>rej(new Error(e.message||'Location blocked')),{enableHighAccuracy:true,timeout:12000,maximumAge:0});});
+const geocode=(lat,lng)=>fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+lat+'&lon='+lng).then(r=>r.json()).then(j=>{if(!j.address)return j.display_name||'';const a=j.address;const line=[[a.house_number,a.road].filter(Boolean).join(' '),a.city||a.town||a.village||a.suburb].filter(Boolean).join(', ');return line||j.display_name||'';}).catch(()=>'');
+const mapsLink=(lat,lng)=>'https://www.google.com/maps?q='+lat+','+lng;
 
 /* ===== small UI atoms (Tailwind) ===== */
 const card="bg-white rounded-2xl border border-line shadow-[0_10px_30px_rgba(24,43,63,.06)] p-5";
@@ -112,6 +118,7 @@ const blankState=()=>({surf:{},size:1,sizeNm:'Small',cond:1,condNm:'Light',twost
 function App(){
   const [tab,setTab]=useState('new');
   const [leads,setLeads]=useState(()=>lsJSON(LS,[]));
+  const [knocks,setKnocks]=useState(()=>lsJSON('soflo_knocks',[]));
   const [pricing,setPricing]=useState(()=>Object.assign({},DEF_PRICING,lsJSON(LS_PRICE,{})));
   const [st,setSt]=useState(blankState);
   const [cust,setCust]=useState({name:'',phone:'',email:'',address:'',ptype:'Residential',source:'Website quote form',prefDate:'',notes:''});
@@ -140,12 +147,14 @@ function App(){
     <div className="flex flex-wrap gap-2 my-5 items-center">
       <button onClick={()=>setTab('new')} className={"font-display font-extrabold text-sm rounded-xl px-5 py-2.5 border-[1.5px] "+(tab==='new'?'bg-navy text-white border-navy':'bg-white border-line')}>New estimate</button>
       <button onClick={()=>setTab('leads')} className={"font-display font-extrabold text-sm rounded-xl px-5 py-2.5 border-[1.5px] "+(tab==='leads'?'bg-navy text-white border-navy':'bg-white border-line')}>Leads {leads.length?'('+leads.length+')':''}</button>
+      <button onClick={()=>setTab('knocks')} className={"font-display font-extrabold text-sm rounded-xl px-5 py-2.5 border-[1.5px] "+(tab==='knocks'?'bg-navy text-white border-navy':'bg-white border-line')}>Knocks {knocks.length?'('+knocks.length+')':''}</button>
       <button onClick={()=>{setSt(blankState());setCust(c=>({...c,name:'',phone:''}));setOpen('wizard');}} className="font-display font-extrabold text-sm rounded-xl px-5 py-2.5 bg-coral text-white">Door-knock mode</button>
       <button onClick={()=>setOpen('settings')} className="ml-auto text-sm text-navy/60 underline">Settings</button>
     </div>
 
-    {tab==='new'&&<NewEstimate {...{st,setSt,cust,setCust,pricing,pr,toggleSurf,toggleAdd,total,msg,doSave,setMsg}}/>}
+    {tab==='new'&&<NewEstimate {...{st,setSt,cust,setCust,pricing,pr,toggleSurf,toggleAdd,total,msg,doSave,setMsg,setOpen,buildLead}}/>}
     {tab==='leads'&&<Leads {...{leads,saveLeads,setOpen,money}}/>}
+    {tab==='knocks'&&<Knocks {...{knocks,setKnocks,setCust,setTab}}/>}
 
     <footer className="text-center text-xs text-navy/55 mt-6">SoFlo UnderPressure internal · data in this browser (localStorage){sheetUrl()?' · Sheet sync on':''} · keep this link private</footer>
 
@@ -157,8 +166,10 @@ function App(){
   </div>;
 }
 
-function NewEstimate({st,setSt,cust,setCust,pricing,pr,toggleSurf,toggleAdd,total,msg,doSave,setMsg}){
+function NewEstimate({st,setSt,cust,setCust,pricing,pr,toggleSurf,toggleAdd,total,msg,doSave,setMsg,setOpen,buildLead}){
   const cv=(k,v)=>setCust(c=>({...c,[k]:v}));
+  const [geo,setGeo]=useState(false);
+  const useLoc=async()=>{setGeo(true);try{const c=await getLoc();const a=await geocode(c.latitude,c.longitude);cv('address',a||(c.latitude.toFixed(5)+', '+c.longitude.toFixed(5)));}catch(e){setMsg('Location: '+e.message);}setGeo(false);};
   return <div>
    <div className="grid lg:grid-cols-[1fr_348px] gap-4 items-start">
     <div className="min-w-0 grid gap-4">
@@ -168,7 +179,7 @@ function NewEstimate({st,setSt,cust,setCust,pricing,pr,toggleSurf,toggleAdd,tota
           <div><Lbl>Name</Lbl><Inp value={cust.name} onChange={e=>cv('name',e.target.value)} placeholder="First Last"/></div>
           <div><Lbl>Phone</Lbl><Inp type="tel" inputMode="tel" value={cust.phone} onChange={e=>cv('phone',e.target.value)} placeholder="(305) ..."/></div>
           <div><Lbl>Email</Lbl><Inp type="email" value={cust.email} onChange={e=>cv('email',e.target.value)} placeholder="name@email.com"/></div>
-          <div><Lbl>Address</Lbl><Inp value={cust.address} onChange={e=>cv('address',e.target.value)} placeholder="Street, city"/></div>
+          <div><Lbl>Address</Lbl><div className="flex gap-2"><Inp value={cust.address} onChange={e=>cv('address',e.target.value)} placeholder="Street, city"/><button type="button" onClick={useLoc} className="shrink-0 px-3 rounded-xl border border-line bg-white text-aquaink font-display font-extrabold text-xs min-h-[46px]">{geo?'...':'📍 GPS'}</button></div></div>
         </div>
         <div className="grid sm:grid-cols-3 gap-3 mt-3">
           <div><Lbl>Property type</Lbl><select value={cust.ptype} onChange={e=>cv('ptype',e.target.value)} className="w-full border border-line rounded-xl px-3 min-h-[46px] bg-white">{['Residential','Commercial','HOA / Property mgr'].map(o=><option key={o}>{o}</option>)}</select></div>
@@ -212,9 +223,11 @@ function NewEstimate({st,setSt,cust,setCust,pricing,pr,toggleSurf,toggleAdd,tota
    </div>
    <div className="sticky bottom-0 bg-sand py-3 mt-2 border-t border-line flex flex-wrap gap-2 items-center">
      <Btn kind="coral" onClick={doSave}>Save lead</Btn>
-     <Btn onClick={()=>{navigator.clipboard.writeText('Surfaces: '+surfList(st)+'\nSize: '+st.sizeNm+' / '+st.condNm+'\nOne-off: '+money(total)+' ('+money(total*0.9)+'-'+money(total*1.15)+')');setMsg('Copied.');}}>Copy estimate</Btn>
+     <Btn kind="navy" onClick={()=>setOpen({type:'send',lead:buildLead()})}>Send quote</Btn>
+     <Btn kind="navy" onClick={()=>setOpen({type:'cust',lead:buildLead()})}>Client view</Btn>
+     <Btn onClick={()=>{navigator.clipboard.writeText('Surfaces: '+surfList(st)+'\nSize: '+st.sizeNm+' / '+st.condNm+'\nOne-off: '+money(total)+' ('+money(total*0.9)+'-'+money(total*1.15)+')');setMsg('Copied.');}}>Copy</Btn>
      <Btn onClick={()=>{setSt(blankState());setMsg('');}}>Clear</Btn>
-     <span className="font-bold text-ok text-sm">{msg}</span>
+     <span className="font-bold text-ok text-sm w-full sm:w-auto">{msg}</span>
    </div>
   </div>;
 }
@@ -360,6 +373,39 @@ function Settings({pricing,setPricing,onClose}){
     <div className="flex gap-2 mt-3"><Btn kind="navy" className="!py-2 !text-xs" onClick={()=>{lsSet(LS_TMPL,tmpl);setSt('Template saved.');}}>Save template</Btn><Btn className="!py-2 !text-xs" onClick={()=>{localStorage.removeItem(LS_TMPL);setTmpl(DEF_TMPL);}}>Reset</Btn><Btn className="!py-2 !text-xs ml-auto" onClick={onClose}>Close</Btn></div>
     <p className="text-sm text-ok font-bold mt-2">{st}</p>
   </Modal>;
+}
+
+/* ===== door-knock tracker (GPS) ===== */
+function Knocks({knocks,setKnocks,setCust,setTab}){
+  const [busy,setBusy]=useState(false);const [err,setErr]=useState('');
+  const STATUSES=['Knocked','Not home','Not interested','Interested','Quoted','Won'];
+  const badge={'Knocked':'bg-navy','Not home':'bg-[#8A6D3B]','Not interested':'bg-bad','Interested':'bg-aquaink','Quoted':'bg-[#C58A1A]','Won':'bg-ok'};
+  const save=n=>{lsSet('soflo_knocks',n);setKnocks(n);};
+  const log=async()=>{setBusy(true);setErr('');try{const c=await getLoc();const a=await geocode(c.latitude,c.longitude);const k={id:Date.now(),ts:new Date().toISOString(),lat:c.latitude,lng:c.longitude,address:a,status:'Knocked'};save([k,...knocks]);pushKnock(k);}catch(e){setErr(e.message);}setBusy(false);};
+  const upd=(id,p)=>{const n=knocks.map(k=>k.id===id?{...k,...p}:k);save(n);pushKnock(n.find(k=>k.id===id));};
+  const del=id=>{if(confirm('Delete this knock?'))save(knocks.filter(k=>k.id!==id));};
+  const quoteHere=k=>{setCust(c=>({...c,address:k.address||(k.lat.toFixed(5)+', '+k.lng.toFixed(5))}));upd(k.id,{status:'Quoted'});setTab('new');};
+  const today=knocks.filter(k=>new Date(k.ts).toDateString()===new Date().toDateString()).length;
+  return <div>
+    <div className={card+' text-center mb-4'}>
+      <Btn kind="coral" className="!text-base !px-8 !py-4" onClick={log} disabled={busy}>{busy?'Getting location...':'📍 Log this door'}</Btn>
+      <div className="text-sm text-navy/60 mt-2">{knocks.length} total · {today} today</div>
+      {err&&<div className="text-bad text-sm mt-1">{err}</div>}
+    </div>
+    {!knocks.length&&<div className="text-center text-navy/55 py-8">No knocks yet. Tap “Log this door” at each house. It grabs your GPS, so you never type an address and you can see where you have already been.</div>}
+    <div className="grid gap-2">{knocks.map(k=>
+      <div key={k.id} className={card+' !p-3'}>
+        <div className="flex items-start gap-2">
+          <div className="min-w-0 flex-1">
+            <div className="font-bold text-navy truncate">{k.address||(k.lat.toFixed(5)+', '+k.lng.toFixed(5))}</div>
+            <div className="text-xs text-navy/55">{new Date(k.ts).toLocaleString()} · <a href={mapsLink(k.lat,k.lng)} target="_blank" rel="noreferrer" className="text-aquaink underline">Map</a></div>
+          </div>
+          <span className={"font-display font-extrabold text-[.62rem] uppercase px-2 py-0.5 rounded text-white shrink-0 "+(badge[k.status]||'bg-navy')}>{k.status}</span>
+        </div>
+        <div className="flex flex-wrap gap-1.5 mt-2">{STATUSES.map(s=><button key={s} onClick={()=>upd(k.id,{status:s})} className={"text-[.7rem] font-display font-bold px-2 py-1 rounded border "+(k.status===s?'bg-navy text-white border-navy':'bg-white border-line text-navy')}>{s}</button>)}</div>
+        <div className="flex gap-2 mt-2"><Btn className="!py-1.5 !text-xs" onClick={()=>quoteHere(k)}>Quote here</Btn><button onClick={()=>del(k.id)} className="ml-auto text-bad text-xs font-display font-extrabold">Delete</button></div>
+      </div>)}</div>
+  </div>;
 }
 
 /* ===== wizard ===== */
