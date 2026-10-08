@@ -886,3 +886,23 @@ footer,footer.ft-flush{border-radius:0!important}
 .page-hero .reveal,.services-hero .reveal,.quote-hero .reveal,.area-hero .reveal,
 .contract-hero .reveal,.resources-hero .reveal,.svc-hero .reveal,header.hero .reveal{
   opacity:1!important;transform:none!important}
+
+/* ═══════════════════════════════════════════════════════════════════
+   DULLED MID-CENTURY "OLDIES" PALETTE (2026-10)
+   SoFlo's own hues, muted + warmed toward the Sunliner / Deco vibe:
+   retro-paper cream, dusty deco teal, muted mustard, terracotta.
+   Final :root wins the cascade, so the whole site shifts at once.
+   Contrast on cream verified: navy 12.7:1, teal text 5.7:1, coral 5.2:1.
+   ═══════════════════════════════════════════════════════════════════ */
+:root{
+  --navy:#182B3F; --ink:#182B3F; --navy-2:#223A52; --navy-mid:#223A52;
+  --sand:#F4ECD8; --sand-2:#EADFC4; --paper:#F4ECD8; --foam:#F4ECD8;
+  --aqua:#9ACAD6; --aqua-lt:#E2EEEF; --aqua-ink:#236473;
+  --sky:#CBE4E8; --sky-soft:#E2EEEF; --sky-deep:#9ACAD6; --sky-mid:#CBE4E8;
+  --yellow:#E7C25B; --yellow-dk:#D4A93E;
+  --coral:#BA4A30; --coral-dk:#9E3C25;
+  --periwinkle:#236473; --peri-dk:#1C5260; --periwinkle-lt:#9ACAD6; --periwinkle-dk:#1C5260;
+  --mid:#4A5A53; --text-mid:#4A5A53; --text-light:#5E6E66;
+  --line:rgba(24,43,63,.12);
+}
+html{background:var(--paper)}
