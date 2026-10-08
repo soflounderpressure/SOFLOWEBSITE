@@ -48,6 +48,8 @@ const intl=p=>{const d=digits(p);return d.length===10?'1'+d:d;};
 const lsGet=(k,d)=>{try{const v=localStorage.getItem(k);return v==null?d:v;}catch(e){return d;}};
 const lsJSON=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d;}catch(e){return d;}};
 const lsSet=(k,v)=>{try{localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v));}catch(e){}};
+const uid=()=>Date.now()*1000+Math.floor(Math.random()*1000); // unique id, no double-click collision
+const copy=t=>(navigator.clipboard&&navigator.clipboard.writeText)?copy(t).catch(()=>{}):Promise.resolve();
 
 /* migrate preset sheet url */
 if(localStorage.getItem(LS_URL)===null){lsSet(LS_URL,DEF_SHEET);}
@@ -127,10 +129,10 @@ function App(){
   const saveLeads=a=>{setLeads(a);lsSet(LS,a);};
   const total=totalFor(st,pricing);
 
-  const buildLead=()=>({id:Date.now(),created:new Date().toISOString(),...cust,
+  const buildLead=()=>({id:uid(),created:new Date().toISOString(),...cust,
     surfaces:surfList(st),roofType:st.surf.roof?st.roofType:'',water:st.water,addons:addonList(st),
     size:st.sizeNm,condition:st.condNm,twostory:st.twostory,tight:st.tight,
-    estimate:Math.round(total),estLow:Math.round(total*0.9),estHigh:Math.round(total*1.15),
+    estimate:Math.round(total),estLow:Math.round(total*0.9),estHigh:Math.round(total*1.2),
     plan2:Math.round(total*0.85),plan4:Math.round(total*0.75),status:'New'});
   const commit=l=>{const a=[l,...leads];saveLeads(a);pushLead(l);return a.length;};
   const doSave=()=>{if(!cust.name.trim()&&!Object.keys(st.surf).some(k=>st.surf[k])){setMsg('Add a name or pick surfaces first.');return;}
@@ -212,7 +214,7 @@ function NewEstimate({st,setSt,cust,setCust,pricing,pr,toggleSurf,toggleAdd,tota
       <div className="bg-navy text-white rounded-2xl p-5">
         <div className="font-display font-extrabold text-[.72rem] tracking-[.14em] uppercase text-aqua">One-off estimate</div>
         <div className="font-display font-black text-5xl leading-none my-1">{money(total)}</div>
-        <div className="text-white/70 text-sm">{total>0?'Typical range '+money(total*0.9)+' to '+money(total*1.15)+(st.addons.seal?' · + sealing quote':'')+(!st.water?' · tank job':''):'Pick at least one surface.'}</div>
+        <div className="text-white/70 text-sm">{total>0?'Typical range '+money(total*0.9)+' to '+money(total*1.2)+(st.addons.seal?' · + sealing quote':'')+(!st.water?' · tank job':''):'Pick at least one surface.'}</div>
         {total>0&&<div className="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-white/15">
           {[['Bragging Rights · 2x',total*0.85,money(total*0.85*2)+'/yr'],['The Show-Off · 4x',total*0.75,money(total*0.75*4)+'/yr'],['Humble Brag · 1x',total,'quote based']].map(([n,v,a])=>
             <div key={n} className="bg-white/[.06] rounded-xl p-2.5"><div className="font-display font-extrabold text-[.66rem] uppercase text-aqua">{n}</div><div className="font-display font-black text-lg">{money(v)}</div><div className="text-white/60 text-[.7rem]">{a}</div></div>)}
@@ -225,7 +227,7 @@ function NewEstimate({st,setSt,cust,setCust,pricing,pr,toggleSurf,toggleAdd,tota
      <Btn kind="coral" onClick={doSave}>Save lead</Btn>
      <Btn kind="navy" onClick={()=>setOpen({type:'send',lead:buildLead()})}>Send quote</Btn>
      <Btn kind="navy" onClick={()=>setOpen({type:'cust',lead:buildLead()})}>Client view</Btn>
-     <Btn onClick={()=>{navigator.clipboard.writeText('Surfaces: '+surfList(st)+'\nSize: '+st.sizeNm+' / '+st.condNm+'\nOne-off: '+money(total)+' ('+money(total*0.9)+'-'+money(total*1.15)+')');setMsg('Copied.');}}>Copy</Btn>
+     <Btn onClick={()=>{copy('Surfaces: '+surfList(st)+'\nSize: '+st.sizeNm+' / '+st.condNm+'\nOne-off: '+money(total)+' ('+money(total*0.9)+'-'+money(total*1.2)+')');setMsg('Copied.');}}>Copy</Btn>
      <Btn onClick={()=>{setSt(blankState());setMsg('');}}>Clear</Btn>
      <span className="font-bold text-ok text-sm w-full sm:w-auto">{msg}</span>
    </div>
@@ -308,7 +310,7 @@ function SendModal({lead,price,onClose}){
   const [txt,setTxt]=useState(tmplText(lead,price));
   const [note,setNote]=useState('');
   const qrRef=useRef();const [qr,setQr]=useState(false);
-  useEffect(()=>{if(qr&&qrRef.current){qrRef.current.innerHTML='';if(window.QRCode)new QRCode(qrRef.current,{text:txt,width:200,height:200,colorDark:'#182B3F',colorLight:'#fff'});}},[qr]);
+  useEffect(()=>{if(qr&&qrRef.current){qrRef.current.innerHTML='';if(window.QRCode)new QRCode(qrRef.current,{text:txt,width:200,height:200,colorDark:'#182B3F',colorLight:'#fff'});}},[qr,txt]);
   const p=digits(lead.phone);
   return <Modal open={true} onClose={onClose}>
     <h3 className="font-display font-black text-2xl">Send quote</h3>
@@ -317,10 +319,10 @@ function SendModal({lead,price,onClose}){
     <div className="flex flex-wrap gap-2">
       <Btn kind="coral" className="!py-2 !text-xs" onClick={()=>{if(!p){setNote('No phone number.');return;}location.href='sms:'+p+'?&body='+encodeURIComponent(txt);}}>Text (SMS)</Btn>
       <Btn kind="navy" className="!py-2 !text-xs" onClick={()=>window.open((intl(lead.phone)?'https://wa.me/'+intl(lead.phone)+'?text=':'https://wa.me/?text=')+encodeURIComponent(txt),'_blank')}>WhatsApp</Btn>
-      <Btn className="!py-2 !text-xs" onClick={()=>{navigator.clipboard.writeText(txt).then(()=>{window.open('https://voice.google.com/u/0/messages','_blank');setNote('Text copied. Paste into Google Voice.');});}}>Google Voice</Btn>
+      <Btn className="!py-2 !text-xs" onClick={()=>{copy(txt).then(()=>{window.open('https://voice.google.com/u/0/messages','_blank');setNote('Text copied. Paste into Google Voice.');});}}>Google Voice</Btn>
       <Btn className="!py-2 !text-xs" onClick={async()=>{if(navigator.share){try{await navigator.share({text:txt});}catch(e){}}else setNote('Share/AirDrop works on phone or Mac Safari. Use Copy here.');}}>Share / AirDrop</Btn>
       <Btn className="!py-2 !text-xs" onClick={()=>setQr(v=>!v)}>QR code</Btn>
-      <Btn className="!py-2 !text-xs" onClick={()=>{navigator.clipboard.writeText(txt).then(()=>setNote('Copied.'));}}>Copy</Btn>
+      <Btn className="!py-2 !text-xs" onClick={()=>{copy(txt).then(()=>setNote('Copied.'));}}>Copy</Btn>
     </div>
     {qr&&<div ref={qrRef} className="text-center mt-4"/>}
     <div className="flex gap-2 mt-4"><Btn className="!py-2 !text-xs" onClick={onClose}>Close</Btn></div>
@@ -358,7 +360,7 @@ function Settings({pricing,setPricing,onClose}){
     <Inp value={url} onChange={e=>setUrl(e.target.value)} placeholder="https://script.google.com/.../exec"/>
     <div className="flex gap-2 my-2">
       <Btn kind="navy" className="!py-2 !text-xs" onClick={()=>{lsSet(LS_URL,url.trim());setSt(url.trim()?'Sheet sync on.':'Sync off (browser only).');}}>Save</Btn>
-      <Btn className="!py-2 !text-xs" onClick={()=>{if(!url.trim()){setSt('Paste a URL first.');return;}fetch(url.trim(),{method:'POST',mode:'no-cors',body:JSON.stringify({id:Date.now(),name:'TEST ROW',status:'New',created:new Date().toISOString()})}).then(()=>setSt('Sent. Check your Sheet.')).catch(e=>setSt('Error: '+e.message));}}>Send test row</Btn>
+      <Btn className="!py-2 !text-xs" onClick={()=>{if(!url.trim()){setSt('Paste a URL first.');return;}fetch(url.trim(),{method:'POST',mode:'no-cors',body:JSON.stringify({id:uid(),name:'TEST ROW',status:'New',created:new Date().toISOString()})}).then(()=>setSt('Sent. Check your Sheet.')).catch(e=>setSt('Error: '+e.message));}}>Send test row</Btn>
     </div>
     <div className="border-t border-line my-4"/>
     <Lbl>Pricing (edit anytime)</Lbl>
@@ -381,7 +383,7 @@ function Knocks({knocks,setKnocks,setCust,setTab}){
   const STATUSES=['Knocked','Not home','Not interested','Interested','Quoted','Won'];
   const badge={'Knocked':'bg-navy','Not home':'bg-[#8A6D3B]','Not interested':'bg-bad','Interested':'bg-aquaink','Quoted':'bg-[#C58A1A]','Won':'bg-ok'};
   const save=n=>{lsSet('soflo_knocks',n);setKnocks(n);};
-  const log=async()=>{setBusy(true);setErr('');try{const c=await getLoc();const a=await geocode(c.latitude,c.longitude);const k={id:Date.now(),ts:new Date().toISOString(),lat:c.latitude,lng:c.longitude,address:a,status:'Knocked'};save([k,...knocks]);pushKnock(k);}catch(e){setErr(e.message);}setBusy(false);};
+  const log=async()=>{setBusy(true);setErr('');try{const c=await getLoc();const a=await geocode(c.latitude,c.longitude);const k={id:uid(),ts:new Date().toISOString(),lat:c.latitude,lng:c.longitude,address:a,status:'Knocked'};save([k,...knocks]);pushKnock(k);}catch(e){setErr(e.message);}setBusy(false);};
   const upd=(id,p)=>{const n=knocks.map(k=>k.id===id?{...k,...p}:k);save(n);pushKnock(n.find(k=>k.id===id));};
   const del=id=>{if(confirm('Delete this knock?'))save(knocks.filter(k=>k.id!==id));};
   const quoteHere=k=>{setCust(c=>({...c,address:k.address||(k.lat.toFixed(5)+', '+k.lng.toFixed(5))}));upd(k.id,{status:'Quoted'});setTab('new');};
@@ -416,7 +418,7 @@ function Wizard({st,setSt,cust,setCust,pricing,pr,total,commit,setOpen}){
   const ref=useRef();useEffect(()=>{ref.current&&ref.current.showModal();},[]);
   const go=d=>{const ni=i+d;if(ni<0)return;if(ni>=steps.length){finish();return;}setI(ni);};
   const finish=()=>{if(!cust.name.trim()&&!Object.keys(st.surf).some(k=>st.surf[k])){alert('Pick at least one surface.');return;}
-    const l={id:Date.now(),created:new Date().toISOString(),...cust,surfaces:surfList(st),roofType:st.surf.roof?st.roofType:'',water:st.water,addons:addonList(st),size:st.sizeNm,condition:st.condNm,twostory:st.twostory,tight:st.tight,estimate:Math.round(total),estLow:Math.round(total*0.9),estHigh:Math.round(total*1.15),plan2:Math.round(total*0.85),plan4:Math.round(total*0.75),status:'New'};
+    const l={id:uid(),created:new Date().toISOString(),...cust,surfaces:surfList(st),roofType:st.surf.roof?st.roofType:'',water:st.water,addons:addonList(st),size:st.sizeNm,condition:st.condNm,twostory:st.twostory,tight:st.tight,estimate:Math.round(total),estLow:Math.round(total*0.9),estHigh:Math.round(total*1.2),plan2:Math.round(total*0.85),plan4:Math.round(total*0.75),status:'New'};
     commit(l);ref.current.close();setOpen({type:'cust',lead:l});};
   const Opt=({on,onClick,label,right})=><button onClick={onClick} className={"flex items-center gap-3 min-h-[58px] w-full rounded-xl px-4 py-3 text-left font-display font-bold text-[1.08rem] border-2 "+(on?'border-aquaink bg-aqualt':'border-line bg-white')}>{label}{right&&<span className="ml-auto text-aquaink font-extrabold text-sm">{right}</span>}</button>;
   return <dialog ref={ref} onClose={()=>setOpen(null)} className="rounded-2xl p-0 w-[94%] max-w-lg"><div className="p-6">
@@ -434,7 +436,7 @@ function Wizard({st,setSt,cust,setCust,pricing,pr,total,commit,setOpen}){
     {key==='finish'&&<div><div className="font-display font-black text-2xl mb-3">Who's it for?</div>
       <div className="mb-2"><Lbl>Name</Lbl><Inp value={cust.name} onChange={e=>setCust(c=>({...c,name:e.target.value}))}/></div>
       <div className="mb-3"><Lbl>Phone</Lbl><Inp type="tel" inputMode="tel" value={cust.phone} onChange={e=>setCust(c=>({...c,phone:e.target.value}))}/></div>
-      <div className="bg-aqualt rounded-xl p-4 text-center"><div className="text-[.72rem] uppercase font-extrabold text-aquaink">Estimate</div><div className="font-display font-black text-4xl">{money(total)}</div><div className="text-xs text-navy/60">Range {money(total*0.9)} to {money(total*1.15)}</div></div></div>}
+      <div className="bg-aqualt rounded-xl p-4 text-center"><div className="text-[.72rem] uppercase font-extrabold text-aquaink">Estimate</div><div className="font-display font-black text-4xl">{money(total)}</div><div className="text-xs text-navy/60">Range {money(total*0.9)} to {money(total*1.2)}</div></div></div>}
     <div className="flex gap-2 mt-4">{i>0&&<Btn className="!py-2.5" onClick={()=>go(-1)}>Back</Btn>}<Btn kind="coral" className="ml-auto min-h-[52px] px-6" onClick={()=>key==='finish'?finish():go(1)}>{key==='finish'?'Save lead':'Next'}</Btn></div>
   </div></dialog>;
 }

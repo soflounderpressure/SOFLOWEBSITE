@@ -201,7 +201,7 @@ $('#sendBtn').onclick=function(){
   if(!Object.keys(st.surf).some(function(k){return st.surf[k]})){$('#formMsg').style.color='var(--coral)';$('#formMsg').textContent='Pick at least one surface first.';return;}
   if(!name||!phone){$('#formMsg').style.color='var(--coral)';$('#formMsg').textContent='Add your name and phone so we can send it.';return;}
   var t=total();
-  var lead={id:Date.now(),created:new Date().toISOString(),name:name,phone:phone,email:$('#c_email').value.trim(),address:$('#c_addr').value.trim(),
+  var lead={id:Date.now()*1000+Math.floor(Math.random()*1000),created:new Date().toISOString(),name:name,phone:phone,email:$('#c_email').value.trim(),address:$('#c_addr').value.trim(),
     ptype:'Residential',source:'Instant estimator (website)',surfaces:surfText(),size:st.sizeNm,condition:st.condNm,twostory:st.twostory,
     estimate:Math.round(t),estLow:Math.round(t*0.9),estHigh:Math.round(t*1.2),status:'New',notes:'Customer self-estimate'+(st.tile?' · tile roof':'')+(st.stains?' · heavy stains':'')};
   $('#sendBtn').disabled=true;$('#sendBtn').textContent='Sending...';
