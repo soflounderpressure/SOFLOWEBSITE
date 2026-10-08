@@ -473,6 +473,19 @@
       address:      ' - ',
     };
 
+    // Also log to the Google Sheet CRM (fire-and-forget)
+    try {
+      fetch('https://script.google.com/macros/s/AKfycbz3ZdK_OlRdHWjsGmSIh-L5EW-JemAcLsoSDLmSb8DWM7EwKSp_LjfBsUhElnn6c2nZ/exec', {
+        method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body: JSON.stringify({
+          id: Date.now()*1000+Math.floor(Math.random()*1000), created: new Date().toISOString(),
+          name: name, phone: document.getElementById('phone').value.trim(), email: email,
+          ptype:'Residential', source:'Contact form (website)',
+          surfaces: document.getElementById('service').value || '', status:'New', notes: message
+        })
+      }).catch(function(){});
+    } catch(e){}
+
     // Try EmailJS if configured
     if (EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
       try {

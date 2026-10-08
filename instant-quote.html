@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>Instant Pressure Washing Quote | SoFlo UnderPressure</title>
-<meta name="description" content="Get an instant ballpark price for pressure washing or soft washing in Miami-Dade and Broward. Pick your surfaces and see an estimate in seconds, then we confirm a flat price.">
-<meta name="keywords" content="instant pressure washing quote Miami, pressure washing cost calculator, soft washing estimate Miami-Dade, get a quote pressure washing">
+<meta name="description" content="Get an instant price for pressure washing or soft washing in Miami-Dade and Broward. A few taps, see your estimate and plan options, we confirm a flat price.">
+<meta name="keywords" content="instant pressure washing quote Miami, pressure washing cost calculator, soft washing estimate Miami-Dade">
 <meta name="geo.region" content="US-FL">
 <link rel="canonical" href="https://sofloup.com/instant-quote.html">
 <meta property="og:title" content="Instant Pressure Washing Quote | SoFlo UnderPressure">
-<meta property="og:description" content="Pick your surfaces, see a ballpark price in seconds. Miami-Dade & Broward.">
+<meta property="og:description" content="A few taps, see your price. Miami-Dade & Broward.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://sofloup.com/instant-quote.html">
 <meta property="og:image" content="https://sofloup.com/Pictures/og-default.jpg">
@@ -21,40 +21,53 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,900;1,900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700;800;900&family=Barlow:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="quoti.css">
+<script src="https://accounts.google.com/gsi/client" async></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
 {"@type":"ListItem","position":1,"name":"Home","item":"https://sofloup.com/"},
 {"@type":"ListItem","position":2,"name":"Instant Quote"}]}
 </script>
 <style>
-.iq{max-width:1000px;margin:0 auto;padding-inline:clamp(1.25rem,4vw,3rem)}
-.iq-grid{display:grid;grid-template-columns:1fr 360px;gap:1.4rem;align-items:start;margin-top:1.5rem}
-@media(max-width:860px){.iq-grid{grid-template-columns:1fr}}
-.iq-card{background:#fff;border-radius:var(--r-lg);box-shadow:var(--sh);padding:1.6rem}
-.iq-card h2{font-family:var(--fd);font-weight:800;text-transform:uppercase;font-size:1.1rem;letter-spacing:.02em;color:var(--navy);margin-bottom:1rem}
-.iq-surf{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
-@media(max-width:560px){.iq-surf{grid-template-columns:1fr}}
-.opt{display:flex;align-items:center;gap:.7rem;min-height:52px;border:2px solid var(--line,rgba(24,43,63,.14));border-radius:var(--r);padding:.8rem 1rem;cursor:pointer;font-family:var(--fd);font-weight:700;color:var(--navy)}
+.iq{max-width:720px;margin:0 auto;padding-inline:clamp(1.25rem,4vw,2rem)}
+.prog{height:8px;background:var(--sand-2,#EADFC4);border-radius:100px;overflow:hidden;margin:1.2rem 0}
+.prog span{display:block;height:100%;background:var(--coral);border-radius:100px;transition:width .3s}
+.step{display:none}.step.on{display:block}
+.q{font-family:var(--fd);font-weight:900;text-transform:uppercase;font-size:clamp(1.8rem,5vw,2.6rem);line-height:1;color:var(--navy);margin-bottom:.4rem}
+.qs{color:var(--mid);margin-bottom:1.3rem;font-size:1.02rem}
+.opts{display:grid;gap:.65rem}
+.opt{display:flex;align-items:center;gap:.8rem;min-height:62px;border:2px solid var(--line,rgba(24,43,63,.14));border-radius:var(--r);padding:.9rem 1.2rem;cursor:pointer;font-family:var(--fd);font-weight:700;font-size:1.12rem;color:var(--navy);background:#fff;text-align:left}
+.opt:hover{border-color:var(--aqua-ink)}
 .opt.on{border-color:var(--aqua-ink);background:var(--aqua-lt)}
-.opt input{width:20px;height:20px;accent-color:var(--aqua-ink);flex:none}
-.opt .pr{margin-left:auto;color:var(--aqua-ink);font-weight:800;font-size:.9rem}
-.seg{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.4rem}
-.seg button{font-family:var(--fd);font-weight:700;font-size:.9rem;border:2px solid var(--line,rgba(24,43,63,.14));background:#fff;color:var(--navy);padding:.65rem 1.1rem;border-radius:var(--r);cursor:pointer;min-height:46px}
-.seg button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
-.iq-field{margin-bottom:1rem}
-.iq-field label{display:block;font-family:var(--fd);font-weight:800;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.4rem}
-.iq-field input{width:100%;font-size:16px;border:1.5px solid var(--line,rgba(24,43,63,.14));border-radius:var(--r);padding:.75rem .9rem;background:#fff;min-height:48px;font-family:var(--fb)}
-.iq-check{display:flex;align-items:center;gap:.6rem;font-size:.95rem;margin-bottom:.6rem}
-.iq-check input{width:20px;height:20px;accent-color:var(--aqua-ink)}
-.iq-result{background:var(--navy);color:#fff;border-radius:var(--r-lg);padding:1.6rem;position:sticky;top:6.5rem}
-.iq-result .lbl{font-family:var(--fd);font-weight:800;font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--aqua)}
-.iq-result .big{font-family:var(--fd);font-weight:900;font-size:clamp(2.2rem,6vw,3rem);line-height:1.02;margin:.25rem 0}
-.iq-result .sm{color:rgba(255,255,255,.72);font-size:.9rem}
-.iq-disc{background:var(--sand-2,#EADFC4);border-radius:var(--r);padding:1rem 1.1rem;font-size:.86rem;color:var(--mid);line-height:1.5;margin-top:1rem}
-.iq-disc b{color:var(--navy)}
-.iq-sent{display:none;background:var(--aqua-lt);border-radius:var(--r-lg);padding:1.6rem;text-align:center}
-.iq-sent.show{display:block}
-.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.opt .ck{margin-left:auto;width:24px;height:24px;border-radius:7px;border:2px solid var(--line,rgba(24,43,63,.22));flex:none;display:grid;place-items:center;color:#fff;font-weight:900}
+.opt.on .ck{background:var(--aqua-ink);border-color:var(--aqua-ink)}
+.opt .pr{margin-left:auto;color:var(--aqua-ink);font-weight:800;font-size:1rem}
+.opt.on .pr{margin-left:.5rem}
+.navrow{display:flex;gap:.8rem;margin-top:1.6rem;align-items:center}
+.ibtn{font-family:var(--fd);font-weight:800;text-transform:uppercase;letter-spacing:.04em;border:none;border-radius:var(--pill);padding:1rem 2rem;min-height:54px;cursor:pointer;font-size:.95rem}
+.ibtn-coral{background:var(--coral);color:#fff}.ibtn-coral:hover{background:var(--coral-dk)}
+.ibtn-ghost{background:#fff;color:var(--navy);border:2px solid var(--navy)}
+.ibtn:disabled{opacity:.45}
+.field{margin-bottom:1rem}
+.field label{display:block;font-family:var(--fd);font-weight:800;font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin-bottom:.4rem}
+.field input{width:100%;font-size:16px;border:1.5px solid var(--line,rgba(24,43,63,.16));border-radius:var(--r);padding:.85rem 1rem;background:#fff;min-height:52px;font-family:var(--fb)}
+.result-price{font-family:var(--fd);font-weight:900;font-size:clamp(2.8rem,9vw,4rem);line-height:1;color:var(--navy);margin:.2rem 0}
+.plans{display:grid;gap:.7rem;margin-top:1.2rem}
+.plan{display:flex;align-items:center;gap:.9rem;border:2px solid var(--line,rgba(24,43,63,.14));border-radius:var(--r);padding:1rem 1.1rem;cursor:pointer;background:#fff}
+.plan.on{border-color:var(--coral);background:#fff}
+.plan .pn{font-family:var(--fd);font-weight:900;text-transform:uppercase;color:var(--navy);font-size:1.05rem}
+.plan .pd{font-size:.85rem;color:var(--mid)}
+.plan .pp{margin-left:auto;text-align:right;font-family:var(--fd);font-weight:900;color:var(--coral);font-size:1.2rem;white-space:nowrap}
+.plan .pp small{display:block;font-size:.7rem;color:var(--mid);font-weight:700}
+.plan.best{border-color:var(--coral)}
+.plan .flag{position:absolute;top:-10px;left:16px;background:var(--coral);color:#fff;font-family:var(--fd);font-weight:800;font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;padding:.25rem .7rem;border-radius:100px}
+.planwrap{position:relative}
+.disc{background:var(--sand-2,#EADFC4);border-radius:var(--r);padding:1rem 1.1rem;font-size:.85rem;color:var(--mid);line-height:1.5;margin-top:1.3rem}
+.disc b{color:var(--navy)}
+.gbtn{display:flex;justify-content:center;margin:.2rem 0 1rem}
+.or{text-align:center;color:var(--mid);font-size:.82rem;margin:.6rem 0 1rem;position:relative}
+.hp{position:absolute;left:-9999px}
+.sent{text-align:center;padding:2rem 0}
+.sent .big{font-family:var(--fd);font-weight:900;font-size:2rem;color:var(--navy)}
 </style>
 </head>
 <body>
@@ -62,69 +75,90 @@
 <div class="navbar">
   <nav class="nav">
     <a class="logo" href="index.html"><b>SoFlo</b><span>UnderPressure</span></a>
-    <ul class="nav-links"><li><a href="services.html">Services</a></li><li><a href="services/soft-washing.html">Soft Washing</a></li><li><a href="service-areas.html">Areas</a></li><li><a href="blog.html">Blog</a></li><li><a href="membership.html">Plans</a></li><li><a href="about.html">About</a></li></ul>
-    <div class="nav-cta">
-      <a class="nav-call" href="tel:3058946336">(305) 894-6336</a>
-      <a class="btn btn-yellow" href="quote.html">Get a quote</a>
-    </div>
+    <ul class="nav-links"><li><a href="services.html">Services</a></li><li><a href="services/soft-washing.html">Soft Washing</a></li><li><a href="instant-quote.html">Instant Quote</a></li><li><a href="service-areas.html">Areas</a></li><li><a href="blog.html">Blog</a></li><li><a href="membership.html">Plans</a></li><li><a href="about.html">About</a></li></ul>
+    <div class="nav-cta"><a class="nav-call" href="tel:3058946336">(305) 894-6336</a><a class="btn btn-yellow" href="quote.html">Get a quote</a></div>
     <a class="burger" href="quote.html">Menu</a>
   </nav>
 </div>
 
-<header class="page-hero" id="main" style="max-width:1000px;margin:0 auto;padding-inline:clamp(1.25rem,4vw,3rem)">
-  <div class="section-eyebrow" style="font-family:var(--fd);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.8rem;color:var(--peri-dk)">Instant estimate</div>
-  <h1 class="page-title" style="font-family:var(--fd);font-weight:900;text-transform:uppercase;font-size:clamp(2.4rem,7vw,4.4rem);line-height:.95;color:var(--navy);margin:.4rem 0 .6rem">See your price<br><em style="font-style:normal;color:var(--coral)">in seconds.</em></h1>
-  <p style="color:var(--mid);max-width:52ch;font-size:1.05rem">Pick what needs cleaning and get a real ballpark right now. No waiting, no pushy sales. We confirm a flat price after a quick look.</p>
+<header class="page-hero" id="main" style="max-width:720px;margin:0 auto;padding:7rem 0 0;padding-inline:clamp(1.25rem,4vw,2rem)">
+  <div style="font-family:var(--fd);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.8rem;color:var(--peri-dk)">Instant estimate</div>
+  <h1 style="font-family:var(--fd);font-weight:900;text-transform:uppercase;font-size:clamp(2.4rem,7vw,4rem);line-height:.95;color:var(--navy);margin:.4rem 0 .4rem">See your price<br><em style="font-style:normal;color:var(--coral)">in a few taps.</em></h1>
+  <p style="color:var(--mid);font-size:1.05rem">No forms to slog through. Tap what needs cleaning, get a real number, we confirm the flat price.</p>
 </header>
 
 <main class="iq" style="padding-bottom:4rem">
-  <div class="iq-grid">
-    <div>
-      <div class="iq-card" style="margin-bottom:1.1rem">
-        <h2>1. What needs cleaning?</h2>
-        <div class="iq-surf" id="surf"></div>
-      </div>
-      <div class="iq-card" style="margin-bottom:1.1rem">
-        <h2>2. How big is the property?</h2>
-        <div class="seg" id="size"></div>
-        <p style="font-size:.84rem;color:var(--mid);margin-top:.6rem">Small = 1-car drive / small yard. X-large = big estate or long run. A rough pick is fine.</p>
-      </div>
-      <div class="iq-card" style="margin-bottom:1.1rem">
-        <h2>3. How dirty is it?</h2>
-        <div class="seg" id="cond"></div>
-        <div style="margin-top:1rem">
-          <label class="iq-check"><input type="checkbox" id="twostory"> Two-story home</label>
-          <label class="iq-check" id="tileWrap" style="display:none"><input type="checkbox" id="tile"> Barrel / clay tile roof</label>
-          <label class="iq-check"><input type="checkbox" id="stains"> Heavy oil or rust stains</label>
-        </div>
-      </div>
-      <div class="iq-card" id="contactCard">
-        <h2>4. Where do we send it?</h2>
-        <div class="iq-field"><label>Name</label><input id="c_name" autocomplete="name"></div>
-        <div class="iq-field"><label>Phone</label><input id="c_phone" type="tel" inputmode="tel" autocomplete="tel"></div>
-        <div class="iq-field"><label>Email</label><input id="c_email" type="email" autocomplete="email"></div>
-        <div class="iq-field"><label>Property address</label><input id="c_addr" autocomplete="street-address"></div>
-        <input class="hp" id="company" tabindex="-1" autocomplete="off" placeholder="Company">
-        <button class="btn btn-primary" id="sendBtn" style="width:100%;justify-content:center">Send me this estimate →</button>
-        <p id="formMsg" style="font-size:.86rem;margin-top:.7rem;font-weight:700"></p>
-      </div>
-      <div class="iq-sent" id="sent">
-        <div style="font-family:var(--fd);font-weight:900;font-size:1.6rem;color:var(--navy)">Got it. We'll be in touch.</div>
-        <p style="color:var(--mid);margin-top:.5rem">We'll confirm your flat price today, usually within a few hours. Or call us now at <a href="tel:3058946336" style="color:var(--peri-dk);font-weight:700">(305) 894-6336</a>.</p>
-      </div>
-    </div>
+  <div class="prog"><span id="bar" style="width:12%"></span></div>
 
-    <div>
-      <div class="iq-result">
-        <div class="lbl">Your estimate</div>
-        <div class="big" id="range">Pick a surface</div>
-        <div class="sm" id="sub">Select what needs cleaning to see your price.</div>
-      </div>
-      <div class="iq-disc">
-        <b>Heads up:</b> this is an instant ballpark from what you picked. Your <b>final flat price is confirmed after we see the property or a couple of photos</b>. Tough access, heavy buildup, extra surfaces, or an easier job than expected can move the number up or down. No surprises on the invoice, we agree the price before any work starts.
-      </div>
+  <!-- STEP 1 surfaces -->
+  <section class="step on" data-step="surf">
+    <div class="q">What needs cleaning?</div>
+    <div class="qs">Pick all that apply.</div>
+    <div class="opts" id="surf"></div>
+    <div class="navrow"><button class="ibtn ibtn-coral" id="s1next" style="margin-left:auto">Next →</button></div>
+  </section>
+
+  <!-- STEP 2 size -->
+  <section class="step" data-step="size">
+    <div class="q">How big is it?</div>
+    <div class="qs">A rough pick is fine. Small = 1-car drive / small yard. X-large = big estate.</div>
+    <div class="opts" id="size"></div>
+    <div class="navrow"><button class="ibtn ibtn-ghost" data-back>← Back</button></div>
+  </section>
+
+  <!-- STEP 3 condition -->
+  <section class="step" data-step="cond">
+    <div class="q">How dirty is it?</div>
+    <div class="qs">Be honest, it only helps the estimate.</div>
+    <div class="opts" id="cond"></div>
+    <div class="navrow"><button class="ibtn ibtn-ghost" data-back>← Back</button></div>
+  </section>
+
+  <!-- STEP 4 details -->
+  <section class="step" data-step="detail">
+    <div class="q">A couple details</div>
+    <div class="qs">Tap any that apply, or just hit Next.</div>
+    <div class="opts">
+      <label class="opt" data-k="twostory"><span>Two-story home</span><span class="ck">✓</span></label>
+      <label class="opt" data-k="tile" id="tileOpt" style="display:none"><span>Barrel / clay tile roof</span><span class="ck">✓</span></label>
+      <label class="opt" data-k="stains"><span>Heavy oil or rust stains</span><span class="ck">✓</span></label>
     </div>
-  </div>
+    <div class="navrow"><button class="ibtn ibtn-ghost" data-back>← Back</button><button class="ibtn ibtn-coral" id="s4next" style="margin-left:auto">See my price →</button></div>
+  </section>
+
+  <!-- STEP 5 estimate + plans -->
+  <section class="step" data-step="price">
+    <div style="font-family:var(--fd);font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:.78rem;color:var(--peri-dk)">Your estimate</div>
+    <div class="result-price" id="price">$0</div>
+    <div class="qs" id="priceSub">Ballpark range. We confirm a flat price after a quick look.</div>
+    <div style="font-family:var(--fd);font-weight:800;text-transform:uppercase;color:var(--navy);margin:.4rem 0 .2rem;font-size:1.05rem">Keep it clean all year &amp; save</div>
+    <div class="plans" id="plans"></div>
+    <div class="navrow"><button class="ibtn ibtn-ghost" data-back>← Back</button><button class="ibtn ibtn-coral" id="s5next" style="margin-left:auto">Looks good →</button></div>
+    <div class="disc"><b>Heads up:</b> this is an instant ballpark from what you picked. Your <b>final flat price is confirmed after we see the property or a couple of photos</b>. Tough access, heavy buildup, extra surfaces, or an easier job than expected can move it. No surprises, we agree the price before any work starts.</div>
+  </section>
+
+  <!-- STEP 6 contact -->
+  <section class="step" data-step="contact">
+    <div class="q">Where do we send it?</div>
+    <div class="qs">We'll confirm your flat price today, usually within a few hours.</div>
+    <div class="gbtn" id="gbtn"></div>
+    <div class="or" id="orline" style="display:none">— or —</div>
+    <div class="field"><label>Name</label><input id="c_name" autocomplete="name"></div>
+    <div class="field"><label>Phone</label><input id="c_phone" type="tel" inputmode="tel" autocomplete="tel"></div>
+    <div class="field"><label>Email</label><input id="c_email" type="email" inputmode="email" autocomplete="email"></div>
+    <div class="field"><label>Property address <span style="text-transform:none;font-weight:600;color:var(--mid)">(optional)</span></label><input id="c_addr" autocomplete="street-address"></div>
+    <input class="hp" id="company" tabindex="-1" autocomplete="off" placeholder="Company">
+    <button class="ibtn ibtn-coral" id="submit" style="width:100%;margin-top:.4rem">Send me my quote</button>
+    <p id="formMsg" style="font-size:.86rem;margin-top:.7rem;font-weight:700"></p>
+  </section>
+
+  <!-- DONE -->
+  <section class="step" data-step="done">
+    <div class="sent">
+      <div class="big">Got it. We're on it.</div>
+      <p style="color:var(--mid);margin-top:.6rem">We'll confirm your flat price today, usually within a few hours. Prefer to talk now? Call <a href="tel:3058946336" style="color:var(--peri-dk);font-weight:700">(305) 894-6336</a>.</p>
+    </div>
+  </section>
 </main>
 
 <footer class="ft-flush"><div class="wrap">
@@ -154,64 +188,110 @@
 </div></footer>
 
 <script>
+/* paste a Google OAuth Client ID here to turn on "Sign in with Google". Empty = email/phone only. */
+var GOOGLE_CLIENT_ID='';
 var EXEC='https://script.google.com/macros/s/AKfycbz3ZdK_OlRdHWjsGmSIh-L5EW-JemAcLsoSDLmSb8DWM7EwKSp_LjfBsUhElnn6c2nZ/exec';
 var P={driveway:149,walkway:99,patio:179,fence:149,house:299,roof:399,screen:149};
 var SURF=[['driveway','Driveway'],['walkway','Walkway / sidewalk'],['patio','Patio / pool deck'],['fence','Fence'],['house','House exterior (soft wash)'],['roof','Roof soft wash'],['screen','Screen enclosure / pool cage']];
 var SIZES=[['Small',1],['Medium',1.5],['Large',2.1],['X-large',2.8]];
 var CONDS=[['Light',1],['Moderate',1.25],['Heavy',1.55]];
 var MIN=175;
-var st={surf:{},size:1,sizeNm:'Small',cond:1,condNm:'Light',twostory:false,tile:false,stains:false};
+var st={surf:{},size:0,sizeNm:'',cond:0,condNm:'',twostory:false,tile:false,stains:false,plan:''};
+var STEPS=['surf','size','cond','detail','price','contact','done'];
+var i=0;
 var $=function(s){return document.querySelector(s)};
 var money=function(n){return '$'+Math.round(n).toLocaleString('en-US')};
 
+function show(n){
+  i=Math.max(0,Math.min(n,STEPS.length-1));
+  var key=STEPS[i];
+  document.querySelectorAll('.step').forEach(function(s){s.classList.toggle('on',s.dataset.step===key);});
+  $('#bar').style.width=Math.round(((i+1)/STEPS.length)*100)+'%';
+  if(key==='price')renderPrice();
+  if(key==='contact')maybeGoogle();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function next(){show(i+1);}
+document.querySelectorAll('[data-back]').forEach(function(b){b.onclick=function(){show(i-1);};});
+
+/* step 1 surfaces (multi) */
 var sw=$('#surf');
 SURF.forEach(function(s){
   var el=document.createElement('label');el.className='opt';
-  el.innerHTML='<input type="checkbox"><span>'+s[1]+'</span><span class="pr">from $'+P[s[0]]+'</span>';
-  el.querySelector('input').addEventListener('change',function(e){st.surf[s[0]]=e.target.checked;el.classList.toggle('on',e.target.checked);if(s[0]==='roof')$('#tileWrap').style.display=e.target.checked?'flex':'none';calc();});
+  el.innerHTML='<span>'+s[1]+'</span><span class="pr">from $'+P[s[0]]+'</span><span class="ck">✓</span>';
+  el.onclick=function(){st.surf[s[0]]=!st.surf[s[0]];el.classList.toggle('on',st.surf[s[0]]);if(s[0]==='roof')$('#tileOpt').style.display=st.surf[s[0]]?'flex':'none';};
   sw.appendChild(el);
 });
-function seg(sel,items,setv,setn,def){var c=$(sel);items.forEach(function(it,i){var b=document.createElement('button');b.textContent=it[0];if(i===def)b.classList.add('on');b.onclick=function(){[].forEach.call(c.children,function(x){x.classList.remove('on')});b.classList.add('on');setv(it[1]);setn(it[0]);calc();};c.appendChild(b);});}
-seg('#size',SIZES,function(v){st.size=v},function(n){st.sizeNm=n},0);
-seg('#cond',CONDS,function(v){st.cond=v},function(n){st.condNm=n},0);
-$('#twostory').onchange=function(e){st.twostory=e.target.checked;calc();};
-$('#tile').onchange=function(e){st.tile=e.target.checked;calc();};
-$('#stains').onchange=function(e){st.stains=e.target.checked;calc();};
+$('#s1next').onclick=function(){if(!Object.keys(st.surf).some(function(k){return st.surf[k]})){return;}next();};
+
+/* step 2 size, step 3 condition (auto-advance) */
+function singleStep(sel,items,setv,setn,key){var c=$(sel);items.forEach(function(it){var el=document.createElement('label');el.className='opt';el.innerHTML='<span>'+it[0]+'</span>';el.onclick=function(){[].forEach.call(c.children,function(x){x.classList.remove('on')});el.classList.add('on');setv(it[1]);setn(it[0]);setTimeout(next,160);};c.appendChild(el);});}
+singleStep('#size',SIZES,function(v){st.size=v},function(n){st.sizeNm=n},'size');
+singleStep('#cond',CONDS,function(v){st.cond=v},function(n){st.condNm=n},'cond');
+
+/* step 4 details */
+document.querySelectorAll('[data-k]').forEach(function(el){el.onclick=function(){var k=el.dataset.k;st[k]=!st[k];el.classList.toggle('on',st[k]);};});
+$('#s4next').onclick=next;
 
 function total(){
   var t=0,any=false;
-  SURF.forEach(function(s){if(!st.surf[s[0]])return;any=true;var p=P[s[0]]*st.size*st.cond;
+  SURF.forEach(function(s){if(!st.surf[s[0]])return;any=true;var p=P[s[0]]*(st.size||1)*(st.cond||1);
     if(st.twostory&&(s[0]==='house'||s[0]==='roof'))p*=1.2;
     if(s[0]==='roof'&&st.tile)p*=1.1;t+=p;});
   if(st.stains)t+=50;
   if(t>0&&t<MIN)t=MIN;
   return any?t:0;
 }
-function calc(){
+function renderPrice(){
   var t=total();
-  if(t<=0){$('#range').textContent='Pick a surface';$('#sub').textContent='Select what needs cleaning to see your price.';return;}
-  $('#range').textContent=money(t*0.9)+' – '+money(t*1.2);
-  $('#sub').textContent='Ballpark range. We confirm a flat price after a quick look.';
+  $('#price').textContent=money(t*0.9)+' – '+money(t*1.2);
+  var pv2=t*0.85,pv4=t*0.75;
+  $('#plans').innerHTML=[
+    ['oneoff','One-time clean','Just this once','',money(t*0.9)+' – '+money(t*1.2),''],
+    ['plan2','Bragging Rights','2 visits a year','best',money(pv2),'per visit'],
+    ['plan4','The Show-Off','4 visits a year, best rate','',money(pv4),'per visit']
+  ].map(function(p){
+    return '<div class="planwrap"><div class="plan'+(st.plan===p[0]?' on':'')+(p[3]==='best'?' best':'')+'" data-plan="'+p[0]+'">'+(p[3]==='best'?'<span class="flag">Most popular</span>':'')+'<div><div class="pn">'+p[1]+'</div><div class="pd">'+p[2]+'</div></div><div class="pp">'+p[4]+(p[5]?'<small>'+p[5]+'</small>':'')+'</div></div></div>';
+  }).join('');
+  document.querySelectorAll('[data-plan]').forEach(function(el){el.onclick=function(){st.plan=el.dataset.plan;renderPrice();};});
 }
+$('#s5next').onclick=next;
+
+/* step 6 contact + google */
+function maybeGoogle(){
+  if(!GOOGLE_CLIENT_ID||!window.google||!google.accounts){return;}
+  try{
+    google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:onGoogle});
+    google.accounts.id.renderButton($('#gbtn'),{theme:'filled_blue',size:'large',width:320,text:'continue_with'});
+    $('#orline').style.display='block';
+  }catch(e){}
+}
+function onGoogle(resp){
+  try{var p=JSON.parse(atob(resp.credential.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
+    if(p.name&&!$('#c_name').value)$('#c_name').value=p.name;
+    if(p.email&&!$('#c_email').value)$('#c_email').value=p.email;
+    $('#c_phone').focus();
+  }catch(e){}
+}
+function planLabel(){return {oneoff:'One-time clean',plan2:'Bragging Rights (2x/yr)',plan4:'The Show-Off (4x/yr)'}[st.plan]||'';}
 function surfText(){return SURF.filter(function(s){return st.surf[s[0]]}).map(function(s){return s[1]}).join(', ');}
 
-$('#sendBtn').onclick=function(){
-  if($('#company').value){return;} // honeypot
-  var name=$('#c_name').value.trim(),phone=$('#c_phone').value.trim();
-  if(!Object.keys(st.surf).some(function(k){return st.surf[k]})){$('#formMsg').style.color='var(--coral)';$('#formMsg').textContent='Pick at least one surface first.';return;}
-  if(!name||!phone){$('#formMsg').style.color='var(--coral)';$('#formMsg').textContent='Add your name and phone so we can send it.';return;}
+$('#submit').onclick=function(){
+  if($('#company').value)return; /* honeypot */
+  var name=$('#c_name').value.trim(),phone=$('#c_phone').value.trim(),email=$('#c_email').value.trim();
+  if(!phone&&!email){$('#formMsg').style.color='var(--coral)';$('#formMsg').textContent='Add a phone or email so we can send your quote.';return;}
   var t=total();
-  var lead={id:Date.now()*1000+Math.floor(Math.random()*1000),created:new Date().toISOString(),name:name,phone:phone,email:$('#c_email').value.trim(),address:$('#c_addr').value.trim(),
-    ptype:'Residential',source:'Instant estimator (website)',surfaces:surfText(),size:st.sizeNm,condition:st.condNm,twostory:st.twostory,
-    estimate:Math.round(t),estLow:Math.round(t*0.9),estHigh:Math.round(t*1.2),status:'New',notes:'Customer self-estimate'+(st.tile?' · tile roof':'')+(st.stains?' · heavy stains':'')};
-  $('#sendBtn').disabled=true;$('#sendBtn').textContent='Sending...';
-  fetch(EXEC,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(lead)})
-    .then(function(){done();}).catch(function(){done();});
-  setTimeout(done,2500);
+  var lead={id:Date.now()*1000+Math.floor(Math.random()*1000),created:new Date().toISOString(),
+    name:name,phone:phone,email:email,address:$('#c_addr').value.trim(),ptype:'Residential',
+    source:'Instant estimator (website)',surfaces:surfText(),size:st.sizeNm,condition:st.condNm,twostory:st.twostory,
+    estimate:Math.round(t),estLow:Math.round(t*0.9),estHigh:Math.round(t*1.2),status:'New',
+    notes:'Customer self-estimate'+(st.tile?' · tile roof':'')+(st.stains?' · heavy stains':'')+(st.plan?' · interested: '+planLabel():'')};
+  $('#submit').disabled=true;$('#submit').textContent='Sending...';
+  fetch(EXEC,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(lead)}).then(fin).catch(fin);
+  setTimeout(fin,2500);
 };
-var finished=false;
-function done(){if(finished)return;finished=true;$('#contactCard').style.display='none';$('#sent').classList.add('show');$('#sent').scrollIntoView({behavior:'smooth',block:'center'});}
-calc();
+var done=false;function fin(){if(done)return;done=true;show(STEPS.indexOf('done'));}
+show(0);
 </script>
 </body>
 </html>

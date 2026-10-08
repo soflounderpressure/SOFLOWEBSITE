@@ -1423,6 +1423,22 @@ async function submitForm() {
     to_email:      'SoFlo.Underpressure@gmail.com',
   };
 
+  // Also log the lead to the Google Sheet CRM (fire-and-forget)
+  try {
+    fetch('https://script.google.com/macros/s/AKfycbz3ZdK_OlRdHWjsGmSIh-L5EW-JemAcLsoSDLmSb8DWM7EwKSp_LjfBsUhElnn6c2nZ/exec', {
+      method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify({
+        id: Date.now()*1000+Math.floor(Math.random()*1000), created: new Date().toISOString(),
+        name: name, phone: phone, email: email,
+        address: (chosenAddress || document.getElementById('addressInput').value || ''),
+        ptype:'Residential', source:'Quote form (website)',
+        surfaces: selectedServices.map(function(s){return s.service;}).join(', '),
+        size: buildSizeSummary(), estimate: (estLow||''), estLow: (estLow||''), estHigh: (estHigh||''),
+        status:'New', notes: (notes||'') + (window._membershipPlan ? ' · membership interest: '+window._membershipPlan : '')
+      })
+    }).catch(function(){});
+  } catch(e){}
+
   // Send via EmailJS
   let emailSent = false;
   if (EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
