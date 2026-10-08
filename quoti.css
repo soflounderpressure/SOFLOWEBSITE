@@ -906,3 +906,30 @@ footer,footer.ft-flush{border-radius:0!important}
   --line:rgba(24,43,63,.12);
 }
 html{background:var(--paper)}
+:root{--fx:'Jost','Archivo','Barlow',sans-serif}
+
+/* ── wider layout: use more of the screen, less boxed-in feel ── */
+.wrap,.section-wrap,.hoa-inner,.footer-top,.plans-inner,.story-inner,.values-inner,.area-inner,.why-recurring-inner{max-width:1480px!important}
+.tiles{max-width:1360px!important}
+nav#nav,.nav{max-width:1340px!important}
+.sec-head{max-width:760px}
+.post-wrap{max-width:820px!important}
+/* inner-page heroes: left-aligned, use the width, less dead space */
+.page-hero,.services-hero,.resources-hero,.area-hero,.contract-hero{
+  text-align:left!important;max-width:1480px;margin-inline:auto;
+  padding-top:clamp(7rem,10vw,8.5rem)!important;padding-bottom:clamp(2rem,4vw,3.2rem)!important}
+.page-hero .section-eyebrow,.services-hero .section-eyebrow,.resources-hero .section-eyebrow{justify-content:flex-start!important}
+
+/* ── retro sun motif fills the inner-hero void (Sunliner nod), CSS-only ── */
+.page-hero,.services-hero,.resources-hero,.area-hero,.contract-hero{position:relative;overflow:hidden}
+.page-hero::after,.services-hero::after,.resources-hero::after,.area-hero::after,.contract-hero::after{
+  content:"";position:absolute;right:-7%;top:50%;transform:translateY(-50%);
+  width:min(46vw,520px);aspect-ratio:1;pointer-events:none;z-index:0;opacity:.22;
+  background:
+    radial-gradient(circle at 50% 50%, var(--yellow) 0 24%, transparent 25%),
+    repeating-conic-gradient(from 7deg at 50% 50%, var(--yellow) 0 3deg, transparent 3deg 11deg);
+  -webkit-mask:radial-gradient(circle at 50% 50%, #000 70%, transparent 72%);
+          mask:radial-gradient(circle at 50% 50%, #000 70%, transparent 72%);
+}
+.page-hero>*,.services-hero>*,.resources-hero>*,.area-hero>*,.contract-hero>*{position:relative;z-index:1}
+@media(max-width:760px){.page-hero::after,.services-hero::after,.resources-hero::after,.area-hero::after,.contract-hero::after{display:none}}
