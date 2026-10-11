@@ -265,13 +265,15 @@ function renderPrice(){
   $('#priceSub').textContent=nSurf>1?'Bundle price — extra surfaces are discounted since we clean them in one visit. We confirm a flat price after a quick look.':'Ballpark range. We confirm a flat price after a quick look.';
   var tm=total(1); /* upkeep visits are light-maintenance once it's been deep-cleaned */
   var pv2=tm*0.85,pv4=tm*0.75;
-  $('#plansNote').textContent='Pick a schedule and it just stays clean. We come back on our own and keep it sparkling, and every upkeep visit is billed at the lighter maintenance rate, not the first-clean price. Nothing to remember.';
+  var fc='First clean from '+money(t*0.9)+', then this';
+  $('#plansNote').textContent='Your first visit is a full deep clean, so it costs the most. After that it stays clean and every maintenance visit is kept to a minimum.';
   $('#plans').innerHTML=[
-    ['oneoff','One-time clean','Just this once','',money(t*0.9)+' – '+money(t*1.2),''],
-    ['plan2','Bragging Rights','2 visits a year · upkeep rate','best',money(pv2),'per visit'],
-    ['plan4','The Show-Off','4 visits a year · best upkeep rate','',money(pv4),'per visit']
+    ['oneoff','One-time clean','Just this once','',money(t*0.9)+' – '+money(t*1.2),'',''],
+    ['plan2','Bragging Rights','2 visits a year','best',money(pv2),'per upkeep visit',fc],
+    ['plan4','The Show-Off','4 visits a year','',money(pv4),'per upkeep visit',fc]
   ].map(function(p){
-    return '<div class="planwrap"><div class="plan'+(st.plan===p[0]?' on':'')+(p[3]==='best'?' best':'')+'" data-plan="'+p[0]+'">'+(p[3]==='best'?'<span class="flag">Most popular</span>':'')+'<div><div class="pn">'+p[1]+'</div><div class="pd">'+p[2]+'</div></div><div class="pp">'+p[4]+(p[5]?'<small>'+p[5]+'</small>':'')+'</div></div></div>';
+    var extra=p[6]?'<div class="pd" style="color:var(--coral);font-weight:700;margin-top:.1rem">'+p[6]+'</div>':'';
+    return '<div class="planwrap"><div class="plan'+(st.plan===p[0]?' on':'')+(p[3]==='best'?' best':'')+'" data-plan="'+p[0]+'">'+(p[3]==='best'?'<span class="flag">Most popular</span>':'')+'<div><div class="pn">'+p[1]+'</div><div class="pd">'+p[2]+'</div>'+extra+'</div><div class="pp">'+p[4]+(p[5]?'<small>'+p[5]+'</small>':'')+'</div></div></div>';
   }).join('');
   document.querySelectorAll('[data-plan]').forEach(function(el){el.onclick=function(){st.plan=el.dataset.plan;renderPrice();};});
 }
@@ -300,12 +302,12 @@ $('#submit').onclick=function(){
   if($('#company').value)return; /* honeypot */
   var name=$('#c_name').value.trim(),phone=$('#c_phone').value.trim(),email=$('#c_email').value.trim();
   if(!phone&&!email){$('#formMsg').style.color='var(--coral)';$('#formMsg').textContent='Add a phone or email so we can send your quote.';return;}
-  var t=total();
+  var t=total(),tm=total(1);
   var lead={type:'weblead',id:Date.now()*1000+Math.floor(Math.random()*1000),created:new Date().toISOString(),
     name:name,phone:phone,email:email,address:$('#c_addr').value.trim(),ptype:'Residential',
     source:'Instant estimator (website)',surfaces:surfText(),size:st.sizeNm,condition:st.condNm,twostory:st.twostory,
     estimate:Math.round(t),estLow:Math.round(t*0.9),estHigh:Math.round(t*1.2),status:'New',
-    notes:'Customer self-estimate'+(st.tile?' · tile roof':'')+(st.stains?' · heavy stains':'')+(st.plan?' · interested: '+planLabel():'')};
+    notes:'Customer self-estimate · first clean '+money(Math.round(t*0.9))+'-'+money(Math.round(t*1.2))+' · upkeep ~'+money(Math.round(tm*0.75))+'-'+money(Math.round(tm*0.85))+'/visit'+(st.tile?' · tile roof':'')+(st.stains?' · heavy stains':'')+(st.plan?' · interested: '+planLabel():'')};
   $('#submit').disabled=true;$('#submit').textContent='Sending...';
   fetch(EXEC,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(lead)}).then(fin).catch(fin);
   setTimeout(fin,2500);
