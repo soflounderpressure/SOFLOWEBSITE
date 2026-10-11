@@ -879,6 +879,18 @@ footer,footer.ft-flush{border-radius:0!important}
   .navbar .nav:not(#_){padding:.5rem .5rem .5rem .6rem!important}
 }
 
+/* ── mobile dropdown menu: burger is a checkbox toggle, no JS. nav links +
+      call + quote drop below the bar when open; navigating closes it ── */
+.nav-toggle{position:absolute!important;width:1px;height:1px;opacity:0;pointer-events:none;margin:-1px;overflow:hidden}
+@media(max-width:960px){
+  .navbar:has(.nav-toggle:checked) .nav:not(#_){flex-wrap:wrap!important;row-gap:.3rem!important}
+  .navbar:has(.nav-toggle:checked) .nav-links:not(#_){display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:0!important;order:5!important;flex-basis:100%!important;width:100%!important;margin-top:.4rem!important;padding-top:.35rem!important;border-top:1px solid rgba(255,255,255,.14)!important}
+  .navbar:has(.nav-toggle:checked) .nav-links a:not(#_){display:flex!important;align-items:center!important;min-height:46px!important;padding:.1rem .25rem!important;font-size:1rem!important;color:#fff!important;opacity:.92!important}
+  .navbar:has(.nav-toggle:checked) .nav-cta:not(#_){display:flex!important;flex-direction:column!important;align-items:stretch!important;order:6!important;flex-basis:100%!important;width:100%!important;gap:.35rem!important;margin-top:.35rem!important}
+  .navbar:has(.nav-toggle:checked) .nav-call:not(#_){display:inline-flex!important;width:100%!important;justify-content:center!important;min-height:46px!important;background:var(--sand)!important;color:var(--navy)!important;border-radius:10px!important}
+  .navbar:has(.nav-toggle:checked) .nav-cta .btn:not(#_){display:inline-flex!important;width:100%!important;justify-content:center!important;min-height:46px!important;align-items:center!important}
+}
+
 /* ── hero content must never flash invisible (above the fold) ──────────
    legacy .reveal starts opacity:0 until JS adds .visible, which flashes
    the hero (esp. on mobile). Force hero reveals visible; below-fold
