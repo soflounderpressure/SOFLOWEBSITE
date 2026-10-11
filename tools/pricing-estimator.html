@@ -34,7 +34,7 @@ const {useState,useEffect,useRef}=React;
 const LS='soflo_leads_v1',LS_URL='soflo_sheet_url',LS_PRICE='soflo_pricing',LS_TMPL='soflo_tmpl';
 const DEF_SHEET='https://script.google.com/macros/s/AKfycbz3ZdK_OlRdHWjsGmSIh-L5EW-JemAcLsoSDLmSb8DWM7EwKSp_LjfBsUhElnn6c2nZ/exec';
 const DEF_TMPL="Hi {name}, thanks for reaching out to SoFlo UnderPressure.\n\nYour estimate for {surfaces}: {range}.\nThat's a flat price we lock in after a quick look at the property or a couple of photos. No hourly, no surprises on the invoice.\n\nWant to grab a day this week? Reply here or call (305) 894-6336.\n- Saul, SoFlo UnderPressure";
-const DEF_PRICING={driveway:149,walkway:99,patio:179,fence:149,house:299,roof:399,screen:149,oil:50,rust:65,gutter:95,min:175,tile:1.1,twostory:1.2,nowater:50,tight:1.10};
+const DEF_PRICING={driveway:99,walkway:79,patio:129,fence:99,house:249,roof:299,screen:129,oil:50,rust:65,gutter:95,min:99,tile:1.1,twostory:1.2,nowater:50,tight:1.10};
 const SURFACES=[['driveway','Driveway'],['walkway','Walkway / sidewalk'],['patio','Patio / pool deck'],['fence','Fence'],['house','House exterior (soft wash)'],['roof','Roof soft wash'],['screen','Screen enclosure / pool cage']];
 const SIZES=[['Small',1.0],['Medium',1.5],['Large',2.1],['X-large',2.8]];
 const CONDS=[['Light',1.0],['Moderate',1.25],['Heavy',1.55]];
