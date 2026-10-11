@@ -50,12 +50,23 @@ Legend: **AI** = AI-generated stopgap, replace with a real photo when you can ·
 
 ---
 
-## Known duplicates fixed (AI) on 2026-10-11
-Same real file was used in two slots; one copy replaced with a distinct AI image:
-- `A08` was identical to `B08`
-- `E01` was identical to `D01` (D01 kept)
-- `G01` was identical to `C06` (C06 kept)
-- `H01` was identical to `E02` (E02 kept)
-- `I08` was identical to `I02` (I02 kept)
+## 2026-10-11 AI pass — status
+
+**Live on the site now (AI, verified rendering):**
+- `A06-work-roof.jpg` — homepage roof section (real soft-wash result, replaced the deck mismatch)
+- `B08-process-quote.jpg` — services "How it works" → Quote step
+- `B09-process-schedule.jpg` — services "How it works" → Schedule step (replaced blurry shot)
+- `I08-area-doral.jpg` — Doral + area pages (broke the I02/I08 duplicate)
+
+**Generated and ready, but NOT wired to any page** (these pages use plain gradient/color heroes — no photo slot exists yet). Files sit in `Pictures/`, ready if you want photo heroes added:
+- `A02-hero-mobile.jpg` (vertical driveway) — homepage mobile hero currently uses A10/A03
+- `E01-quote-hero.jpg` — quote.html has no hero photo
+- `G01-resources-hero.jpg` — resources.html has no hero photo
+- `H01-contract-hero.jpg` — contract.html has no hero photo
+- `A08-card-house.jpg`, `A09-card-fence.jpg` — card slots not referenced
+
+➡️ **To use these: tell Claude "wire in the ready hero photos" and it will add photo heroes to quote / resources / contract (and swap the mobile hero).**
+
+**Duplicates found (files were byte-identical):** `A08=B08`, `E01=D01`, `G01=C06`, `H01=E02`, `I08=I02`. Only `I08=I02` was actually visible on the live site (both shown) — now fixed. The others involved unwired files, so no visible duplication.
 
 **Tip:** when you send real photos, drop them in a folder and tell Claude which file each should replace — Claude will resize, strip the AI tag, and swap them in.
