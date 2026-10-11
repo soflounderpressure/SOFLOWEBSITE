@@ -55,15 +55,22 @@ const copy=t=>(navigator.clipboard&&navigator.clipboard.writeText)?copy(t).catch
 if(localStorage.getItem(LS_URL)===null){lsSet(LS_URL,DEF_SHEET);}
 
 /* ===== pricing engine ===== */
+/* how hard the one "size" pick scales each surface; linear surfaces don't balloon like a slab does */
+const SIZEW={driveway:1,walkway:0.4,patio:1,fence:0.5,house:1,roof:1,screen:1};
+/* bundle: biggest surface full price, each additional surface at this rate (crew already on site) */
+const BUNDLE=0.6;
 function totalFor(st,P){
-  let t=0;
+  let prices=[];
   SURFACES.forEach(([id])=>{
     if(!st.surf[id])return;
-    let p=(Number(P[id])||0)*st.size*st.cond;
+    const eff=1+((st.size||1)-1)*(SIZEW[id]!=null?SIZEW[id]:1);
+    let p=(Number(P[id])||0)*eff*st.cond;
     if(st.twostory&&(id==='house'||id==='roof'))p*=Number(P.twostory)||1;
     if(id==='roof'&&st.roofType.indexOf('Tile')===0)p*=Number(P.tile)||1;
-    t+=p;
+    prices.push(p);
   });
+  prices.sort((a,b)=>b-a);
+  let t=0;prices.forEach((p,idx)=>{t+=idx===0?p:p*BUNDLE;});
   if(st.tight)t*=Number(P.tight)||1;
   ADDONS.forEach(([id,,flag])=>{if(st.addons[id]&&!flag)t+=Number(P[id])||0;});
   if(!st.water)t+=Number(P.nowater)||0;
