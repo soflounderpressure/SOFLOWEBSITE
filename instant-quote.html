@@ -295,7 +295,7 @@ $('#submit').onclick=function(){
   var name=$('#c_name').value.trim(),phone=$('#c_phone').value.trim(),email=$('#c_email').value.trim();
   if(!phone&&!email){$('#formMsg').style.color='var(--coral)';$('#formMsg').textContent='Add a phone or email so we can send your quote.';return;}
   var t=total();
-  var lead={id:Date.now()*1000+Math.floor(Math.random()*1000),created:new Date().toISOString(),
+  var lead={type:'weblead',id:Date.now()*1000+Math.floor(Math.random()*1000),created:new Date().toISOString(),
     name:name,phone:phone,email:email,address:$('#c_addr').value.trim(),ptype:'Residential',
     source:'Instant estimator (website)',surfaces:surfText(),size:st.sizeNm,condition:st.condNm,twostory:st.twostory,
     estimate:Math.round(t),estLow:Math.round(t*0.9),estHigh:Math.round(t*1.2),status:'New',
