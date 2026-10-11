@@ -122,6 +122,7 @@
       <label class="opt" data-k="twostory"><span>Two-story home</span><span class="ck">✓</span></label>
       <label class="opt" data-k="tile" id="tileOpt" style="display:none"><span>Barrel / clay tile roof</span><span class="ck">✓</span></label>
       <label class="opt" data-k="stains"><span>Heavy oil or rust stains</span><span class="ck">✓</span></label>
+      <label class="opt" data-k="regrowth"><span>Shady or damp spot (moss &amp; algae come back fast)</span><span class="ck">✓</span></label>
     </div>
     <div class="navrow"><button class="ibtn ibtn-ghost" data-back>← Back</button><button class="ibtn ibtn-coral" id="s4next" style="margin-left:auto">See my price →</button></div>
   </section>
@@ -201,7 +202,11 @@ var MIN=99;
 var SIZEW={driveway:1,walkway:0.4,patio:1,fence:0.5,house:1,roof:1,screen:1};
 /* bundle: biggest surface full price, each additional surface at this rate (crew already on site). */
 var BUNDLE=0.6;
-var st={surf:{},size:0,sizeNm:'',cond:0,condNm:'',twostory:false,tile:false,stains:false,plan:''};
+/* shady/damp spots regrow moss fast, so upkeep there isn't rock-bottom. Capped at the
+   first-clean condition below, so a maintenance visit never costs more than the initial clean. */
+var MREG=1.25;
+function maintCond(){return Math.min(st.regrowth?MREG:1,(st.cond||1));}
+var st={surf:{},size:0,sizeNm:'',cond:0,condNm:'',twostory:false,tile:false,stains:false,regrowth:false,plan:''};
 var STEPS=['surf','size','cond','detail','price','contact','done'];
 var i=0;
 var $=function(s){return document.querySelector(s)};
@@ -263,10 +268,10 @@ function renderPrice(){
   $('#price').textContent=money(t*0.9)+' – '+money(t*1.2);
   var nSurf=Object.keys(st.surf).filter(function(k){return st.surf[k];}).length;
   $('#priceSub').textContent=nSurf>1?'Bundle price — extra surfaces are discounted since we clean them in one visit. We confirm a flat price after a quick look.':'Ballpark range. We confirm a flat price after a quick look.';
-  var tm=total(1); /* upkeep visits are light-maintenance once it's been deep-cleaned */
+  var tm=total(maintCond()); /* light upkeep, nudged a little in high-regrowth spots, capped below the first clean */
   var pv2=tm*0.85,pv4=tm*0.75;
   var fc='First clean from '+money(t*0.9)+', then this';
-  $('#plansNote').textContent='Your first visit is a full deep clean, so it costs the most. After that it stays clean and every maintenance visit is kept to a minimum.';
+  $('#plansNote').textContent='Your first visit is a full deep clean, so it costs the most. Every maintenance visit after stays below a one-time clean'+(st.regrowth?', even in a shady, damp spot where moss comes back faster':'')+'. We keep upkeep to a minimum.';
   $('#plans').innerHTML=[
     ['oneoff','One-time clean','Just this once','',money(t*0.9)+' – '+money(t*1.2),'',''],
     ['plan2','Bragging Rights','2 visits a year','best',money(pv2),'per upkeep visit',fc],
@@ -302,12 +307,12 @@ $('#submit').onclick=function(){
   if($('#company').value)return; /* honeypot */
   var name=$('#c_name').value.trim(),phone=$('#c_phone').value.trim(),email=$('#c_email').value.trim();
   if(!phone&&!email){$('#formMsg').style.color='var(--coral)';$('#formMsg').textContent='Add a phone or email so we can send your quote.';return;}
-  var t=total(),tm=total(1);
+  var t=total(),tm=total(maintCond());
   var lead={type:'weblead',id:Date.now()*1000+Math.floor(Math.random()*1000),created:new Date().toISOString(),
     name:name,phone:phone,email:email,address:$('#c_addr').value.trim(),ptype:'Residential',
     source:'Instant estimator (website)',surfaces:surfText(),size:st.sizeNm,condition:st.condNm,twostory:st.twostory,
     estimate:Math.round(t),estLow:Math.round(t*0.9),estHigh:Math.round(t*1.2),status:'New',
-    notes:'Customer self-estimate · first clean '+money(Math.round(t*0.9))+'-'+money(Math.round(t*1.2))+' · upkeep ~'+money(Math.round(tm*0.75))+'-'+money(Math.round(tm*0.85))+'/visit'+(st.tile?' · tile roof':'')+(st.stains?' · heavy stains':'')+(st.plan?' · interested: '+planLabel():'')};
+    notes:'Customer self-estimate · first clean '+money(Math.round(t*0.9))+'-'+money(Math.round(t*1.2))+' · upkeep ~'+money(Math.round(tm*0.75))+'-'+money(Math.round(tm*0.85))+'/visit'+(st.tile?' · tile roof':'')+(st.stains?' · heavy stains':'')+(st.regrowth?' · high-regrowth spot':'')+(st.plan?' · interested: '+planLabel():'')};
   $('#submit').disabled=true;$('#submit').textContent='Sending...';
   fetch(EXEC,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(lead)}).then(fin).catch(fin);
   setTimeout(fin,2500);
