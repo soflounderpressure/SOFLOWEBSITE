@@ -58,14 +58,14 @@ Legend: **AI** = AI-generated stopgap, replace with a real photo when you can ·
 - `B09-process-schedule.jpg` — services "How it works" → Schedule step (replaced blurry shot)
 - `I08-area-doral.jpg` — Doral + area pages (broke the I02/I08 duplicate)
 
-**Generated and ready, but NOT wired to any page** (these pages use plain gradient/color heroes — no photo slot exists yet). Files sit in `Pictures/`, ready if you want photo heroes added:
-- `A02-hero-mobile.jpg` (vertical driveway) — homepage mobile hero currently uses A10/A03
-- `E01-quote-hero.jpg` — quote.html has no hero photo
-- `G01-resources-hero.jpg` — resources.html has no hero photo
-- `H01-contract-hero.jpg` — contract.html has no hero photo
-- `A08-card-house.jpg`, `A09-card-fence.jpg` — card slots not referenced
+**Now wired in (AI, verified rendering) on 2026-10-11:**
+- `A02-hero-mobile.jpg` — homepage mobile hero (swapped from A03)
+- `E01-quote-hero.jpg` — quote.html hero banner
+- `G01-resources-hero.jpg` — resources.html hero banner
+- `H01-contract-hero.jpg` — contract.html hero banner
 
-➡️ **To use these: tell Claude "wire in the ready hero photos" and it will add photo heroes to quote / resources / contract (and swap the mobile hero).**
+**Still spare, not wired** (card format, no clean slot):
+- `A08-card-house.jpg`, `A09-card-fence.jpg` — in `Pictures/`, unused. Wire only if a house/fence card grid gets added.
 
 **Duplicates found (files were byte-identical):** `A08=B08`, `E01=D01`, `G01=C06`, `H01=E02`, `I08=I02`. Only `I08=I02` was actually visible on the live site (both shown) — now fixed. The others involved unwired files, so no visible duplication.
 
