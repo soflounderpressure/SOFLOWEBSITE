@@ -135,12 +135,14 @@ function App(){
   const [open,setOpen]=useState(null); // 'settings'|'wizard'|{type:'lead',id}|{type:'send',lead,price}|{type:'cust',lead}
   const saveLeads=a=>{setLeads(a);lsSet(LS,a);};
   const total=totalFor(st,pricing);
+  /* upkeep visits are light-maintenance once the first deep clean is done */
+  const maint=totalFor({...st,cond:1},pricing);
 
   const buildLead=()=>({id:uid(),created:new Date().toISOString(),...cust,
     surfaces:surfList(st),roofType:st.surf.roof?st.roofType:'',water:st.water,addons:addonList(st),
     size:st.sizeNm,condition:st.condNm,twostory:st.twostory,tight:st.tight,
     estimate:Math.round(total),estLow:Math.round(total*0.9),estHigh:Math.round(total*1.2),
-    plan2:Math.round(total*0.85),plan4:Math.round(total*0.75),status:'New'});
+    plan2:Math.round(maint*0.85),plan4:Math.round(maint*0.75),status:'New'});
   const commit=l=>{const a=[l,...leads];saveLeads(a);pushLead(l);return a.length;};
   const doSave=()=>{if(!cust.name.trim()&&!Object.keys(st.surf).some(k=>st.surf[k])){setMsg('Add a name or pick surfaces first.');return;}
     const n=commit(buildLead());setMsg('Saved. '+n+' lead'+(n>1?'s':'')+' stored.');};
@@ -176,6 +178,7 @@ function App(){
 }
 
 function NewEstimate({st,setSt,cust,setCust,pricing,pr,toggleSurf,toggleAdd,total,msg,doSave,setMsg,setOpen,buildLead}){
+  const maint=totalFor({...st,cond:1},pricing); /* light-maintenance price for recurring upkeep visits */
   const cv=(k,v)=>setCust(c=>({...c,[k]:v}));
   const [geo,setGeo]=useState(false);
   const useLoc=async()=>{setGeo(true);try{const c=await getLoc();const a=await geocode(c.latitude,c.longitude);cv('address',a||(c.latitude.toFixed(5)+', '+c.longitude.toFixed(5)));}catch(e){setMsg('Location: '+e.message);}setGeo(false);};
@@ -223,9 +226,10 @@ function NewEstimate({st,setSt,cust,setCust,pricing,pr,toggleSurf,toggleAdd,tota
         <div className="font-display font-black text-5xl leading-none my-1">{money(total)}</div>
         <div className="text-white/70 text-sm">{total>0?'Typical range '+money(total*0.9)+' to '+money(total*1.2)+(st.addons.seal?' · + sealing quote':'')+(!st.water?' · tank job':''):'Pick at least one surface.'}</div>
         {total>0&&<div className="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-white/15">
-          {[['Bragging Rights · 2x',total*0.85,money(total*0.85*2)+'/yr'],['The Show-Off · 4x',total*0.75,money(total*0.75*4)+'/yr'],['Humble Brag · 1x',total,'quote based']].map(([n,v,a])=>
+          {[['Bragging Rights · 2x',maint*0.85,money(maint*0.85*2)+'/yr'],['The Show-Off · 4x',maint*0.75,money(maint*0.75*4)+'/yr'],['Humble Brag · 1x',total,'one-time']].map(([n,v,a])=>
             <div key={n} className="bg-white/[.06] rounded-xl p-2.5"><div className="font-display font-extrabold text-[.66rem] uppercase text-aqua">{n}</div><div className="font-display font-black text-lg">{money(v)}</div><div className="text-white/60 text-[.7rem]">{a}</div></div>)}
         </div>}
+        {total>0&&<div className="text-white/50 text-[.7rem] mt-2">Plan prices are per <b>upkeep visit</b> (light-maintenance rate). First visit is the one-off deep clean above; after that it stays clean.</div>}
       </div>
       <p className="text-xs text-navy/55 mt-3">Estimate only. Confirm on site or from photos before sending a number.</p>
     </div>
@@ -425,7 +429,8 @@ function Wizard({st,setSt,cust,setCust,pricing,pr,total,commit,setOpen}){
   const ref=useRef();useEffect(()=>{ref.current&&ref.current.showModal();},[]);
   const go=d=>{const ni=i+d;if(ni<0)return;if(ni>=steps.length){finish();return;}setI(ni);};
   const finish=()=>{if(!cust.name.trim()&&!Object.keys(st.surf).some(k=>st.surf[k])){alert('Pick at least one surface.');return;}
-    const l={id:uid(),created:new Date().toISOString(),...cust,surfaces:surfList(st),roofType:st.surf.roof?st.roofType:'',water:st.water,addons:addonList(st),size:st.sizeNm,condition:st.condNm,twostory:st.twostory,tight:st.tight,estimate:Math.round(total),estLow:Math.round(total*0.9),estHigh:Math.round(total*1.2),plan2:Math.round(total*0.85),plan4:Math.round(total*0.75),status:'New'};
+    const maint=totalFor({...st,cond:1},pricing);
+    const l={id:uid(),created:new Date().toISOString(),...cust,surfaces:surfList(st),roofType:st.surf.roof?st.roofType:'',water:st.water,addons:addonList(st),size:st.sizeNm,condition:st.condNm,twostory:st.twostory,tight:st.tight,estimate:Math.round(total),estLow:Math.round(total*0.9),estHigh:Math.round(total*1.2),plan2:Math.round(maint*0.85),plan4:Math.round(maint*0.75),status:'New'};
     commit(l);ref.current.close();setOpen({type:'cust',lead:l});};
   const Opt=({on,onClick,label,right})=><button onClick={onClick} className={"flex items-center gap-3 min-h-[58px] w-full rounded-xl px-4 py-3 text-left font-display font-bold text-[1.08rem] border-2 "+(on?'border-aquaink bg-aqualt':'border-line bg-white')}>{label}{right&&<span className="ml-auto text-aquaink font-extrabold text-sm">{right}</span>}</button>;
   return <dialog ref={ref} onClose={()=>setOpen(null)} className="rounded-2xl p-0 w-[94%] max-w-lg"><div className="p-6">

@@ -133,6 +133,7 @@
     <div class="qs" id="priceSub">Ballpark range. We confirm a flat price after a quick look.</div>
     <div style="font-family:var(--fd);font-weight:800;text-transform:uppercase;color:var(--navy);margin:.4rem 0 .2rem;font-size:1.05rem">Keep it clean all year &amp; save</div>
     <div class="plans" id="plans"></div>
+    <div class="qs" id="plansNote" style="margin-top:.5rem"></div>
     <div class="navrow"><button class="ibtn ibtn-ghost" data-back>← Back</button><button class="ibtn ibtn-coral" id="s5next" style="margin-left:auto">Looks good →</button></div>
     <div class="disc"><b>Heads up:</b> this is an instant ballpark from what you picked. Your <b>final flat price is confirmed after we see the property or a couple of photos</b>. Tough access, heavy buildup, extra surfaces, or an easier job than expected can move it. No surprises, we agree the price before any work starts.</div>
   </section>
@@ -237,8 +238,11 @@ singleStep('#cond',CONDS,function(v){st.cond=v},function(n){st.condNm=n},'cond')
 document.querySelectorAll('[data-k]').forEach(function(el){el.onclick=function(){var k=el.dataset.k;st[k]=!st[k];el.classList.toggle('on',st[k]);};});
 $('#s4next').onclick=next;
 
-function total(){
-  var prices=[],any=false,size=(st.size||1),cond=(st.cond||1);
+/* condOverride lets us price an upkeep visit at Light condition (1), since the
+   surface stays clean after the first deep clean. null = use the picked condition. */
+function total(condOverride){
+  var maint=(condOverride!=null);
+  var prices=[],any=false,size=(st.size||1),cond=(maint?condOverride:(st.cond||1));
   SURF.forEach(function(s){
     var id=s[0];if(!st.surf[id])return;any=true;
     var eff=1+(size-1)*(SIZEW[id]!=null?SIZEW[id]:1);
@@ -250,7 +254,7 @@ function total(){
   if(!any)return 0;
   prices.sort(function(a,b){return b-a;});
   var t=0;prices.forEach(function(p,idx){t+=idx===0?p:p*BUNDLE;});
-  if(st.stains)t+=50;
+  if(st.stains&&!maint)t+=50; /* heavy-stain surcharge is first-clean only */
   if(t>0&&t<MIN)t=MIN;
   return t;
 }
@@ -259,11 +263,13 @@ function renderPrice(){
   $('#price').textContent=money(t*0.9)+' – '+money(t*1.2);
   var nSurf=Object.keys(st.surf).filter(function(k){return st.surf[k];}).length;
   $('#priceSub').textContent=nSurf>1?'Bundle price — extra surfaces are discounted since we clean them in one visit. We confirm a flat price after a quick look.':'Ballpark range. We confirm a flat price after a quick look.';
-  var pv2=t*0.85,pv4=t*0.75;
+  var tm=total(1); /* upkeep visits are light-maintenance once it's been deep-cleaned */
+  var pv2=tm*0.85,pv4=tm*0.75;
+  $('#plansNote').textContent='Plan prices are per upkeep visit. We deep-clean it the first time, then it stays clean — so recurring visits are billed at the lighter maintenance rate, not the first-clean price.';
   $('#plans').innerHTML=[
     ['oneoff','One-time clean','Just this once','',money(t*0.9)+' – '+money(t*1.2),''],
-    ['plan2','Bragging Rights','2 visits a year','best',money(pv2),'per visit'],
-    ['plan4','The Show-Off','4 visits a year, best rate','',money(pv4),'per visit']
+    ['plan2','Bragging Rights','2 visits a year · upkeep rate','best',money(pv2),'per visit'],
+    ['plan4','The Show-Off','4 visits a year · best upkeep rate','',money(pv4),'per visit']
   ].map(function(p){
     return '<div class="planwrap"><div class="plan'+(st.plan===p[0]?' on':'')+(p[3]==='best'?' best':'')+'" data-plan="'+p[0]+'">'+(p[3]==='best'?'<span class="flag">Most popular</span>':'')+'<div><div class="pn">'+p[1]+'</div><div class="pd">'+p[2]+'</div></div><div class="pp">'+p[4]+(p[5]?'<small>'+p[5]+'</small>':'')+'</div></div></div>';
   }).join('');
