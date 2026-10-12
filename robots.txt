@@ -6,6 +6,8 @@ User-agent: *
 Allow: /
 Disallow: /contract.html
 Disallow: /tools/
+Disallow: /*.md$
+Disallow: /*.gs$
 
 # contract.html is a per-customer service agreement reached from a
 # quote link. It has no search value and shouldn't compete with
