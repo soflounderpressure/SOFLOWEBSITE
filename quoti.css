@@ -945,3 +945,27 @@ nav#nav,.nav{max-width:1340px!important}
 }
 .page-hero>*,.services-hero>*,.resources-hero>*,.area-hero>*,.contract-hero>*{position:relative;z-index:1}
 @media(max-width:760px){.page-hero::after,.services-hero::after,.resources-hero::after,.area-hero::after,.contract-hero::after{display:none}}
+
+/* ── forms.js: live validation, greyed submit, multi-step (Hick's law) ── */
+.field-msg{display:block;min-height:1.1em;margin-top:.3rem;font-size:.82rem;font-weight:600;line-height:1.3;color:#C24A33}
+.field-msg:empty{min-height:0;margin-top:0}
+[data-validate] .is-invalid{border-color:#C24A33!important;box-shadow:0 0 0 3px rgba(194,74,51,.12)!important}
+[data-validate] .is-valid{border-color:#2E7D52!important}
+[data-validate] button[disabled]{opacity:.45!important;cursor:not-allowed!important;filter:grayscale(.35);transform:none!important;box-shadow:none!important}
+.form-hint{font-size:.82rem;color:#5A6B7A;margin:.55rem 0 0;text-align:center;line-height:1.35}
+.form-hint:empty{display:none}
+[data-steps] [data-step-panel]{display:none}
+[data-steps] [data-step-panel].on{display:block;animation:fsIn .25s ease}
+@keyframes fsIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.fs-progress{margin:0 0 1.25rem}
+.fs-label{font-family:var(--fd);font-weight:800;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--peri-dk,#1C5260);margin-bottom:.45rem}
+.fs-track{height:6px;border-radius:99px;background:rgba(28,43,58,.1);overflow:hidden}
+.fs-fill{height:100%;width:0;border-radius:99px;background:var(--coral,#C24A33);transition:width .3s ease}
+.fs-nav{display:flex;gap:.6rem;align-items:center;margin-top:1.1rem}
+.fs-nav .fs-back{background:transparent;border:2px solid var(--navy,#182B3F);color:var(--navy,#182B3F);border-radius:10px;padding:.85rem 1.2rem;font-family:var(--fd);font-weight:800;cursor:pointer;min-height:48px}
+.fs-nav .fs-next{margin-left:auto;background:var(--navy,#182B3F);color:#fff;border:0;border-radius:10px;padding:.85rem 1.6rem;font-family:var(--fd);font-weight:800;cursor:pointer;min-height:48px}
+.fs-nav-wrap{display:flex;flex-direction:column;align-items:stretch}
+.fs-nav{flex-wrap:wrap}.fs-nav .form-hint{flex-basis:100%;text-align:right;margin-top:.4rem}
+#contractForm .fs-progress{padding:1.4rem 2rem 0;margin:0}
+#contractForm .fs-nav{padding:0 2rem 1.4rem}
+@media(max-width:560px){#contractForm .fs-progress{padding:1.2rem 1.25rem 0}#contractForm .fs-nav{padding:0 1.25rem 1.2rem}}

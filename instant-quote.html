@@ -140,17 +140,17 @@
   </section>
 
   <!-- STEP 6 contact -->
-  <section class="step" data-step="contact">
+  <section class="step" data-step="contact" data-validate>
     <div class="q">Where do we send it?</div>
     <div class="qs">We'll confirm your flat price today, usually within a few hours.</div>
     <div class="gbtn" id="gbtn"></div>
     <div class="or" id="orline" style="display:none">— or —</div>
-    <div class="field"><label>Name</label><input id="c_name" autocomplete="name"></div>
-    <div class="field"><label>Phone</label><input id="c_phone" type="tel" inputmode="tel" autocomplete="tel"></div>
-    <div class="field"><label>Email</label><input id="c_email" type="email" inputmode="email" autocomplete="email"></div>
+    <div class="field"><label>Name</label><input id="c_name" autocomplete="name" required></div>
+    <div class="field"><label>Phone</label><input id="c_phone" type="tel" inputmode="tel" autocomplete="tel" data-oneof="reach" data-oneof-label="Phone or email"></div>
+    <div class="field"><label>Email</label><input id="c_email" type="email" inputmode="email" autocomplete="email" data-oneof="reach" data-oneof-label="Phone or email"></div>
     <div class="field"><label>Property address <span style="text-transform:none;font-weight:600;color:var(--mid)">(optional)</span></label><input id="c_addr" autocomplete="street-address"></div>
     <input class="hp" id="company" tabindex="-1" autocomplete="off" placeholder="Company">
-    <button class="ibtn ibtn-coral" id="submit" style="width:100%;margin-top:.4rem">Send me my quote</button>
+    <button class="ibtn ibtn-coral" id="submit" data-submit style="width:100%;margin-top:.4rem">Send me my quote</button>
     <p id="formMsg" style="font-size:.86rem;margin-top:.7rem;font-weight:700"></p>
   </section>
 
@@ -313,5 +313,6 @@ $('#submit').onclick=function(){
 var done=false;function fin(){if(done)return;done=true;show(STEPS.indexOf('done'));}
 show(0);
 </script>
+<script src="forms.js" defer></script>
 </body>
 </html>

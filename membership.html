@@ -660,7 +660,7 @@
     <!-- Selected plan display -->
     <div id="modalPlanBadge" style="background:#f0f4f8;border-radius:8px;padding:.7rem 1rem;margin-bottom:1.5rem;font-size:.85rem;font-weight:700;color:#1C2B3A;"></div>
 
-    <form id="memberForm" onsubmit="submitMembership(event)">
+    <form id="memberForm" onsubmit="submitMembership(event)" novalidate data-validate>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem;">
         <div>
@@ -688,7 +688,7 @@
         <textarea id="m_notes" rows="3" placeholder="HOA requirements, gate codes, best time to call…" style="width:100%;padding:.7rem .9rem;border:1.5px solid #dde4ec;border-radius:8px;font-size:.95rem;color:#1C2B3A;outline:none;resize:vertical;box-sizing:border-box;"></textarea>
       </div>
 
-      <button type="submit" id="m_submitBtn" style="width:100%;background:#1C2B3A;color:#FFD84D;font-size:.85rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:.95rem;border:none;border-radius:10px;cursor:pointer;">
+      <button type="submit" id="m_submitBtn" data-submit style="width:100%;background:#1C2B3A;color:#FFD84D;font-size:.85rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:.95rem;border:none;border-radius:10px;cursor:pointer;">
         Request This Plan →
       </button>
 
@@ -776,5 +776,6 @@
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
+<script src="forms.js" defer></script>
 </body>
 </html>

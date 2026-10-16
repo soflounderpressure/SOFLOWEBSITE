@@ -340,7 +340,7 @@
       <div class="form-title">Send a Message</div>
       <p class="form-sub">Not ready to call? Drop us a message. For a detailed price estimate, use our <a href="instant-quote.html" style="color:var(--periwinkle-dk);font-weight:600;">full quote form</a> - you can upload photos there too.</p>
 
-      <form id="contactForm" novalidate>
+      <form id="contactForm" novalidate data-validate>
         <div class="form-row">
           <div class="form-group">
             <label for="name">Your name *</label>
@@ -378,7 +378,7 @@
           <textarea id="message" name="message" placeholder="Tell us about your property, what you need cleaned, your neighborhood, or any other details..." required></textarea>
         </div>
 
-        <button type="submit" class="form-submit" id="submitBtn">Send Message →</button>
+        <button type="submit" class="form-submit" id="submitBtn" data-submit>Send Message →</button>
         <div class="form-status" id="formStatus"></div>
       </form>
     </div>
@@ -520,5 +520,6 @@
     submitBtn.textContent = 'Send Message →';
   });
 </script>
+<script src="forms.js" defer></script>
 </body>
 </html>
