@@ -744,8 +744,8 @@ footer,footer.ft-flush{background:var(--navy)!important}
 .hfaq details[open] summary::after{transform:rotate(225deg) translateY(-3px)}
 .hfaq .faq-a{padding:0 0 1.2rem;color:var(--mid);line-height:1.65}
 
-/* footer: 5 columns incl. service areas */
-.fgrid{grid-template-columns:1.5fr 1fr 1fr 1.1fr 1.1fr!important}
+/* footer: brand + More + Get in touch (main paths live in the nav, not repeated here) */
+.fgrid{grid-template-columns:1.6fr 1fr 1.2fr!important}
 .fcol h5{color:var(--yellow)!important;opacity:1;letter-spacing:.16em!important}
 .fbrand .logo span{color:var(--aqua)!important}
 @media(max-width:960px){
