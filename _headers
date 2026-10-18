@@ -19,3 +19,9 @@
 # Stylesheet
 /style.css
   Cache-Control: public, max-age=3600
+
+/quoti.css
+  Cache-Control: public, max-age=3600
+
+/forms.js
+  Cache-Control: public, max-age=3600

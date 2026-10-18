@@ -969,3 +969,11 @@ nav#nav,.nav{max-width:1340px!important}
 #contractForm .fs-progress{padding:1.4rem 2rem 0;margin:0}
 #contractForm .fs-nav{padding:0 2rem 1.4rem}
 @media(max-width:560px){#contractForm .fs-progress{padding:1.2rem 1.25rem 0}#contractForm .fs-nav{padding:0 1.25rem 1.2rem}}
+/* burger label flips to Close while the mobile menu is open */
+.navbar:has(.nav-toggle:checked) .burger:not(#_){font-size:0!important}
+.navbar:has(.nav-toggle:checked) .burger:not(#_)::after{content:"Close";font-size:.8rem;letter-spacing:.08em}
+.nav-toggle:focus-visible + .burger{outline:3px solid var(--yellow,#E7C25B);outline-offset:2px}
+/* task pages: no decorative hero photo on phones, get people to the form */
+@media(max-width:700px){.contract-hero .page-photo{display:none!important}}
+/* plan names on the gold cards: coral-on-gold was 2.98:1, navy reads cleanly */
+.pc:not(.pc-hot) h3{color:var(--navy,#182B3F)!important}
