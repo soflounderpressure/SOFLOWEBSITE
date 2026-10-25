@@ -977,3 +977,8 @@ nav#nav,.nav{max-width:1340px!important}
 @media(max-width:700px){.contract-hero .page-photo{display:none!important}}
 /* plan names on the gold cards: coral-on-gold was 2.98:1, navy reads cleanly */
 .pc:not(.pc-hot) h3{color:var(--navy,#182B3F)!important}
+/* area pages: local guide passage (readable + quotable) */
+.local-guide h2{margin:0 0 1rem}
+.local-guide h3{margin:1.8rem 0 .5rem;font-size:1.2rem;color:var(--navy,#182B3F)}
+.local-guide p{margin:0 0 1rem;line-height:1.65;color:var(--mid,#3d4b59);font-size:1.02rem}
+.local-guide p:last-child{margin-top:1.4rem;font-weight:700}
