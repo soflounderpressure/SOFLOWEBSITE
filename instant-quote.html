@@ -20,7 +20,6 @@
 <link rel="preload" href="/fonts/barlow-condensed-900.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/quoti.css?v=20261026c">
 <script src="/pricing.js?v=20261029"></script>
-<script src="https://accounts.google.com/gsi/client" async></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sofloup.com/"},{"@type":"ListItem","position":2,"name":"Instant Quote"}]}</script>
 <style>
 .iq{max-width:720px;margin:0 auto;padding-inline:clamp(1.25rem,4vw,2rem)}
@@ -240,6 +239,8 @@ var EXEC='https://script.google.com/macros/s/AKfycbz3ZdK_OlRdHWjsGmSIh-L5EW-JemA
 var SF=window.SF;
 /* Google OAuth Client ID lives in pricing.js (SF.GOOGLE_CLIENT_ID). Empty = email/phone only. */
 var GOOGLE_CLIENT_ID=SF.GOOGLE_CLIENT_ID||'';
+/* Google's sign-in library (83 KB) loads only when a client id is configured. */
+if(GOOGLE_CLIENT_ID){var gs=document.createElement('script');gs.src='https://accounts.google.com/gsi/client';gs.async=true;document.head.appendChild(gs);}
 var P=SF.P,SIZES=SF.SIZES,CONDS=SF.CONDS,SIZEW=SF.SIZEW,BUNDLE=SF.BUNDLE,MIN=SF.MIN,MREG=SF.MREG;
 var SURF=[['driveway','Driveway'],['walkway','Walkway / sidewalk'],['patio','Patio / pool deck'],['fence','Fence'],['house','House exterior (soft wash)'],['roof','Roof soft wash'],['screen','Screen enclosure / pool cage']];
 function maintCond(){return Math.min(st.regrowth?MREG:1,(st.cond||1));}
