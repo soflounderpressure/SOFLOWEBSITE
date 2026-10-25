@@ -1,3 +1,10 @@
+/* Self-hosted fonts (latin subset, OFL). Barlow Condensed 900 also serves 800; Barlow 700 also serves 800. */
+@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/barlow-condensed-700.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:800 900;font-display:swap;src:url(/fonts/barlow-condensed-900.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/barlow-400.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/barlow-600.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Barlow';font-style:normal;font-weight:700 800;font-display:swap;src:url(/fonts/barlow-700.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Jost';font-style:normal;font-weight:100 900;font-display:swap;src:url(/fonts/jost-variable.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 /* SoFlo UnderPressure — Quoti design system (shared) */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -1027,3 +1034,6 @@ nav#nav,.nav{max-width:1340px!important}
 @media(prefers-reduced-motion:reduce){.toast{animation-duration:3.6s}}
 /* phones: welcome-back bar sits above the sticky CTA bar instead of covering the hero */
 @media(max-width:760px){.sfwb{position:fixed!important;top:auto!important;bottom:calc(76px + env(safe-area-inset-bottom,0px))!important;left:10px!important;right:10px!important;width:auto!important;border-radius:12px;box-shadow:0 8px 24px rgba(16,38,58,.25);z-index:60}}
+/* footer column heading (replaces h5 for heading order) */
+.fh{font-family:var(--fb);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.95rem;color:var(--yellow);opacity:1;margin-bottom:1rem}
+picture{display:contents}

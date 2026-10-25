@@ -39,6 +39,7 @@ var SF={
    'pembroke-pines':['C','Pembroke Pines','Broward'],
    'miramar':['C','Miramar','Broward'],
    'davie':['C','Davie','Broward'],
+   'coral-springs':['C','Coral Springs','Broward'],
    'coral-gables':['D','Coral Gables','Miami-Dade'],
    'coconut-grove':['D','Coconut Grove','Miami-Dade'],
    'pinecrest':['D','Pinecrest','Miami-Dade'],

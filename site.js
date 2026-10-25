@@ -12,23 +12,6 @@
   var isContract = /\/contract(\.html)?\/?$/.test(path);
   var skipBars = isQuote || isContract;
 
-  /* ---------- relative prefix (works from /areas/, /services/, /blog/) ---------- */
-  var prefix = (function () {
-    try {
-      var cs = document.currentScript;
-      var a = cs && cs.getAttribute('src');
-      if (a && !/^(\/|[a-z][a-z0-9+.-]*:)/i.test(a)) {
-        var m = /^((?:\.\.\/)*)/.exec(a);
-        return m ? m[1] : '';
-      }
-    } catch (e) {}
-    var parts = path.split('/');
-    var depth = Math.max(0, parts.length - 2);
-    var p = '';
-    for (var i = 0; i < depth; i++) p += '../';
-    return p;
-  })();
-
   /* ---------- storage helpers ---------- */
   function get(key, days, tsOf) {
     try {
@@ -183,7 +166,7 @@
   /* ---------- sticky mobile bar ---------- */
   function quoteHref() {
     var a = readArea();
-    var h = prefix + 'instant-quote.html';
+    var h = '/instant-quote';
     if (a && validSlug(a.slug)) h += '?area=' + a.slug;
     return h;
   }
@@ -228,7 +211,7 @@
       var city = cityNameOf(q.area) || cityNameOf(readArea());
       msg = 'Welcome back. Your $' + low + '-$' + high + ' quote' + (city ? ' for ' + city : '') + ' is saved. ';
       linkText = 'Finish it';
-      href = prefix + 'instant-quote.html?resume=1';
+      href = '/instant-quote?resume=1';
     }
     var bar = document.createElement('div');
     bar.className = 'sfwb';
@@ -284,7 +267,7 @@
     try {
       if (window.sfTrack || document.querySelector('script[data-sf-analytics],script[src*="analytics.js"]')) return;
       var s = document.createElement('script');
-      s.src = prefix + 'analytics.js?v=20261025';
+      s.src = '/analytics.js?v=20261025';
       s.async = true;
       s.setAttribute('data-sf-analytics', '1');
       (document.head || document.documentElement).appendChild(s);
@@ -307,7 +290,7 @@
       var go = function () { if (done) return; done = true; run(); };
       try {
         var s = document.createElement('script');
-        s.src = prefix + 'pricing.js?v=20261025';
+        s.src = '/pricing.js?v=20261025';
         s.onload = go;
         s.onerror = go;
         (document.head || document.documentElement).appendChild(s);
