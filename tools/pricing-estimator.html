@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="../pricing.js?v=20261025"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config={theme:{extend:{
@@ -31,16 +32,20 @@ tailwind.config={theme:{extend:{
 const {useState,useEffect,useRef}=React;
 
 /* ===== constants + config ===== */
-const LS='soflo_leads_v1',LS_URL='soflo_sheet_url',LS_PRICE='soflo_pricing',LS_TMPL='soflo_tmpl';
+const LS='soflo_leads_v1',LS_URL='soflo_sheet_url',LS_PRICE='soflo_pricing',LS_PRICE_V='soflo_pricing_v',LS_TMPL='soflo_tmpl';
 const DEF_SHEET='https://script.google.com/macros/s/AKfycbz3ZdK_OlRdHWjsGmSIh-L5EW-JemAcLsoSDLmSb8DWM7EwKSp_LjfBsUhElnn6c2nZ/exec';
 const DEF_TMPL="Hi {name}, thanks for reaching out to SoFlo UnderPressure.\n\nYour estimate for {surfaces}: {range}.\nThat's a flat price we lock in after a quick look at the property or a couple of photos. No hourly, no surprises on the invoice.\n\nWant to grab a day this week? Reply here or call (305) 894-6336.\n- Saul, SoFlo UnderPressure";
-const DEF_PRICING={driveway:99,walkway:79,patio:129,fence:99,house:249,roof:299,screen:129,oil:50,rust:65,gutter:95,min:99,tile:1.1,twostory:1.2,nowater:50,tight:1.10};
+/* Prices, sizes, conditions, bundle, minimum, tile and two-story multipliers and zones come from ../pricing.js (window.SF), the same file the public quote uses. */
+const SF=window.SF;
+const PRICE_VER='20261025'; /* bump when pricing.js prices change so old saved overrides are ignored */
+const DEF_PRICING=Object.assign({},SF.P,{oil:SF.STAINS,rust:65,gutter:95,min:SF.MIN,tile:SF.TILE,nowater:50,tight:1.10});
 const SURFACES=[['driveway','Driveway'],['walkway','Walkway / sidewalk'],['patio','Patio / pool deck'],['fence','Fence'],['house','House exterior (soft wash)'],['roof','Roof soft wash'],['screen','Screen enclosure / pool cage']];
-const SIZES=[['Small',1.0],['Medium',1.5],['Large',2.1],['X-large',2.8]];
-const CONDS=[['Light',1.0],['Moderate',1.25],['Heavy',1.55]];
+const SIZES=SF.SIZES;
+const CONDS=SF.CONDS;
+const ZONE_IDS=Object.keys(SF.ZONES);
 const ROOFTYPES=['Tile (barrel/flat)','Shingle','Metal','Flat / low-slope'];
 const ADDONS=[['oil','Oil stain pretreat',false],['rust','Rust / fertilizer stain',false],['gutter','Gutter face brightening',false],['seal','Surface sealing (separate quote)',true]];
-const PRICE_FIELDS=[['driveway','Driveway $'],['walkway','Walkway $'],['patio','Patio/deck $'],['fence','Fence $'],['house','House $'],['roof','Roof $'],['screen','Screen $'],['oil','Oil add-on $'],['rust','Rust add-on $'],['gutter','Gutter add-on $'],['min','Job minimum $'],['nowater','No-water fee $'],['tile','Tile mult x'],['twostory','2-story mult x'],['tight','Tight mult x']];
+const PRICE_FIELDS=[['driveway','Driveway $'],['walkway','Walkway $'],['patio','Patio/deck $'],['fence','Fence $'],['house','House $'],['roof','Roof $'],['screen','Screen $'],['oil','Oil add-on $'],['rust','Rust add-on $'],['gutter','Gutter add-on $'],['min','Job minimum $'],['nowater','No-water fee $'],['tile','Tile mult x'],['tight','Tight mult x']];
 
 const money=n=>'$'+Math.round(n).toLocaleString('en-US');
 const digits=s=>String(s||'').replace(/\D/g,'');
@@ -56,21 +61,22 @@ if(localStorage.getItem(LS_URL)===null){lsSet(LS_URL,DEF_SHEET);}
 
 /* ===== pricing engine ===== */
 /* how hard the one "size" pick scales each surface; linear surfaces don't balloon like a slab does */
-const SIZEW={driveway:1,walkway:0.4,patio:1,fence:0.5,house:1,roof:1,screen:1};
+const SIZEW=SF.SIZEW;
 /* bundle: biggest surface full price, each additional surface at this rate (crew already on site) */
-const BUNDLE=0.6;
+const BUNDLE=SF.BUNDLE;
 function totalFor(st,P){
   let prices=[];
   SURFACES.forEach(([id])=>{
     if(!st.surf[id])return;
     const eff=1+((st.size||1)-1)*(SIZEW[id]!=null?SIZEW[id]:1);
     let p=(Number(P[id])||0)*eff*st.cond;
-    if(st.twostory&&(id==='house'||id==='roof'))p*=Number(P.twostory)||1;
+    if(st.twostory&&SF.TWO[id])p*=SF.TWO[id];
     if(id==='roof'&&st.roofType.indexOf('Tile')===0)p*=Number(P.tile)||1;
     prices.push(p);
   });
   prices.sort((a,b)=>b-a);
   let t=0;prices.forEach((p,idx)=>{t+=idx===0?p:p*BUNDLE;});
+  t*=(SF.ZONES[st.zone||'A']||SF.ZONES.A)[0]; /* area rate, applied after the bundle */
   if(st.tight)t*=Number(P.tight)||1;
   ADDONS.forEach(([id,,flag])=>{if(st.addons[id]&&!flag)t+=Number(P[id])||0;});
   if(!st.water)t+=Number(P.nowater)||0;
@@ -121,14 +127,14 @@ function Seg({items,value,onPick}){
     return <button key={l} onClick={()=>onPick(v,l)} className={"font-display font-bold text-sm rounded-xl px-4 min-h-[40px] border-[1.5px] "+(on?'bg-navy text-white border-navy':'bg-white text-navy border-line')}>{l}</button>;})}</div>;
 }
 
-const blankState=()=>({surf:{},size:1,sizeNm:'Small',cond:1,condNm:'Light',twostory:false,tight:false,water:true,commercial:false,roofType:ROOFTYPES[0],addons:{}});
+const blankState=()=>({surf:{},size:1,sizeNm:'Small',cond:1,condNm:'Light',zone:'A',twostory:false,tight:false,water:true,commercial:false,roofType:ROOFTYPES[0],addons:{}});
 
 /* ===== main app ===== */
 function App(){
   const [tab,setTab]=useState('new');
   const [leads,setLeads]=useState(()=>lsJSON(LS,[]));
   const [knocks,setKnocks]=useState(()=>lsJSON('soflo_knocks',[]));
-  const [pricing,setPricing]=useState(()=>Object.assign({},DEF_PRICING,lsJSON(LS_PRICE,{})));
+  const [pricing,setPricing]=useState(()=>Object.assign({},DEF_PRICING,lsGet(LS_PRICE_V,'')===PRICE_VER?lsJSON(LS_PRICE,{}):{}));
   const [st,setSt]=useState(blankState);
   const [cust,setCust]=useState({name:'',phone:'',email:'',address:'',ptype:'Residential',source:'Website quote form',prefDate:'',notes:''});
   const [msg,setMsg]=useState('');
@@ -209,7 +215,9 @@ function NewEstimate({st,setSt,cust,setCust,pricing,pr,toggleSurf,toggleAdd,tota
         <h2 className="font-display font-extrabold uppercase text-base mb-3">2. Size & condition</h2>
         <div className="mb-1"><Lbl>Overall size</Lbl><Seg items={SIZES} value={st.sizeNm} onPick={(v,l)=>setSt(s=>({...s,size:v,sizeNm:l}))}/></div>
         <p className="text-xs text-navy/55 mb-3">Rough bucket, not exact footage.</p>
-        <div><Lbl>Growth / condition</Lbl><Seg items={CONDS} value={st.condNm} onPick={(v,l)=>setSt(s=>({...s,cond:v,condNm:l}))}/></div>
+        <div className="mb-3"><Lbl>Growth / condition</Lbl><Seg items={CONDS} value={st.condNm} onPick={(v,l)=>setSt(s=>({...s,cond:v,condNm:l}))}/></div>
+        <div><Lbl>Area rate</Lbl><select value={st.zone} onChange={e=>setSt(s=>({...s,zone:e.target.value}))} className="w-full border border-line rounded-xl px-3 min-h-[46px] bg-white">{ZONE_IDS.map(z=><option key={z} value={z}>{'Zone '+z+' · x'+SF.ZONES[z][0].toFixed(2)+' · '+SF.ZONEWORD[z]}</option>)}</select>
+          <p className="text-xs text-navy/55 mt-1">Same area rates as the public quote. Pick by the job's city (Coral Gables is D, Miami Beach is E).</p></div>
       </div>
       <div className={card}>
         <h2 className="font-display font-extrabold uppercase text-base mb-3">3. Access & add-ons</h2>
@@ -364,7 +372,7 @@ function Settings({pricing,setPricing,onClose}){
   const [tmpl,setTmpl]=useState(lsGet(LS_TMPL,DEF_TMPL));
   const [p,setP]=useState({...pricing});
   const [st,setSt]=useState('');
-  const savePrice=()=>{const np=Object.assign({},DEF_PRICING,p);Object.keys(np).forEach(k=>np[k]=parseFloat(np[k])||0);setPricing(np);lsSet(LS_PRICE,np);setSt('Pricing saved.');};
+  const savePrice=()=>{const np=Object.assign({},DEF_PRICING,p);Object.keys(np).forEach(k=>np[k]=parseFloat(np[k])||0);setPricing(np);lsSet(LS_PRICE,np);lsSet(LS_PRICE_V,PRICE_VER);setSt('Pricing saved.');};
   return <Modal open={true} onClose={onClose} wide>
     <h3 className="font-display font-black text-2xl mb-3">Settings</h3>
     <Lbl>Google Sheet sync URL (/exec)</Lbl>
@@ -378,7 +386,7 @@ function Settings({pricing,setPricing,onClose}){
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">{PRICE_FIELDS.map(([k,l])=>
       <div key={k}><label className="block text-[.66rem] font-display font-extrabold uppercase text-navy/60 mb-0.5">{l}</label>
         <input type="number" step={/tile|twostory|tight/.test(k)?'0.05':'1'} value={p[k]} onChange={e=>setP(s=>({...s,[k]:e.target.value}))} className="w-full border border-line rounded-lg px-2 py-1.5 bg-white"/></div>)}</div>
-    <div className="flex gap-2 my-3"><Btn kind="navy" className="!py-2 !text-xs" onClick={savePrice}>Save pricing</Btn><Btn className="!py-2 !text-xs" onClick={()=>{setP({...DEF_PRICING});setPricing({...DEF_PRICING});lsSet(LS_PRICE,DEF_PRICING);}}>Reset default</Btn></div>
+    <div className="flex gap-2 my-3"><Btn kind="navy" className="!py-2 !text-xs" onClick={savePrice}>Save pricing</Btn><Btn className="!py-2 !text-xs" onClick={()=>{setP({...DEF_PRICING});setPricing({...DEF_PRICING});lsSet(LS_PRICE,DEF_PRICING);lsSet(LS_PRICE_V,PRICE_VER);}}>Reset default</Btn></div>
     <div className="border-t border-line my-4"/>
     <Lbl>Quote message template</Lbl>
     <textarea value={tmpl} onChange={e=>setTmpl(e.target.value)} className="w-full border border-line rounded-xl px-3 py-2 min-h-[140px] bg-white"/>

@@ -20,6 +20,13 @@
  *  5. Done. Submit a test quote on the site; a "Website" tab appears with the row.
  *
  *  Note: no other changes needed. Your Leads/Knocks/Photos keep working.
+ *
+ *  UPDATE (zone pricing + attribution columns): logWeb_ now writes area, zone,
+ *  zip, promo, UTM, gclid, referrer, landing, device, prefDate, plan2, plan4.
+ *  The owner must redeploy for these to take effect: Deploy → Manage deployments →
+ *  (pencil/Edit your web app) → Version: New version → Deploy. Same /exec URL.
+ *  On an existing Website tab, type the new column names into row 1 after "id",
+ *  in the same order, so the headers line up with the data.
  */
 
 function logWeb_(data){
@@ -27,7 +34,9 @@ function logWeb_(data){
   var name = 'Website';
   var cols = ['created','source','name','phone','email','address','ptype',
               'surfaces','size','condition','twostory',
-              'estimate','estLow','estHigh','status','notes','id'];
+              'estimate','estLow','estHigh','status','notes','id',
+              'area','zone','zip','promo','utm_source','utm_medium','utm_campaign',
+              'gclid','referrer','landing','device','prefDate','plan2','plan4'];
   var sh = ss.getSheetByName(name);
   if (!sh){
     sh = ss.insertSheet(name);
