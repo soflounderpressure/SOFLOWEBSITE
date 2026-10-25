@@ -69,6 +69,7 @@ var SF={
  PROMO:{code:'RESET25',label:'Fall Algae Reset',amount:25,min:150,ends:'2026-12-15T23:59:59-05:00',endsText:'Dec 15'},
  /* conversion hooks. Empty string = feature hidden. */
  BOOKING_URL:'',        /* Google Calendar appointment schedule "Open booking page" link */
+ REVIEW_URL:'',         /* Google review link (g.page/r/... or search.google.com/local/writereview?placeid=...). Empty = /review.html falls back to a thank-you + text-us page. */
  GOOGLE_CLIENT_ID:'',   /* OAuth Web client ID, ends in .apps.googleusercontent.com */
  zoneFor:function(slugOrZip){
   var k=String(slugOrZip==null?'':slugOrZip).replace(/^\s+|\s+$/g,'').toLowerCase();
