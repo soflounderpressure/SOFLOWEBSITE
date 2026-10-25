@@ -1,5 +1,9 @@
 # Stale GSC 404s: early-crawl bad relative paths under /areas/ -> real root pages
-/areas/contact.html      /contact.html      301
-/areas/membership.html   /membership.html   301
-/areas/about.html        /about.html        301
-/resources.html         /blog.html         301
+/areas/contact.html      /contact      301
+/areas/membership.html   /membership   301
+/areas/about.html        /about        301
+/resources.html         /blog         301
+/areas/contact           /contact      301
+/areas/membership        /membership   301
+/areas/about             /about        301
+/resources               /blog         301

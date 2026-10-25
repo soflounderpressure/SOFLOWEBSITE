@@ -4,7 +4,7 @@
 # ── Search engines ──────────────────────────────────────────────
 User-agent: *
 Allow: /
-Disallow: /contract.html
+Disallow: /contract
 Disallow: /tools/
 Disallow: /*.md$
 Disallow: /*.gs$

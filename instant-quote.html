@@ -8,11 +8,11 @@
 <meta name="description" content="Get an instant price for pressure washing or soft washing in Miami-Dade and Broward. A few taps, see your estimate and plan options, we confirm a flat price.">
 <meta name="keywords" content="instant pressure washing quote Miami, pressure washing cost calculator, soft washing estimate Miami-Dade">
 <meta name="geo.region" content="US-FL">
-<link rel="canonical" href="https://sofloup.com/instant-quote.html">
+<link rel="canonical" href="https://sofloup.com/instant-quote">
 <meta property="og:title" content="Instant Pressure Washing Quote | SoFlo UnderPressure">
 <meta property="og:description" content="A few taps, see your price. Miami-Dade & Broward.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://sofloup.com/instant-quote.html">
+<meta property="og:url" content="https://sofloup.com/instant-quote">
 <meta property="og:image" content="https://sofloup.com/Pictures/og-default.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://sofloup.com/Pictures/og-default.jpg">
@@ -384,7 +384,7 @@ function quoteText(){
   return 'Hi SoFlo, save my quote: '+surfText()+' ('+st.sizeNm+', '+st.condNm+') in '+areaLabel()+'. Est '+money(t*0.9)+'-'+money(t*1.2)+(st.plan?', '+planLabel():'')+'. My name is ';
 }
 function smsHref(){return 'sms:3058946336?&body='+encodeURIComponent(quoteText());}
-function mailHref(){return 'mailto:?subject=My%20SoFlo%20UnderPressure%20quote&body='+encodeURIComponent(quoteText()+'\n\nFinish it: https://sofloup.com/instant-quote.html?resume=1');}
+function mailHref(){return 'mailto:?subject=My%20SoFlo%20UnderPressure%20quote&body='+encodeURIComponent(quoteText()+'\n\nFinish it: https://sofloup.com/instant-quote?resume=1');}
 
 function renderPrice(){
   if(!st.plan)st.plan='plan2';
