@@ -69,6 +69,13 @@
 .sent{text-align:center;padding:2rem 0}
 .sent .big{font-family:var(--fd);font-weight:900;font-size:2rem;color:var(--navy)}
 </style>
+<style>
+.when{display:flex;gap:.5rem;flex-wrap:wrap}
+.when button{flex:1 1 30%;min-height:46px;border:2px solid rgba(24,43,63,.18);background:#fff;border-radius:12px;font:inherit;font-weight:700;color:var(--navy);cursor:pointer}
+.when button.on{border-color:var(--coral);background:#fdf1ec;color:var(--coral)}
+.next3{text-align:left;max-width:30rem;margin:1rem auto 0;padding-left:1.3rem;line-height:1.5;color:var(--navy)}
+.next3 li{margin:.45rem 0}
+</style>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -149,6 +156,8 @@
     <div class="field"><label>Phone</label><input id="c_phone" type="tel" inputmode="tel" autocomplete="tel" data-oneof="reach" data-oneof-label="Phone or email"></div>
     <div class="field"><label>Email</label><input id="c_email" type="email" inputmode="email" autocomplete="email" data-oneof="reach" data-oneof-label="Phone or email"></div>
     <div class="field"><label>Property address <span style="text-transform:none;font-weight:600;color:var(--mid)">(optional)</span></label><input id="c_addr" autocomplete="street-address"></div>
+    <div class="field"><label>When works for you? <span style="text-transform:none;font-weight:600;color:var(--mid)">(optional)</span></label>
+      <div class="when" id="when"><button type="button" data-when="This week">This week</button><button type="button" data-when="Next week">Next week</button><button type="button" data-when="Flexible">I'm flexible</button></div></div>
     <input class="hp" id="company" tabindex="-1" autocomplete="off" placeholder="Company">
     <button class="ibtn ibtn-coral" id="submit" data-submit style="width:100%;margin-top:.4rem">Send me my quote</button>
     <p id="formMsg" style="font-size:.86rem;margin-top:.7rem;font-weight:700"></p>
@@ -157,8 +166,14 @@
   <!-- DONE -->
   <section class="step" data-step="done">
     <div class="sent">
-      <div class="big">Got it. We're on it.</div>
-      <p style="color:var(--mid);margin-top:.6rem">We'll confirm your flat price today, usually within a few hours. Prefer to talk now? Call <a href="tel:3058946336" style="color:var(--peri-dk);font-weight:700">(305) 894-6336</a>.</p>
+      <div class="big" id="doneTitle">Got it. We're on it.</div>
+      <ol class="next3">
+        <li><b>We text you a flat price</b> <span id="replyWhen">today, usually within a few hours</span>.</li>
+        <li><b>You pick a time</b> that works. Same-week is usually open.</li>
+        <li><b>We show up and clean.</b> Most jobs take a few hours.</li>
+      </ol>
+      <p id="doneFail" style="display:none;color:var(--coral);font-weight:700;margin-top:.8rem">Our system didn't confirm it went through. Tap below to text it to us so nothing gets lost.</p>
+      <p style="margin-top:1rem"><a class="ibtn ibtn-coral" id="smsBtn" href="sms:3058946336" style="display:inline-block;text-decoration:none">Text us now</a> <a class="ibtn ibtn-ghost" href="tel:3058946336" style="display:inline-block;text-decoration:none">Call (305) 894-6336</a></p>
     </div>
   </section>
 </main>
@@ -182,6 +197,7 @@
   <div class="fbot"><span>© 2026 SoFlo UnderPressure · Licensed &amp; Insured</span><span>Miami-Dade &amp; Broward County</span></div>
 </div></footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
 /* paste a Google OAuth Client ID here to turn on "Sign in with Google". Empty = email/phone only. */
 var GOOGLE_CLIENT_ID='';
@@ -199,7 +215,7 @@ var BUNDLE=0.6;
    first-clean condition below, so a maintenance visit never costs more than the initial clean. */
 var MREG=1.25;
 function maintCond(){return Math.min(st.regrowth?MREG:1,(st.cond||1));}
-var st={surf:{},size:0,sizeNm:'',cond:0,condNm:'',twostory:false,tile:false,stains:false,regrowth:false,plan:''};
+var st={surf:{},size:0,sizeNm:'',cond:0,condNm:'',twostory:false,tile:false,stains:false,regrowth:false,plan:'',when:''};
 /* carry the plan picked on the Plans page so nobody chooses it twice */
 var PLAN_FROM_URL={essentials:'oneoff',standard:'plan2',premium:'plan4'};
 try{var qp=new URLSearchParams(location.search).get('plan');if(PLAN_FROM_URL[qp])st.plan=PLAN_FROM_URL[qp];}catch(e){}
@@ -279,6 +295,17 @@ function renderPrice(){
   document.querySelectorAll('[data-plan]').forEach(function(el){el.onclick=function(){st.plan=el.dataset.plan;renderPrice();};});
 }
 $('#s5next').onclick=next;
+document.querySelectorAll('#when [data-when]').forEach(function(b){b.onclick=function(){var on=st.when!==b.dataset.when;st.when=on?b.dataset.when:'';document.querySelectorAll('#when [data-when]').forEach(function(x){x.classList.toggle('on',x===b&&on);});};});
+
+/* honest reply time: Sun-Thu 8am-8pm, Fri 8am-3pm, closed Saturday */
+function replyWhen(){
+  var d=new Date(),day=d.getDay(),hr=d.getHours();
+  var open=(day>=0&&day<=4&&hr>=8&&hr<20)||(day===5&&hr>=8&&hr<15);
+  if(open)return 'today, usually within a few hours';
+  if(day===5||day===6)return 'Sunday morning';
+  if(hr<8)return 'this morning';
+  return 'tomorrow morning';
+}
 
 /* step 6 contact + google */
 function maybeGoogle(){
@@ -309,11 +336,30 @@ $('#submit').onclick=function(){
     source:'Instant estimator (website)',surfaces:surfText(),size:st.sizeNm,condition:st.condNm,twostory:st.twostory,
     estimate:Math.round(t),estLow:Math.round(t*0.9),estHigh:Math.round(t*1.2),status:'New',
     notes:'Customer self-estimate · first clean '+money(Math.round(t*0.9))+'-'+money(Math.round(t*1.2))+' · upkeep ~'+money(Math.round(tm*0.75))+'-'+money(Math.round(tm*0.85))+'/visit'+(st.tile?' · tile roof':'')+(st.stains?' · heavy stains':'')+(st.regrowth?' · high-regrowth spot':'')+(st.plan?' · interested: '+planLabel():'')};
+  lead.prefDate=st.when;
+  lead.plan2=Math.round(tm*0.85);lead.plan4=Math.round(tm*0.75);
+  var summary=surfText()+' ('+st.sizeNm+', '+st.condNm+') est '+money(lead.estLow)+'-'+money(lead.estHigh)+(st.plan?' · '+planLabel():'')+(st.when?' · '+st.when:'');
+  $('#smsBtn').href='sms:3058946336?&body='+encodeURIComponent('Hi, this is '+(name||'a customer')+'. Quote request: '+summary+(lead.address?' at '+lead.address:''));
   $('#submit').disabled=true;$('#submit').textContent='Sending...';
-  fetch(EXEC,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(lead)}).then(fin).catch(fin);
-  setTimeout(fin,2500);
+  var okCount=0,pending=2;
+  function settle(ok){if(ok)okCount++;if(--pending===0)finish();}
+  fetch(EXEC,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(lead)}).then(function(){settle(true)},function(){settle(false)});
+  try{
+    if(!window.emailjs)throw 0;
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+    emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{type:'Instant Quote',from_name:name||'(no name)',from_phone:phone||'Not provided',from_email:email||'Not provided',
+      services:surfText()+(st.plan?' · '+planLabel():''),size:st.sizeNm+' / '+st.condNm,estimate:money(lead.estLow)+' - '+money(lead.estHigh),address:lead.address||' - ',
+      message:'New instant quote. '+summary+(st.when?'\nWants it: '+st.when:'')+'\n'+lead.notes}).then(function(){settle(true)},function(){settle(false)});
+  }catch(e){settle(false);}
+  setTimeout(function(){if(!done){finish(true);}},6000);
+  function finish(timedOut){if(done)return;done=true;
+    $('#doneTitle').textContent=name?('Got it, '+name.split(' ')[0]+'.'):'Got it. We\'re on it.';
+    $('#replyWhen').textContent=replyWhen();
+    if(okCount===0&&!timedOut)$('#doneFail').style.display='block';
+    show(STEPS.indexOf('done'));}
 };
-var done=false;function fin(){if(done)return;done=true;show(STEPS.indexOf('done'));}
+var done=false;
+var EMAILJS_PUBLIC_KEY='g5GADebgwCHFEUhua',EMAILJS_SERVICE_ID='service_4h1wyzm',EMAILJS_TEMPLATE_ID='template_s0fy0ta';
 show(0);
 </script>
 <script src="forms.js?v=20261017" defer></script>

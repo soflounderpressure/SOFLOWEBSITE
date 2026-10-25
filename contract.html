@@ -920,6 +920,18 @@
       to_email:   'SoFlo.Underpressure@gmail.com',
     };
 
+    /* also log the signed agreement to the CRM sheet; same id on retry so it updates, not duplicates */
+    window.__contractId = window.__contractId || (Date.now()*1000 + Math.floor(Math.random()*1000));
+    try {
+      fetch('https://script.google.com/macros/s/AKfycbz3ZdK_OlRdHWjsGmSIh-L5EW-JemAcLsoSDLmSb8DWM7EwKSp_LjfBsUhElnn6c2nZ/exec', {
+        method:'POST', mode:'no-cors', keepalive:true, headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body: JSON.stringify({ type:'weblead', id: window.__contractId, created: new Date().toISOString(),
+          name: fullName, phone: phone, email: email, address: address, ptype:'Residential',
+          source:'Annual agreement (website)', surfaces: plan.label, status:'Contract signed',
+          estimate: urlRate || '', notes: 'Signed ' + dateStr + ' as "' + sig + '". ' + (notes || '') })
+      }).catch(function(){});
+    } catch(err) {}
+
     emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params)
       .then(() => {
         document.getElementById('contractForm').style.display = 'none';
@@ -942,6 +954,6 @@
     nav && nav.classList.toggle('scrolled', window.scrollY > 40);
   });
 </script>
-<script src="forms.js?v=20261017" defer></script>
+<script src="forms.js?v=20261024" defer></script>
 </body>
 </html>
