@@ -604,7 +604,7 @@ header.hero .hero-lead{margin-top:1.2rem}
 .page-hero,.services-hero,.resources-hero,.quote-hero,.area-hero,.contract-hero{
   box-shadow:0 0 0 100vmax var(--navy),0 4px 0 100vmax var(--yellow)!important;clip-path:inset(0 -100vmax -4px)!important;margin-bottom:4px!important}
 /* missing photo slot: branded mascot fallback instead of a code label */
-.slot__ph{background:var(--aqua) url(Pictures/mascot-peek.png) center/auto 46% no-repeat!important;border:none!important}
+.slot__ph{background:var(--aqua) url(/Pictures/mascot-peek-220.png) center/auto 46% no-repeat!important;background:var(--aqua) image-set(url(/Pictures/mascot-peek-220.avif) type("image/avif"),url(/Pictures/mascot-peek-220.webp) type("image/webp"),url(/Pictures/mascot-peek-220.png) type("image/png")) center/auto 46% no-repeat!important;border:none!important}
 .slot__ph>*{display:none!important}
 /* round 4: dark legacy sections, consistent contrast */
 .about-cta .section-sub,.about-cta p{color:rgba(255,255,255,.8)!important}
@@ -662,7 +662,7 @@ body{background:var(--sand)!important;color:var(--ink)}
 /* ── nav: logo badge + dark glass pill ── */
 .nav{background:rgba(16,38,58,.86)!important;border:1px solid rgba(255,255,255,.08)!important;box-shadow:0 12px 30px -10px rgba(0,0,0,.35)!important;padding:.55rem .55rem .55rem .7rem!important}
 .nav .logo{align-items:center;gap:.55rem}
-.nav .logo::before{content:"";flex:none;width:44px;height:44px;border-radius:50%;background:var(--yellow) url(Pictures/mascot-wave.png) 50% 70%/78% auto no-repeat;box-shadow:inset 0 0 0 3px var(--navy),0 0 0 2px var(--yellow)}
+.nav .logo::before{content:"";flex:none;width:44px;height:44px;border-radius:50%;background:var(--yellow) url(/Pictures/mascot-wave-220.png) 50% 70%/78% auto no-repeat;background:var(--yellow) image-set(url(/Pictures/mascot-wave-220.avif) type("image/avif"),url(/Pictures/mascot-wave-220.webp) type("image/webp"),url(/Pictures/mascot-wave-220.png) type("image/png")) 50% 70%/78% auto no-repeat;box-shadow:inset 0 0 0 3px var(--navy),0 0 0 2px var(--yellow)}
 .nav .logo b{color:#fff!important}.nav .logo span{color:var(--aqua)!important}
 .nav-links a{color:#fff!important;opacity:.78;font-family:var(--fd)!important;font-weight:700;font-size:.92rem!important;letter-spacing:.09em}
 .nav-links a:hover{opacity:1}
@@ -773,7 +773,7 @@ footer,footer.ft-flush{background:var(--navy)!important}
 /* footer brand = same badge as nav */
 .fbrand img{display:none}
 .fbrand .logo{display:flex;align-items:center;gap:.6rem}
-.fbrand .logo::before{content:"";flex:none;width:52px;height:52px;border-radius:50%;background:var(--yellow) url(Pictures/mascot-wave.png) 50% 70%/78% auto no-repeat;box-shadow:inset 0 0 0 3px var(--navy),0 0 0 2px var(--yellow)}
+.fbrand .logo::before{content:"";flex:none;width:52px;height:52px;border-radius:50%;background:var(--yellow) url(/Pictures/mascot-wave-220.png) 50% 70%/78% auto no-repeat;background:var(--yellow) image-set(url(/Pictures/mascot-wave-220.avif) type("image/avif"),url(/Pictures/mascot-wave-220.webp) type("image/webp"),url(/Pictures/mascot-wave-220.png) type("image/png")) 50% 70%/78% auto no-repeat;box-shadow:inset 0 0 0 3px var(--navy),0 0 0 2px var(--yellow)}
 .fbrand .logo b{font-family:var(--fx);font-size:1.4rem}
 @media(max-width:960px){.blk-foam .split{grid-template-columns:1fr}}
 @media(max-width:600px){
