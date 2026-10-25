@@ -67,6 +67,9 @@ var SF={
  },
  ZIPPREFIX:{'331':'A','330':'B','333':'C'},
  PROMO:{code:'RESET25',label:'Fall Algae Reset',amount:25,min:150,ends:'2026-12-15T23:59:59-05:00',endsText:'Dec 15'},
+ /* conversion hooks. Empty string = feature hidden. */
+ BOOKING_URL:'',        /* Google Calendar appointment schedule "Open booking page" link */
+ GOOGLE_CLIENT_ID:'',   /* OAuth Web client ID, ends in .apps.googleusercontent.com */
  zoneFor:function(slugOrZip){
   var k=String(slugOrZip==null?'':slugOrZip).replace(/^\s+|\s+$/g,'').toLowerCase();
   if(this.CITY.hasOwnProperty(k))return this.CITY[k][0];

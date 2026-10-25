@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Contract link builder | SoFlo</title>
+<style>
+:root{--navy:#182B3F;--coral:#C24A33;--sand:#F4ECD8;--card:#FFFDF8;--line:#D9CDB0;--muted:#5B6878;--red:#B42318}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--sand);color:var(--navy);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.45;min-height:100vh;padding:24px 16px}
+.card{max-width:520px;margin:0 auto;background:var(--card);border-radius:14px;padding:24px 20px;box-shadow:0 1px 3px rgba(24,43,63,.12)}
+h1{font-size:1.5rem;line-height:1.2;margin:0 0 4px;color:var(--navy)}
+.sub{margin:0 0 4px;color:var(--muted);font-size:.95rem}
+label{display:block;font-weight:600;margin:18px 0 6px;font-size:.95rem}
+input,select{display:block;width:100%;min-height:48px;font-size:16px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--navy);font-family:inherit;-webkit-appearance:none;appearance:none}
+select{background-image:linear-gradient(45deg,transparent 50%,var(--navy) 50%),linear-gradient(135deg,var(--navy) 50%,transparent 50%);background-position:calc(100% - 20px) 50%,calc(100% - 14px) 50%;background-size:6px 6px,6px 6px;background-repeat:no-repeat;padding-right:36px}
+input:focus,select:focus{outline:2px solid var(--coral);outline-offset:1px;border-color:var(--coral)}
+.err{color:var(--red);font-size:.9rem;font-weight:600;margin:8px 0 0}
+.status{color:var(--coral);font-size:.95rem;font-weight:600;margin:16px 0 0}
+.out-label{font-size:.8rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:22px 0 6px}
+.box{background:var(--sand);border-radius:10px;padding:12px;font-size:.92rem;line-height:1.45;color:var(--navy);word-break:break-all;white-space:pre-wrap;min-height:48px}
+.btns{display:grid;gap:10px;margin-top:22px}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;padding:0 16px;border-radius:10px;border:2px solid var(--navy);background:#fff;color:var(--navy);font-family:inherit;font-size:16px;font-weight:700;text-decoration:none;cursor:pointer;-webkit-appearance:none;appearance:none}
+.btn-primary{background:var(--coral);border-color:var(--coral);color:#fff}
+.btn:disabled,.btn.off{opacity:.45;cursor:not-allowed;pointer-events:none}
+</style>
+</head>
+<body>
+<main class="card">
+  <h1>Contract link builder</h1>
+  <p class="sub">Owner tool. Builds the agreement link and the text to send.</p>
+
+  <label for="plan">Plan</label>
+  <select id="plan">
+    <option value="essentials">Humble Brag (1x a year)</option>
+    <option value="standard" selected>Bragging Rights (2x a year)</option>
+    <option value="premium">The Show-Off (4x a year)</option>
+  </select>
+
+  <label for="rate">Monthly rate ($)</label>
+  <input id="rate" type="number" inputmode="numeric" min="10" max="9999" step="1" placeholder="150" autocomplete="off">
+
+  <label for="pay">Stripe payment link (optional)</label>
+  <input id="pay" type="text" inputmode="url" autocapitalize="off" autocorrect="off" spellcheck="false" autocomplete="off" placeholder="https://buy.stripe.com/...">
+  <p id="payErr" class="err" hidden>Not a Stripe link, it won't be included.</p>
+
+  <label for="first">Customer first name (optional)</label>
+  <input id="first" type="text" autocapitalize="words" autocomplete="off">
+
+  <p id="status" class="status" role="status" hidden>Add the monthly rate.</p>
+
+  <p class="out-label">Link</p>
+  <div id="linkOut" class="box" aria-live="polite"></div>
+
+  <p class="out-label">Text message</p>
+  <div id="msgOut" class="box" aria-live="polite"></div>
+
+  <div class="btns">
+    <button type="button" id="copyMsg" class="btn btn-primary" data-label="Copy text message" disabled>Copy text message</button>
+    <button type="button" id="copyLink" class="btn" data-label="Copy link" disabled>Copy link</button>
+    <a id="openBtn" class="btn off" target="_blank" rel="noopener" aria-disabled="true">Open</a>
+  </div>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var BASE = 'https://sofloup.com/contract.html';
+  var cur = { url: '', msg: '' };
+
+  // Only https links on buy.stripe.com or checkout.stripe.com pass.
+  function stripeUrl(s) {
+    try {
+      var u = new URL(s);
+      return u.protocol === 'https:' && (u.hostname === 'buy.stripe.com' || u.hostname === 'checkout.stripe.com') ? u.href : '';
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function $(id) { return document.getElementById(id); }
+
+  // Whole dollars, 10 to 9999.
+  function rateOk(v) {
+    if (!/^\d+$/.test(v)) return false;
+    var n = parseInt(v, 10);
+    return n >= 10 && n <= 9999;
+  }
+
+  function read() {
+    var rate = $('rate').value.trim();
+    var ok = rateOk(rate);
+    if (ok) rate = String(parseInt(rate, 10));
+    var payRaw = $('pay').value.trim();
+    var pay = payRaw ? stripeUrl(payRaw) : '';
+    return {
+      plan: $('plan').value,
+      rate: rate,
+      ok: ok,
+      pay: pay,
+      payBad: !!payRaw && !pay,
+      name: $('first').value.trim()
+    };
+  }
+
+  function setOpen(url) {
+    var a = $('openBtn');
+    if (url) {
+      a.setAttribute('href', url);
+      a.setAttribute('aria-disabled', 'false');
+      a.className = 'btn';
+    } else {
+      a.removeAttribute('href');
+      a.setAttribute('aria-disabled', 'true');
+      a.className = 'btn off';
+    }
+  }
+
+  function render() {
+    var s = read();
+    var url = '';
+    var msg = '';
+
+    $('payErr').hidden = !s.payBad;
+
+    if (s.ok) {
+      url = BASE + '?plan=' + encodeURIComponent(s.plan) + '&rate=' + s.rate +
+        (s.pay ? '&pay=' + encodeURIComponent(s.pay) : '');
+      var who = s.name ? 'Hi ' + s.name + ', ' : 'Hi, ';
+      var sign = s.pay ? 'Sign on your phone, then tap Activate auto-pay.' : 'Sign on your phone.';
+      msg = who + "here's your SoFlo UnderPressure agreement at $" + s.rate + ' a month: ' + url + ' ' +
+        sign + ' Text me with any questions. Saul';
+    }
+
+    cur.url = url;
+    cur.msg = msg;
+
+    $('linkOut').textContent = url;
+    $('msgOut').textContent = msg;
+    $('status').hidden = s.ok;
+    $('copyLink').disabled = !s.ok;
+    $('copyMsg').disabled = !s.ok;
+    setOpen(url);
+  }
+
+  // Hidden textarea fallback for browsers without clipboard API.
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.top = '0';
+    ta.style.left = '0';
+    ta.style.opacity = '0';
+    ta.style.fontSize = '16px';
+    document.body.appendChild(ta);
+    ta.select();
+    ta.setSelectionRange(0, text.length);
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+
+  function copyText(text, btn) {
+    var label = btn.getAttribute('data-label');
+    function finish(ok) {
+      if (btn.__t) clearTimeout(btn.__t);
+      btn.textContent = ok ? 'Copied' : 'Copy failed';
+      btn.__t = setTimeout(function () { btn.textContent = label; }, 1600);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () {
+        finish(true);
+      }, function () {
+        finish(fallbackCopy(text));
+      });
+    } else {
+      finish(fallbackCopy(text));
+    }
+  }
+
+  var live = ['plan', 'rate', 'pay', 'first'];
+  for (var i = 0; i < live.length; i++) {
+    $(live[i]).addEventListener('input', render);
+    $(live[i]).addEventListener('change', render);
+  }
+
+  $('copyLink').addEventListener('click', function () {
+    if (cur.url) copyText(cur.url, this);
+  });
+  $('copyMsg').addEventListener('click', function () {
+    if (cur.msg) copyText(cur.msg, this);
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

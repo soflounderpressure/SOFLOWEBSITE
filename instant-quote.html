@@ -21,7 +21,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;0,900;1,900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700;800;900&family=Barlow:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="quoti.css?v=20261025b">
-<script src="pricing.js?v=20261025"></script>
+<script src="pricing.js?v=20261026"></script>
 <script src="https://accounts.google.com/gsi/client" async></script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
@@ -192,10 +192,18 @@
       <div class="big" id="doneTitle">Got it. We're on it.</div>
       <ol class="next3">
         <li><b>We text you a flat price</b> <span id="replyWhen">today, usually within a few hours</span>.</li>
-        <li><b>You pick a time</b> that works. Same-week is usually open.</li>
+        <li id="step2"><b>You pick a time</b> that works. Same-week is usually open.</li>
         <li><b>We show up and clean.</b> Most jobs take a few hours.</li>
       </ol>
       <p id="doneFail" style="display:none;color:var(--coral);font-weight:700;margin-top:.8rem">Our system didn't confirm it went through. Tap below to text it to us so nothing gets lost.</p>
+      <p id="bookWrap" style="display:none;margin-top:1rem"><a class="ibtn ibtn-coral" id="bookBtn" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none">Pick a time</a><span class="keep" id="bookSub" style="display:block;margin-top:.5rem">15 to 30 minutes. We measure, confirm your flat price, and schedule the clean.</span></p>
+      <div id="photoWrap" style="display:none;margin-top:1.4rem;text-align:left">
+        <div class="q" style="font-size:1.2rem">Want an exact price faster?</div>
+        <div class="qs">Add up to 6 photos of the surfaces. Takes 30 seconds and usually saves the site visit.</div>
+        <label class="ibtn ibtn-ghost" id="photoLbl" for="photoIn" style="display:inline-block;cursor:pointer">Add photos</label>
+        <input id="photoIn" type="file" accept="image/*" multiple class="hp">
+        <ul id="photoList" style="list-style:none;padding:0;margin:.8rem 0 0;display:grid;gap:.5rem"></ul>
+      </div>
       <p style="margin-top:1rem"><a class="ibtn ibtn-coral" id="smsBtn" href="sms:3058946336" style="display:inline-block;text-decoration:none">Text us now</a> <a class="ibtn ibtn-ghost" href="tel:3058946336" style="display:inline-block;text-decoration:none">Call (305) 894-6336</a></p>
       <p class="keep">Saved on this device for 30 days. Come back anytime.</p>
     </div>
@@ -233,11 +241,11 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script>
-/* paste a Google OAuth Client ID here to turn on "Sign in with Google". Empty = email/phone only. */
-var GOOGLE_CLIENT_ID='';
 var EXEC='https://script.google.com/macros/s/AKfycbz3ZdK_OlRdHWjsGmSIh-L5EW-JemAcLsoSDLmSb8DWM7EwKSp_LjfBsUhElnn6c2nZ/exec';
 /* prices, sizes, conditions, bundle, minimum, zones and the promo all live in pricing.js (window.SF) */
 var SF=window.SF;
+/* Google OAuth Client ID lives in pricing.js (SF.GOOGLE_CLIENT_ID). Empty = email/phone only. */
+var GOOGLE_CLIENT_ID=SF.GOOGLE_CLIENT_ID||'';
 var P=SF.P,SIZES=SF.SIZES,CONDS=SF.CONDS,SIZEW=SF.SIZEW,BUNDLE=SF.BUNDLE,MIN=SF.MIN,MREG=SF.MREG;
 var SURF=[['driveway','Driveway'],['walkway','Walkway / sidewalk'],['patio','Patio / pool deck'],['fence','Fence'],['house','House exterior (soft wash)'],['roof','Roof soft wash'],['screen','Screen enclosure / pool cage']];
 function maintCond(){return Math.min(st.regrowth?MREG:1,(st.cond||1));}
@@ -449,18 +457,28 @@ function replyWhen(){
 }
 
 /* contact + google */
+var gInit=false;
+if(GOOGLE_CLIENT_ID)$('#gbtn').style.minHeight='44px';
+/* the GSI script is async: if it loads after the contact step is showing, render then */
+window.onGoogleLibraryLoad=function(){if(STEPS[i]==='contact')maybeGoogle();};
 function maybeGoogle(){
-  if(!GOOGLE_CLIENT_ID||!window.google||!google.accounts){return;}
+  if(gInit||!GOOGLE_CLIENT_ID||!window.google||!google.accounts){return;}
   try{
     google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:onGoogle});
-    google.accounts.id.renderButton($('#gbtn'),{theme:'filled_blue',size:'large',width:320,text:'continue_with'});
+    google.accounts.id.renderButton($('#gbtn'),{theme:'filled_blue',size:'large',width:Math.max(200,Math.min(320,Math.floor($('#gbtn').clientWidth||320))),text:'continue_with'});
+    gInit=true;
     $('#orline').style.display='block';
   }catch(e){}
 }
 function onGoogle(resp){
-  try{var p=JSON.parse(atob(resp.credential.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')));
+  try{
+    /* base64url JWT payload, decoded as UTF-8 so names like Jose Pena with accents survive */
+    var b=resp.credential.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');
+    while(b.length%4)b+='=';
+    var p=JSON.parse(decodeURIComponent(Array.prototype.map.call(atob(b),function(c){return '%'+('00'+c.charCodeAt(0).toString(16)).slice(-2);}).join('')));
     if(p.name&&!$('#c_name').value)$('#c_name').value=p.name;
-    if(p.email&&!$('#c_email').value)$('#c_email').value=p.email;
+    if(p.email&&p.email_verified&&!$('#c_email').value)$('#c_email').value=p.email;
+    track('google_signin');
     $('#c_phone').focus();
   }catch(e){}
 }
@@ -490,8 +508,9 @@ $('#submit').onclick=function(){
     source:'Instant estimator (website)',surfaces:surfText(),size:st.sizeNm,condition:st.condNm,twostory:st.twostory,
     estimate:Math.round(t),estLow:Math.round(t*0.9),estHigh:Math.round(t*1.2),status:'New',
     area:areaLabel(),zone:st.zone,zip:st.zip,promo:st.promo,
-    notes:'Customer self-estimate · first clean '+money(Math.round(t*0.9))+'-'+money(Math.round(t*1.2))+' · upkeep ~'+money(Math.round(tm*SF.PLAN.plan4))+'-'+money(Math.round(tm*SF.PLAN.plan2))+'/visit'+(st.tile?' · tile roof':'')+(st.stains?' · heavy stains':'')+(st.regrowth?' · high-regrowth spot':'')+(st.plan?' · interested: '+planLabel():'')+notesSuffix(a)};
+    notes:'Customer self-estimate · first clean '+money(Math.round(t*0.9))+'-'+money(Math.round(t*1.2))+' · upkeep ~'+money(Math.round(tm*SF.PLAN.plan4))+'-'+money(Math.round(tm*SF.PLAN.plan2))+'/visit'+(st.tile?' · tile roof':'')+(st.stains?' · heavy stains':'')+(st.regrowth?' · high-regrowth spot':'')+(st.plan?' · interested: '+planLabel():'')+(SF.BOOKING_URL?' · booking: offered':'')+notesSuffix(a)};
   Object.keys(own).forEach(function(k){lead[k]=own[k];});
+  sent.id=lead.id;sent.name=name;sent.address=lead.address;window.__sfLead=sent;
   lead.prefDate=pref;
   lead.plan2=Math.round(tm*SF.PLAN.plan2);lead.plan4=Math.round(tm*SF.PLAN.plan4);
   var summary=surfText()+' ('+st.sizeNm+', '+st.condNm+') in '+areaLabel()+' est '+money(lead.estLow)+'-'+money(lead.estHigh)+(st.plan?' · '+planLabel():'')+(pref?' · '+pref:'');
@@ -513,12 +532,85 @@ $('#submit').onclick=function(){
   function finish(timedOut){if(done)return;done=true;
     $('#doneTitle').textContent=name?('Got it, '+name.split(' ')[0]+'.'):'Got it. We\'re on it.';
     $('#replyWhen').textContent=replyWhen();
-    if(okCount===0&&!timedOut)$('#doneFail').style.display='block';
+    var failed=(okCount===0&&!timedOut);
+    var book=!!SF.BOOKING_URL&&!failed;
+    $('#bookWrap').style.display=book?'':'none';
+    if(book){
+      $('#bookBtn').href=SF.BOOKING_URL;
+      $('#smsBtn').className='ibtn ibtn-ghost';
+      $('#step2').innerHTML='<b>You pick a time</b> for a free on-site look, or we text you options.';
+    }
+    $('#photoWrap').style.display=failed?'none':'';
+    if(failed)$('#doneFail').style.display='block';
     else{quoteSent=true;persist(true);}
     closeExit();
     show(STEPS.indexOf('done'));}
 };
 var done=false;
+var sent={id:0,name:'',address:''};
+$('#bookBtn').onclick=function(){track('booking_click');};
+
+/* ---- photos on the done screen. Never posts a weblead: the deployed script appends, it does not upsert.
+   iOS Safari transcodes HEIC to JPEG for accept="image/*". No keepalive: the body is far over its 64KB cap. ---- */
+var photoCount=0,photoBusy=false,photoQueue=[];
+function photoRow(file){
+  var li=document.createElement('li');li.style.cssText='display:flex;align-items:center;gap:.7rem';
+  var img=document.createElement('img');img.alt='';img.style.cssText='width:56px;height:56px;object-fit:cover;border-radius:8px;background:#e8e8ee';
+  var sp=document.createElement('span');sp.className='keep';sp.style.margin='0';sp.textContent='Sending...';
+  li.appendChild(img);li.appendChild(sp);$('#photoList').appendChild(li);
+  return {img:img,sp:sp};
+}
+function photoFail(sp,msg){
+  sp.style.color='var(--coral)';sp.textContent=msg+' ';
+  var a=document.createElement('a');a.href='sms:3058946336';a.textContent='Text it to us instead.';sp.appendChild(a);
+}
+function photoOne(file){
+  return new Promise(function(resolve){
+    var row=photoRow(file),url=URL.createObjectURL(file),im=new Image();
+    im.onerror=function(){URL.revokeObjectURL(url);row.sp.style.color='var(--coral)';row.sp.textContent='';
+      row.sp.appendChild(document.createTextNode("This photo type isn't supported here. "));
+      var a=document.createElement('a');a.href='sms:3058946336';a.textContent='Text it to us instead.';row.sp.appendChild(a);resolve(false);};
+    im.onload=function(){
+      var w=im.naturalWidth,h=im.naturalHeight,m=Math.max(w,h),k=m>1600?1600/m:1;
+      var c=document.createElement('canvas');c.width=Math.max(1,Math.round(w*k));c.height=Math.max(1,Math.round(h*k));
+      var data='';
+      try{c.getContext('2d').drawImage(im,0,0,c.width,c.height);data=c.toDataURL('image/jpeg',0.75);}catch(e){}
+      row.img.src=data||url;
+      if(data)setTimeout(function(){URL.revokeObjectURL(url);},0);
+      if(!data){photoFail(row.sp,"Couldn't read this photo.");resolve(false);return;}
+      fetch(EXEC,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body:JSON.stringify({type:'photo',photo:data,leadId:sent.id,name:sent.name,address:sent.address,created:new Date().toISOString()})})
+        .then(function(){row.sp.style.color='';row.sp.textContent='Sent';resolve(true);},
+              function(){photoFail(row.sp,"Didn't go through.");resolve(false);});
+    };
+    im.src=url;
+  });
+}
+function photoRun(){
+  if(photoBusy)return;photoBusy=true;
+  var okN=0;
+  (function step(){
+    var f=photoQueue.shift();
+    if(!f){photoBusy=false;
+      if(okN>0){track('photo_upload',{count:okN});toast("Photos received. We'll use them for your flat price.");}
+      return;}
+    photoOne(f).then(function(ok){if(ok)okN++;step();});
+  })();
+}
+$('#photoIn').onchange=function(){
+  var files=[].slice.call(this.files||[]),room=6-photoCount;
+  this.value='';
+  if(!files.length)return;
+  var take=files.slice(0,Math.max(0,room));
+  if(files.length>room){
+    var n=document.createElement('li');n.className='keep';n.style.margin='0';n.textContent='Up to 6 photos. The first 6 were sent.';
+    $('#photoList').appendChild(n);
+  }
+  photoCount+=take.length;
+  if(photoCount>=6)$('#photoLbl').style.display='none';
+  take.forEach(function(f){photoQueue.push(f);});
+  photoRun();
+};
 var EMAILJS_PUBLIC_KEY='g5GADebgwCHFEUhua',EMAILJS_SERVICE_ID='service_4h1wyzm',EMAILJS_TEMPLATE_ID='template_s0fy0ta';
 
 /* ---- exit intent (desktop, price/contact only, once per session, never after sending) ---- */

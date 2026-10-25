@@ -573,11 +573,11 @@
 <section id="main" tabindex="-1" class="contract-hero" style="margin-top:4.5rem;">
   
   <div class="steps-row">
-    <div class="step-bubble active">
+    <div class="step-bubble active" id="stepBubble1">
       <span>①</span> Sign Agreement
     </div>
     <div class="step-connector"></div>
-    <div class="step-bubble inactive">
+    <div class="step-bubble inactive" id="stepBubble2">
       <span>②</span> Activate Payment
     </div>
   </div>
@@ -764,9 +764,11 @@
           <ul class="success-steps">
             <li><span class="ss-num">1</span><span>We'll review your property details and calculate your exact monthly rate.</span></li>
             <li><span class="ss-num">2</span><span>You'll receive a call or text within <strong>24 hours</strong> to confirm your rate and first service date.</span></li>
-            <li><span class="ss-num">3</span><span>Once you approve the quote, we'll send a <strong>secure payment link</strong> to activate your monthly billing - and you're on the schedule.</span></li>
+            <li><span class="ss-num">3</span><span id="ssPay">Once you approve the quote, we'll send a <strong>secure payment link</strong> to activate your monthly billing - and you're on the schedule.</span></li>
           </ul>
-          <a href="index.html" class="success-cta">Back to home</a>
+          <a id="payBtn" class="success-cta" target="_blank" rel="noopener" style="display:none">Activate auto-pay</a>
+          <p id="paySub" class="success-sub" style="display:none;margin-top:.8rem"></p>
+          <p style="margin:1rem 0 0;font-size:.85rem"><a href="index.html" style="color:var(--periwinkle-dk);font-weight:600;">Back to home</a></p>
         </div>
 
       </div>
@@ -839,7 +841,16 @@
   /* ── Read URL params ─────────────────────────────────────────────── */
   const params = new URLSearchParams(window.location.search);
   const urlPlan = (params.get('plan') || 'standard').toLowerCase();
-  const urlRate = params.get('rate'); // optional: monthly rate Saul quoted, e.g. ?rate=149
+  const rawRate = params.get('rate') || ''; // optional: monthly rate Saul quoted, e.g. ?rate=149
+  const urlRate = /^\d{2,4}$/.test(rawRate) ? rawRate : ''; // digits only, safe to render
+  /* Stripe-only allowlist for ?pay= (https, buy.stripe.com or checkout.stripe.com) */
+  function stripeUrl(s) {
+    try {
+      const u = new URL(s);
+      return u.protocol === 'https:' && (u.hostname === 'buy.stripe.com' || u.hostname === 'checkout.stripe.com') ? u.href : '';
+    } catch (e) { return ''; }
+  }
+  const payUrl = stripeUrl(params.get('pay') || '');
   const plan = PLANS[urlPlan] || PLANS.standard;
 
   /* ── Populate sidebar ────────────────────────────────────────────── */
@@ -917,19 +928,21 @@
       address:    address,
       size:       ' - ',
       estimate:   ' - ',
-      message:    `SIGNED ANNUAL CONTRACT\n\nPlan: ${plan.label}\nAgreed Monthly Rate: ${urlRate ? '$' + urlRate + '/month' : 'Pending quote'}\nSigned By: ${fullName}\nElectronic Signature: ${sig}\nDate Signed: ${dateStr}\nProperty Address: ${address}\n\nNotes: ${notes || 'None'}`,
+      message:    `SIGNED ANNUAL CONTRACT\n\nPlan: ${plan.label}\nAgreed Monthly Rate: ${urlRate ? '$' + urlRate + '/month' : 'Pending quote'}\nSigned By: ${fullName}\nElectronic Signature: ${sig}\nDate Signed: ${dateStr}\nProperty Address: ${address}\n\nNotes: ${notes || 'None'}\nPayment link: ${payUrl ? 'sent with contract' : 'to follow'}`,
       to_email:   'SoFlo.Underpressure@gmail.com',
     };
 
-    /* also log the signed agreement to the CRM sheet; same id on retry so it updates, not duplicates */
+    /* also log the signed agreement to the CRM sheet. The deployed script appends (no upsert),
+       so on a retry after an EmailJS failure do NOT POST again: log once per page load. */
     window.__contractId = window.__contractId || (Date.now()*1000 + Math.floor(Math.random()*1000));
-    try {
+    if (!window.__contractLogged) try {
+      window.__contractLogged = true;
       fetch('https://script.google.com/macros/s/AKfycbz3ZdK_OlRdHWjsGmSIh-L5EW-JemAcLsoSDLmSb8DWM7EwKSp_LjfBsUhElnn6c2nZ/exec', {
         method:'POST', mode:'no-cors', keepalive:true, headers:{'Content-Type':'text/plain;charset=utf-8'},
         body: JSON.stringify({ type:'weblead', id: window.__contractId, created: new Date().toISOString(),
           name: fullName, phone: phone, email: email, address: address, ptype:'Residential',
           source:'Annual agreement (website)', surfaces: plan.label, status:'Contract signed',
-          estimate: urlRate || '', notes: 'Signed ' + dateStr + ' as "' + sig + '". ' + (notes || '') })
+          estimate: urlRate || '', notes: 'Signed ' + dateStr + ' as "' + sig + '". ' + (notes || '') + ' · pay link: ' + (payUrl ? 'included' : 'none') })
       }).catch(function(){});
     } catch(err) {}
 
@@ -939,6 +952,20 @@
         const successEl = document.getElementById('formSuccess');
         successEl.style.display = 'block';
         document.getElementById('successName').textContent = fname;
+        const ssPay = document.getElementById('ssPay');
+        if (payUrl) {
+          const payBtn = document.getElementById('payBtn');
+          payBtn.href = payUrl;
+          payBtn.style.display = 'inline-block';
+          const paySub = document.getElementById('paySub');
+          paySub.textContent = 'Opens Stripe. ' + (urlRate ? '$' + urlRate + ' a month, ' : '') + 'billing starts with your first visit, cancel terms are in the agreement.';
+          paySub.style.display = 'block';
+          ssPay.textContent = "Tap Activate auto-pay below to set up monthly billing. You're on the schedule once it's done.";
+          document.getElementById('stepBubble2').className = 'step-bubble active';
+          document.getElementById('stepBubble1').className = 'step-bubble inactive';
+        } else {
+          ssPay.textContent = "We'll text your payment link after we confirm your rate. Nothing is charged until then.";
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
       })
       .catch(() => {
