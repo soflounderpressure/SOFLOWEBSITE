@@ -141,11 +141,11 @@ footer{background:var(--navy);color:#fff;margin-top:4rem;border-radius:var(--r-x
 .fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:2.5rem}
 .fbrand img{width:84px;margin-bottom:.6rem;animation:bob 3.5s ease-in-out infinite}
 .fbrand .logo b{color:#fff}.fbrand .logo span{color:var(--periwinkle-lt,#A0AEEF)}
-.fbrand p{color:rgba(255,255,255,.55);font-size:.9rem;margin-top:.8rem;max-width:30ch}
+.fbrand p{color:rgba(255,255,255,.72);font-size:.9rem;margin-top:.8rem;max-width:30ch}
 .fcol h5{font-family:var(--fd);font-weight:800;letter-spacing:.1em;text-transform:uppercase;font-size:.8rem;color:rgba(255,255,255,.5);margin-bottom:1rem}
 .fcol a{display:block;color:rgba(255,255,255,.8);font-size:.92rem;padding:.3rem 0}
 .fcol a:hover{color:#fff}
-.fbot{border-top:1px solid rgba(255,255,255,.12);margin-top:2.5rem;padding-top:1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;color:rgba(255,255,255,.5);font-size:.82rem}
+.fbot{border-top:1px solid rgba(255,255,255,.12);margin-top:2.5rem;padding-top:1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;color:rgba(255,255,255,.72);font-size:.82rem}
 
 @media(max-width:960px){
   .hero-grid,.split,.band{grid-template-columns:1fr}
@@ -452,10 +452,10 @@ body{background:var(--foam)!important}
 /* plans on yellow */
 .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;align-items:center;max-width:1100px;margin:0 auto}
 .pc{background:#FFF6D6;border:3px solid var(--navy);border-radius:var(--r-lg);padding:2.2rem 2rem;text-align:center;position:relative;display:flex;flex-direction:column;align-items:center}
-.pc-k{font-family:var(--fd);font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:.8rem;color:var(--navy);opacity:.65}
+.pc-k{font-family:var(--fd);font-weight:800;letter-spacing:.14em;text-transform:uppercase;font-size:.8rem;color:var(--navy);opacity:.8}
 .pc h3{font-size:2.1rem;color:var(--navy);margin:.2rem 0 .8rem}
 .pc-price{font-family:var(--fx);font-weight:900;font-size:3.6rem;line-height:1;color:var(--coral);letter-spacing:-.03em}
-.pc-price small{font-family:var(--fd);font-size:.9rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);opacity:.6;margin:0 .25rem}
+.pc-price small{font-family:var(--fd);font-size:.9rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);opacity:.8;margin:0 .25rem}
 .pc ul{list-style:none;margin:1.4rem 0 1.8rem;display:grid;gap:.55rem;text-align:left;width:100%;border-top:2px solid rgba(17,34,51,.15);padding-top:1.3rem}
 .pc li{display:flex;gap:.6rem;font-size:.97rem;color:var(--navy)}
 .pc li::before{content:"✓";font-weight:900;color:var(--coral)}
@@ -730,11 +730,11 @@ footer,footer.ft-flush{background:var(--navy)!important}
 .blk-plans .plans{align-items:stretch}
 .pc{background:var(--yellow)!important;border:none!important;box-shadow:var(--card-sh)!important;border-radius:28px!important;padding:2.2rem 1.9rem 2rem!important}
 .pc h3{font-size:2.1rem!important;margin:0!important;color:var(--coral)!important}
-.pc-k{opacity:.75;margin:.25rem 0 1rem;display:block}
+.pc-k{opacity:.8;margin:.25rem 0 1rem;display:block}
 .pc-price{color:var(--navy)!important;font-size:3.4rem!important}
 .pc ul{border-top:2px solid rgba(16,38,58,.15)!important}
 .pc li::before{content:"✓"!important;color:var(--coral)!important}
-.pc li.no{opacity:.45;text-decoration:line-through}
+.pc li.no{opacity:.75;text-decoration:line-through}
 .pc li.no::before{content:"✕"!important;color:var(--navy)!important}
 .pc-hot{background:var(--navy)!important;transform:translateY(-10px)!important;padding-block:2.6rem 2.4rem!important}
 .pc-hot h3{color:var(--yellow)!important}.pc-hot .pc-price{color:#fff!important}
@@ -1037,3 +1037,11 @@ nav#nav,.nav{max-width:1340px!important}
 /* footer column heading (replaces h5 for heading order) */
 .fh{font-family:var(--fb);font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:.95rem;color:var(--yellow);opacity:1;margin-bottom:1rem}
 picture{display:contents}
+/* T8 a11y */
+/* blog subheads were h3 (browser-default look); promoted to h2 keeps that exact look */
+.post-body h2.pb-sub:not(#_){font-family:var(--fb)!important;font-weight:700!important;font-size:1.17em;line-height:1.6;letter-spacing:normal!important;text-transform:none;color:inherit;margin:0;text-wrap:wrap!important;animation:none}
+/* hero eyebrow and breadcrumbs were dark teal on navy */
+header.hero .eyebrow{color:var(--aqua)!important}header.hero .eyebrow::before{background:var(--aqua)}
+.svc-hero .breadcrumb,.svc-hero .breadcrumb a{color:var(--aqua)!important}
+.svc-hero .breadcrumb span{color:#fff!important}
+.post-cta [data-promo]{color:var(--navy)}

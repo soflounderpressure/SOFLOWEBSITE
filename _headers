@@ -1,6 +1,6 @@
-# Cloudflare Pages headers — SoFlo UnderPressure
+# Cloudflare Pages headers: SoFlo UnderPressure
 
-# Security headers — applied to all pages
+# Security headers: applied to all pages
 /*
   X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff
@@ -8,20 +8,20 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
 
-# HTML — short cache so updates go live fast
+# HTML: always revalidate so updates go live fast
 /*.html
   Cache-Control: public, max-age=0, must-revalidate
 
-# Images — long cache, they're versioned by filename
+# Images and fonts: new files get new names, so cache for a year
 /Pictures/*
   Cache-Control: public, max-age=31536000, immutable
 
-# Stylesheet
-/style.css
-  Cache-Control: public, max-age=3600
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
 
-/quoti.css
-  Cache-Control: public, max-age=3600
+# CSS and JS: every reference in the HTML carries ?v=. Change the file => bump ?v= everywhere (HTML + site.js).
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
 
-/forms.js
-  Cache-Control: public, max-age=3600
+/*.js
+  Cache-Control: public, max-age=31536000, immutable

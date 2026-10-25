@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="../pricing.js?v=20261028"></script>
+<script src="../pricing.js?v=20261029"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config={theme:{extend:{
@@ -362,7 +362,7 @@ function CustomerModal({lead,onClose,setOpen}){
       <input value={price} onChange={e=>setPrice(e.target.value)} className="text-center font-display font-black text-2xl text-navy bg-white rounded-lg px-2 py-1 mt-1 max-w-[240px] mx-auto block"/>
       <div className="text-xs text-navy/60 mt-1">Flat price, confirmed after a quick look. No hourly, no surprises.</div>
     </div>
-    <p className="text-sm text-navy/70 text-center mt-3">Licensed & insured · Owner on every job<br/>(305) 894-6336 · SoFlo.Underpressure@gmail.com</p>
+    <p className="text-sm text-navy/70 text-center mt-3">Owner-operated · Owner on every job<br/>(305) 894-6336 · SoFlo.Underpressure@gmail.com</p>
     <div className="flex gap-2 justify-center mt-4"><Btn kind="coral" className="!py-2 !text-xs" onClick={()=>setOpen({type:'send',lead,price})}>Send this to customer</Btn><Btn className="!py-2 !text-xs" onClick={onClose}>Close</Btn></div>
   </Modal>;
 }

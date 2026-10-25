@@ -267,7 +267,7 @@
     try {
       if (window.sfTrack || document.querySelector('script[data-sf-analytics],script[src*="analytics.js"]')) return;
       var s = document.createElement('script');
-      s.src = '/analytics.js?v=20261025';
+      s.src = '/analytics.js?v=20261029';
       s.async = true;
       s.setAttribute('data-sf-analytics', '1');
       (document.head || document.documentElement).appendChild(s);
@@ -290,7 +290,7 @@
       var go = function () { if (done) return; done = true; run(); };
       try {
         var s = document.createElement('script');
-        s.src = '/pricing.js?v=20261025';
+        s.src = '/pricing.js?v=20261029';
         s.onload = go;
         s.onerror = go;
         (document.head || document.documentElement).appendChild(s);
