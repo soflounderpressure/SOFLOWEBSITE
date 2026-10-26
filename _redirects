@@ -7,3 +7,17 @@
 /areas/membership        /membership   301
 /areas/about             /about        301
 /resources               /blog         301
+
+# Old quote page: one real 301 instead of a noindex stub (GSC "Excluded by noindex")
+/quote                   /instant-quote  301
+/quote.html              /instant-quote  301
+# More early-crawl bad relative paths (from the old /areas/ relative-link bug) and stray URLs
+/areas/quote             /instant-quote  301
+/areas/quote.html        /instant-quote  301
+/areas/resources         /blog           301
+/areas/resources.html    /blog           301
+/areas/services          /services       301
+/areas/services.html     /services       301
+/visit                   /               301
+# Nested /areas/areas/... copies collapse back to the real page (repeats until clean)
+/areas/areas/*           /areas/:splat   301
