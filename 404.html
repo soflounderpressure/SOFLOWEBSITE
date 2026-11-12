@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#182B3F">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <title>Page Not Found | SoFlo UnderPressure</title>
   <meta name="description" content="Page not found. Browse SoFlo UnderPressure pressure washing and soft washing services across Miami-Dade and Broward, or get a free quote.">
@@ -21,7 +22,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="https://sofloup.com/Pictures/og-default.jpg">
 
-  <style>
+  <style>/*hover-gated*/
     /* ── Reset ─────────────────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; font-size: 16px; }
@@ -233,7 +234,7 @@
       letter-spacing: .1em; text-transform: uppercase;
       color: var(--navy); opacity: .65; transition: opacity .2s;
     }
-    .nav-links a:hover, .nav-links a.active { opacity: 1; }
+    .nav-links a.active{ opacity: 1; }@media (hover:hover) and (pointer:fine){.nav-links a:hover{ opacity: 1; }}
     .nav-cta {
       font-family: var(--font-display) !important;
       font-weight: 900 !important; font-size: .8rem !important;
@@ -244,12 +245,12 @@
       display: inline-block;
       box-shadow: 0 2px 8px rgba(255,216,77,.4);
     }
-    .nav-cta:hover { background: #f5cc30; transform: translateY(-2px); }
+    @media (hover:hover) and (pointer:fine){.nav-cta:hover{ background: #f5cc30; transform: translateY(-2px); }}
     .nav-mobile-cta { display: none; }
 
     /* ── HERO ──────────────────────────────────────────────────────────────── */
     .hero {
-      min-height: 100vh;
+      min-height: 100vh;min-height:100svh;
       padding: 9rem 3rem 4rem;
       display: grid;
       grid-template-columns: 1.05fr 1.35fr;
@@ -323,11 +324,11 @@
       align-items: center;
       gap: 0.5rem;
     }
-    .btn-primary:hover {
+    @media (hover:hover) and (pointer:fine){.btn-primary:hover{
       background: var(--periwinkle-dk);
       transform: translateY(-3px);
       box-shadow: 0 12px 32px rgba(68,84,176,0.3);
-    }
+    }}
     .btn-secondary {
       font-family: var(--font-display);
       font-weight: 700;
@@ -340,11 +341,11 @@
       border: 2.5px solid var(--navy);
       transition: background 0.25s, transform 0.2s;
     }
-    .btn-secondary:hover {
+    @media (hover:hover) and (pointer:fine){.btn-secondary:hover{
       background: var(--navy);
       color: var(--white);
       transform: translateY(-3px);
-    }
+    }}
 
     /* Price badge */
     .price-badge-wrap {
@@ -469,7 +470,7 @@
       object-fit: cover;
       transition: transform .5s cubic-bezier(.16,1,.3,1);
     }
-    .work-photo:hover img { transform: scale(1.05); }
+    @media (hover:hover) and (pointer:fine){.work-photo:hover img{ transform: scale(1.05); }}
     .work-photo__label {
       position: absolute;
       bottom: .8rem; left: .8rem;
@@ -583,18 +584,18 @@
                   box-shadow 0.3s;
       border: 2px solid transparent;
     }
-    .service-card:hover {
+    @media (hover:hover) and (pointer:fine){.service-card:hover{
       transform: translateY(-6px);
       box-shadow: var(--shadow-lift);
       border-color: var(--sky-mid);
-    }
+    }}
     .service-card--featured {
       background: var(--navy);
       border-color: var(--navy);
     }
-    .service-card--featured:hover {
+    @media (hover:hover) and (pointer:fine){.service-card--featured:hover{
       border-color: var(--periwinkle);
-    }
+    }}
     .service-icon {
       width: 68px;
       height: 68px;
@@ -659,10 +660,10 @@
       gap: 1rem;
       transition: transform 0.3s, box-shadow 0.3s;
     }
-    .service-mini:hover {
+    @media (hover:hover) and (pointer:fine){.service-mini:hover{
       transform: translateY(-4px);
       box-shadow: var(--shadow-card);
-    }
+    }}
     .service-mini__icon {
       width: 44px; height: 44px;
       border-radius: 12px;
@@ -825,7 +826,7 @@
       margin-bottom: 0.5rem;
       transition: color 0.2s;
     }
-    .hoa-phone:hover { color: var(--white); }
+    @media (hover:hover) and (pointer:fine){.hoa-phone:hover{ color: var(--white); }}
     .hoa-phone-label {
       font-family: var(--font-display);
       font-weight: 600;
@@ -848,7 +849,7 @@
       border-radius: 100px;
       transition: background 0.25s, transform 0.2s;
     }
-    .btn-hoa:hover { background: var(--white); transform: translateY(-2px); }
+    @media (hover:hover) and (pointer:fine){.btn-hoa:hover{ background: var(--white); transform: translateY(-2px); }}
 
     /* ── TESTIMONIALS ──────────────────────────────────────────────────────── */
     .testimonials {
@@ -889,10 +890,10 @@
       border: 2px solid transparent;
       transition: transform 0.3s, border-color 0.3s;
     }
-    .review-card:hover {
+    @media (hover:hover) and (pointer:fine){.review-card:hover{
       transform: translateY(-5px);
       border-color: var(--sky-mid);
-    }
+    }}
     .review-stars {
       color: var(--yellow);
       font-size: 1.1rem;
@@ -1099,7 +1100,7 @@
       color: rgba(255,255,255,0.65);
       transition: color 0.2s;
     }
-    .footer-col__links a:hover { color: var(--white); }
+    @media (hover:hover) and (pointer:fine){.footer-col__links a:hover{ color: var(--white); }}
     .footer-contact-line {
       font-size: 0.83rem;
       color: rgba(255,255,255,0.6);
@@ -1109,7 +1110,7 @@
       color: var(--periwinkle-lt);
       font-weight: 600;
     }
-    .footer-contact-line a:hover { color: var(--white); }
+    @media (hover:hover) and (pointer:fine){.footer-contact-line a:hover{ color: var(--white); }}
     .footer-bottom {
       max-width: 1440px;
       margin: 0 auto;
@@ -1208,7 +1209,7 @@
   </style>
 <link rel="preload" href="/fonts/barlow-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/barlow-condensed-900.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/quoti.css?v=20261026c">
+<link rel="stylesheet" href="/quoti.css?v=20261112a">
 </head>
 
 <body class="legacy-top">
@@ -1233,7 +1234,7 @@
     <div class="fbrand">
       <picture><source type="image/avif" srcset="/Pictures/mascot-wave-220.avif 220w" sizes="110px"><source type="image/webp" srcset="/Pictures/mascot-wave-220.webp 220w" sizes="110px"><img src="/Pictures/mascot-wave-220.png" srcset="/Pictures/mascot-wave-220.png 220w" sizes="110px" alt="SoFlo UnderPressure mascot" loading="lazy" decoding="async" width="520" height="474"></picture>
       <div class="logo"><b style="color:#fff">SoFlo</b> <span style="color:#A0AEEF">UnderPressure</span></div>
-      <p>Pressure washing &amp; soft washing in Miami-Dade and Broward. Owner-operated. Flat price before we start.</p>
+      <p>Pressure washing &amp; soft washing in Miami-Dade and Broward. Family-owned. Flat price before we start.</p>
     </div>
     <div class="fcol"><p class="fh">More</p>
       <a href="/blog">Blog</a>
@@ -1245,7 +1246,7 @@
       <a href="mailto:SoFlo.Underpressure@gmail.com">Email us</a>
       <p style="color:rgba(255,255,255,.72);font-size:.9rem;margin-top:.6rem">Sun - Thu 8am - 8pm<br>Fri 8am - 3pm</p></div>
   </div>
-  <div class="fbot"><span>© 2026 SoFlo UnderPressure · Owner-operated</span><span>Miami-Dade &amp; Broward County</span></div>
+  <div class="fbot"><span>© 2026 SoFlo UnderPressure · Family-owned</span><span>Miami-Dade &amp; Broward County</span></div>
 </div></footer>
 <script src="/site.js?v=20261029" defer></script>
 </body>

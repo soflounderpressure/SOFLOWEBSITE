@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#182B3F">
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <title>Contact SoFlo UnderPressure | Pressure Washing Miami</title>
@@ -25,12 +26,12 @@
 
   <link rel="preload" href="/fonts/barlow-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/jost-variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/style.css?v=20261017">
+  <link rel="stylesheet" href="/style.css?v=20261112a">
 
   <!-- EmailJS for contact form -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
-  <style>
+  <style>/*hover-gated*/
     /* ── Contact page ─────────────────────────────────────────────────────── */
 
     .contact-layout {
@@ -61,7 +62,7 @@
       margin-bottom: 1.2rem;
       transition: transform .25s;
     }
-    .contact-card:hover { transform: translateY(-3px); }
+    @media (hover:hover) and (pointer:fine){.contact-card:hover{ transform: translateY(-3px); }}
     .contact-card a { display: block; }
 
     .contact-card-icon {
@@ -94,7 +95,7 @@
       line-height: 1;
     }
     .contact-card-value a { color: inherit; transition: color .2s; }
-    .contact-card-value a:hover { color: var(--periwinkle-dk); }
+    @media (hover:hover) and (pointer:fine){.contact-card-value a:hover{ color: var(--periwinkle-dk); }}
     .contact-card-sub {
       font-size: .8rem;
       color: var(--text-light);
@@ -194,7 +195,7 @@
       transition: background .25s, transform .2s;
       margin-top: .5rem;
     }
-    .form-submit:hover { background: var(--periwinkle-dk); transform: translateY(-2px); }
+    @media (hover:hover) and (pointer:fine){.form-submit:hover{ background: var(--periwinkle-dk); transform: translateY(-2px); }}
     .form-submit:disabled { opacity: .5; transform: none; cursor: not-allowed; }
 
     .form-status {
@@ -227,7 +228,7 @@
       color: var(--navy);
       transition: color .2s;
     }
-    .quick-link:hover { color: var(--periwinkle-dk); }
+    @media (hover:hover) and (pointer:fine){.quick-link:hover{ color: var(--periwinkle-dk); }}
     .quick-link-icon { font-size: 1.4rem; }
 
     /* Responsive */
@@ -240,7 +241,7 @@
       .quick-links-inner { flex-direction: column; align-items: flex-start; }
     }
   </style>
-<link rel="stylesheet" href="/quoti.css?v=20261026c">
+<link rel="stylesheet" href="/quoti.css?v=20261112a">
 </head>
 <body class="legacy-top">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -253,7 +254,7 @@
 <!-- ── Trust strip ──────────────────────────────────────────────────────────── -->
 <div class="strip" style="margin-top:4.5rem;">
   <div class="strip-inner">
-    <div class="strip-item"><span class="dot"></span>Owner Answers the Phone</div>
+    <div class="strip-item"><span class="dot"></span>Family answers the phone</div>
     <div class="strip-item"><span class="dot"></span>Miami-Dade &amp; Broward</div>
     <div class="strip-item"><span class="dot"></span>Call or text anytime</div>
     <div class="strip-item"><span class="dot"></span><strong>(305) 894-6336</strong></div>
@@ -327,17 +328,17 @@
         <div class="form-row">
           <div class="form-group">
             <label for="name">Your name *</label>
-            <input type="text" id="name" name="name" placeholder="Jane Smith" required>
+            <input type="text" id="name" name="name" placeholder="Jane Smith" required autocomplete="name" enterkeyhint="next">
           </div>
           <div class="form-group">
             <label for="phone">Phone number</label>
-            <input type="tel" id="phone" name="phone" placeholder="(305) 000-0000">
+            <input type="tel" id="phone" name="phone" placeholder="(305) 000-0000" autocomplete="tel" inputmode="tel" enterkeyhint="next">
           </div>
         </div>
 
         <div class="form-group">
           <label for="email">Email address *</label>
-          <input type="email" id="email" name="email" placeholder="jane@email.com" required>
+          <input type="email" id="email" name="email" placeholder="jane@email.com" required autocomplete="email" inputmode="email" enterkeyhint="next">
         </div>
 
         <div class="form-group">
@@ -399,7 +400,7 @@
     <div class="fbrand">
       <picture><source type="image/avif" srcset="/Pictures/mascot-wave-220.avif 220w" sizes="110px"><source type="image/webp" srcset="/Pictures/mascot-wave-220.webp 220w" sizes="110px"><img src="/Pictures/mascot-wave-220.png" srcset="/Pictures/mascot-wave-220.png 220w" sizes="110px" alt="SoFlo UnderPressure mascot" loading="lazy" decoding="async" width="520" height="474"></picture>
       <div class="logo"><b style="color:#fff">SoFlo</b> <span style="color:#A0AEEF">UnderPressure</span></div>
-      <p>Pressure washing &amp; soft washing in Miami-Dade and Broward. Owner-operated. Flat price before we start.</p>
+      <p>Pressure washing &amp; soft washing in Miami-Dade and Broward. Family-owned. Flat price before we start.</p>
     </div>
     <div class="fcol"><p class="fh">More</p>
       <a href="/blog">Blog</a>
@@ -411,7 +412,7 @@
       <a href="mailto:SoFlo.Underpressure@gmail.com">Email us</a>
       <p style="color:rgba(255,255,255,.72);font-size:.9rem;margin-top:.6rem">Sun - Thu 8am - 8pm<br>Fri 8am - 3pm</p></div>
   </div>
-  <div class="fbot"><span>© 2026 SoFlo UnderPressure · Owner-operated</span><span>Miami-Dade &amp; Broward County</span></div>
+  <div class="fbot"><span>© 2026 SoFlo UnderPressure · Family-owned</span><span>Miami-Dade &amp; Broward County</span></div>
 </div></footer>
 
 <script>

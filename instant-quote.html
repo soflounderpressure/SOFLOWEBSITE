@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#182B3F">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <title>Instant Pressure Washing Quote | SoFlo UnderPressure</title>
 <meta name="description" content="Get an instant price for pressure washing or soft washing in Miami-Dade and Broward. A few taps, see your estimate and plan options, we confirm a flat price.">
@@ -18,10 +19,10 @@
 <meta name="twitter:image" content="https://sofloup.com/Pictures/og-default.jpg">
 <link rel="preload" href="/fonts/barlow-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/barlow-condensed-900.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/quoti.css?v=20261026c">
+<link rel="stylesheet" href="/quoti.css?v=20261112a">
 <script src="/pricing.js?v=20261029"></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://sofloup.com/"},{"@type":"ListItem","position":2,"name":"Instant Quote"}]}</script>
-<style>
+<style>/*hover-gated*/
 .iq{max-width:720px;margin:0 auto;padding-inline:clamp(1.25rem,4vw,2rem)}
 .prog{height:8px;background:var(--sand-2,#EADFC4);border-radius:100px;overflow:hidden;margin:1.2rem 0}
 .prog span{display:block;height:100%;background:var(--coral);border-radius:100px;transition:width .3s}
@@ -30,7 +31,7 @@
 .qs{color:var(--mid);margin-bottom:1.3rem;font-size:1.02rem}
 .opts{display:grid;gap:.65rem}
 .opt{display:flex;align-items:center;gap:.8rem;min-height:62px;border:2px solid var(--line,rgba(24,43,63,.14));border-radius:var(--r);padding:.9rem 1.2rem;cursor:pointer;font-family:var(--fd);font-weight:700;font-size:1.12rem;color:var(--navy);background:#fff;text-align:left}
-.opt:hover{border-color:var(--aqua-ink)}
+@media (hover:hover) and (pointer:fine){.opt:hover{border-color:var(--aqua-ink)}}
 .opt.on{border-color:var(--aqua-ink);background:var(--aqua-lt)}
 .opt .ck{margin-left:auto;width:24px;height:24px;border-radius:7px;border:2px solid var(--line,rgba(24,43,63,.22));flex:none;display:grid;place-items:center;color:#fff;font-weight:900}
 .opt.on .ck{background:var(--aqua-ink);border-color:var(--aqua-ink)}
@@ -38,7 +39,7 @@
 .opt.on .pr{margin-left:.5rem}
 .navrow{display:flex;gap:.8rem;margin-top:1.6rem;align-items:center}
 .ibtn{font-family:var(--fd);font-weight:800;text-transform:uppercase;letter-spacing:.04em;border:none;border-radius:var(--pill);padding:1rem 2rem;min-height:54px;cursor:pointer;font-size:.95rem}
-.ibtn-coral{background:var(--coral);color:#fff}.ibtn-coral:hover{background:var(--coral-dk)}
+.ibtn-coral{background:var(--coral);color:#fff}@media (hover:hover) and (pointer:fine){.ibtn-coral:hover{background:var(--coral-dk)}}
 .ibtn-ghost{background:#fff;color:var(--navy);border:2px solid var(--navy)}
 .ibtn:disabled{opacity:.45}
 .field{margin-bottom:1rem}
@@ -208,7 +209,7 @@
     <div class="fbrand">
       <picture><source type="image/avif" srcset="/Pictures/mascot-wave-220.avif 220w" sizes="110px"><source type="image/webp" srcset="/Pictures/mascot-wave-220.webp 220w" sizes="110px"><img src="/Pictures/mascot-wave-220.png" srcset="/Pictures/mascot-wave-220.png 220w" sizes="110px" alt="SoFlo UnderPressure mascot" loading="lazy" decoding="async" width="520" height="474"></picture>
       <div class="logo"><b style="color:#fff">SoFlo</b> <span style="color:#A0AEEF">UnderPressure</span></div>
-      <p>Pressure washing &amp; soft washing in Miami-Dade and Broward. Owner-operated. Flat price before we start.</p>
+      <p>Pressure washing &amp; soft washing in Miami-Dade and Broward. Family-owned. Flat price before we start.</p>
     </div>
     <div class="fcol"><p class="fh">More</p>
       <a href="/blog">Blog</a>
@@ -220,7 +221,7 @@
       <a href="mailto:SoFlo.Underpressure@gmail.com">Email us</a>
       <p style="color:rgba(255,255,255,.72);font-size:.9rem;margin-top:.6rem">Sun - Thu 8am - 8pm<br>Fri 8am - 3pm</p></div>
   </div>
-  <div class="fbot"><span>© 2026 SoFlo UnderPressure · Owner-operated</span><span>Miami-Dade &amp; Broward County</span></div>
+  <div class="fbot"><span>© 2026 SoFlo UnderPressure · Family-owned</span><span>Miami-Dade &amp; Broward County</span></div>
 </div></footer>
 
 <div class="sfmodal" id="exitModal" role="dialog" aria-modal="true" aria-labelledby="exT" aria-describedby="exS" aria-hidden="true">
@@ -384,7 +385,7 @@ function mailHref(){return 'mailto:?subject=My%20SoFlo%20UnderPressure%20quote&b
 function renderPrice(){
   if(!st.plan)st.plan='plan2';
   var t=total();
-  $('#price').textContent=money(t*0.9)+' – '+money(t*1.2);
+  $('#price').textContent=money(t*0.9)+' to '+money(t*1.2);
   var nSurf=Object.keys(st.surf).filter(function(k){return st.surf[k];}).length;
   $('#priceSub').textContent=nSurf>1?'Bundle price: extra surfaces are discounted since we clean them in one visit. We confirm a flat price after a quick look.':'Ballpark range. We confirm a flat price after a quick look.';
   var al=areaLabel();
@@ -401,7 +402,7 @@ function renderPrice(){
   var save=function(pv){var d=Math.round(again-pv);return d>=5?'Saves '+money(d)+' every visit vs booking one-time':'';};
   $('#plansNote').textContent='Your first visit is a full deep clean, so it costs the most. Every maintenance visit after stays below a one-time clean'+(st.regrowth?', even in a shady, damp spot where moss comes back faster':'')+'. We keep upkeep to a minimum.';
   $('#plans').innerHTML=[
-    ['oneoff','One-time clean',st.promo?('Just this once. Booking again later: from '+money(again)):'Just this once','',money(t*0.9)+' – '+money(t*1.2),'',''],
+    ['oneoff','One-time clean',st.promo?('Just this once. Booking again later: from '+money(again)):'Just this once','',money(t*0.9)+' to '+money(t*1.2),'',''],
     ['plan2','Bragging Rights','2 visits a year','best',money(pv2),'per upkeep visit',fc,save(pv2)],
     ['plan4','The Show-Off','4 visits a year','',money(pv4),'per upkeep visit',fc,save(pv4)]
   ].map(function(p){

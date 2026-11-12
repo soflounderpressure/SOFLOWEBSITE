@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#182B3F">
   <link rel="canonical" href="https://sofloup.com/contract">
   <meta property="og:title" content="Annual Service Agreement | SoFlo UnderPressure">
   <meta property="og:description" content="Review and sign your annual recurring service agreement with SoFlo UnderPressure.">
@@ -22,9 +23,9 @@
 
   <link rel="preload" href="/fonts/barlow-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/jost-variable.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/style.css?v=20261017">
+  <link rel="stylesheet" href="/style.css?v=20261112a">
 
-  <style>
+  <style>/*hover-gated*/
     /* ── Contract Page ───────────────────────────────────────────────── */
 
     .contract-hero {
@@ -436,7 +437,7 @@
       justify-content: center;
       gap: .6rem;
     }
-    .submit-btn:hover { background: #263d50; transform: translateY(-1px); }
+    @media (hover:hover) and (pointer:fine){.submit-btn:hover{ background: #263d50; transform: translateY(-1px); }}
     .submit-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
     .submit-disclaimer {
       text-align: center;
@@ -523,7 +524,7 @@
       text-decoration: none;
       transition: background .2s;
     }
-    .success-cta:hover { background: #263d50; }
+    @media (hover:hover) and (pointer:fine){.success-cta:hover{ background: #263d50; }}
 
     .error-alert {
       display: none;
@@ -555,7 +556,7 @@
       .contract-hero { padding: 4.5rem 1.25rem 2.5rem; }
     }
   </style>
-<link rel="stylesheet" href="/quoti.css?v=20261026c">
+<link rel="stylesheet" href="/quoti.css?v=20261112a">
 </head>
 <body class="legacy-top">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -780,7 +781,7 @@
     <div class="fbrand">
       <picture><source type="image/avif" srcset="/Pictures/mascot-wave-220.avif 220w" sizes="110px"><source type="image/webp" srcset="/Pictures/mascot-wave-220.webp 220w" sizes="110px"><img src="/Pictures/mascot-wave-220.png" srcset="/Pictures/mascot-wave-220.png 220w" sizes="110px" alt="SoFlo UnderPressure mascot" loading="lazy" decoding="async" width="520" height="474"></picture>
       <div class="logo"><b style="color:#fff">SoFlo</b> <span style="color:#A0AEEF">UnderPressure</span></div>
-      <p>Pressure washing &amp; soft washing in Miami-Dade and Broward. Owner-operated. Flat price before we start.</p>
+      <p>Pressure washing &amp; soft washing in Miami-Dade and Broward. Family-owned. Flat price before we start.</p>
     </div>
     <div class="fcol"><p class="fh">More</p>
       <a href="/blog">Blog</a>
@@ -792,7 +793,7 @@
       <a href="mailto:SoFlo.Underpressure@gmail.com">Email us</a>
       <p style="color:rgba(255,255,255,.72);font-size:.9rem;margin-top:.6rem">Sun - Thu 8am - 8pm<br>Fri 8am - 3pm</p></div>
   </div>
-  <div class="fbot"><span>© 2026 SoFlo UnderPressure · Owner-operated</span><span>Miami-Dade &amp; Broward County</span></div>
+  <div class="fbot"><span>© 2026 SoFlo UnderPressure · Family-owned</span><span>Miami-Dade &amp; Broward County</span></div>
 </div></footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -839,7 +840,7 @@
   /* ── Read URL params ─────────────────────────────────────────────── */
   const params = new URLSearchParams(window.location.search);
   const urlPlan = (params.get('plan') || 'standard').toLowerCase();
-  const rawRate = params.get('rate') || ''; // optional: monthly rate Saul quoted, e.g. ?rate=149
+  const rawRate = params.get('rate') || ''; // optional: monthly rate quoted for this customer, e.g. ?rate=149
   const urlRate = /^\d{2,4}$/.test(rawRate) ? rawRate : ''; // digits only, safe to render
   /* Stripe-only allowlist for ?pay= (https, buy.stripe.com or checkout.stripe.com) */
   function stripeUrl(s) {
@@ -856,7 +857,7 @@
   document.getElementById('sidebarPlanTagline').textContent = plan.tagline;
 
   if (urlRate) {
-    // Saul sent this link after quoting - show the real monthly rate
+    // this link was sent after quoting - show the real monthly rate
     document.getElementById('sidebarPrice').innerHTML =
       '$' + urlRate + '<span style="font-size:1.1rem;font-weight:700;">/month</span>';
     document.getElementById('sidebarPriceNote').innerHTML =

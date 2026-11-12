@@ -34,7 +34,7 @@ const {useState,useEffect,useRef}=React;
 /* ===== constants + config ===== */
 const LS='soflo_leads_v1',LS_URL='soflo_sheet_url',LS_PRICE='soflo_pricing',LS_PRICE_V='soflo_pricing_v',LS_TMPL='soflo_tmpl';
 const DEF_SHEET='https://script.google.com/macros/s/AKfycbz3ZdK_OlRdHWjsGmSIh-L5EW-JemAcLsoSDLmSb8DWM7EwKSp_LjfBsUhElnn6c2nZ/exec';
-const DEF_TMPL="Hi {name}, thanks for reaching out to SoFlo UnderPressure.\n\nYour estimate for {surfaces}: {range}.\nThat's a flat price we lock in after a quick look at the property or a couple of photos. No hourly, no surprises on the invoice.\n\nWant to grab a day this week? Reply here or call (305) 894-6336.\n- Saul, SoFlo UnderPressure";
+const DEF_TMPL="Hi {name}, thanks for reaching out to SoFlo UnderPressure.\n\nYour estimate for {surfaces}: {range}.\nThat's a flat price we lock in after a quick look at the property or a couple of photos. No hourly, no surprises on the invoice.\n\nWant to grab a day this week? Reply here or call (305) 894-6336.\n- SoFlo UnderPressure";
 /* Prices, sizes, conditions, bundle, minimum, tile and two-story multipliers and zones come from ../pricing.js (window.SF), the same file the public quote uses. */
 const SF=window.SF;
 const PRICE_VER='20261025'; /* bump when pricing.js prices change so old saved overrides are ignored */
@@ -362,7 +362,7 @@ function CustomerModal({lead,onClose,setOpen}){
       <input value={price} onChange={e=>setPrice(e.target.value)} className="text-center font-display font-black text-2xl text-navy bg-white rounded-lg px-2 py-1 mt-1 max-w-[240px] mx-auto block"/>
       <div className="text-xs text-navy/60 mt-1">Flat price, confirmed after a quick look. No hourly, no surprises.</div>
     </div>
-    <p className="text-sm text-navy/70 text-center mt-3">Owner-operated · Owner on every job<br/>(305) 894-6336 · SoFlo.Underpressure@gmail.com</p>
+    <p className="text-sm text-navy/70 text-center mt-3">Family-owned · Family on every job<br/>(305) 894-6336 · SoFlo.Underpressure@gmail.com</p>
     <div className="flex gap-2 justify-center mt-4"><Btn kind="coral" className="!py-2 !text-xs" onClick={()=>setOpen({type:'send',lead,price})}>Send this to customer</Btn><Btn className="!py-2 !text-xs" onClick={onClose}>Close</Btn></div>
   </Modal>;
 }

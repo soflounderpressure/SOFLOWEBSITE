@@ -1,11 +1,11 @@
-/* Self-hosted fonts (latin subset, OFL). Barlow Condensed 900 also serves 800; Barlow 700 also serves 800. */
+/*hover-gated*//* Self-hosted fonts (latin subset, OFL). Barlow Condensed 900 also serves 800; Barlow 700 also serves 800. */
 @font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:700;font-display:swap;src:url(/fonts/barlow-condensed-700.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 @font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:800 900;font-display:swap;src:url(/fonts/barlow-condensed-900.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 @font-face{font-family:'Barlow';font-style:normal;font-weight:400;font-display:swap;src:url(/fonts/barlow-400.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 @font-face{font-family:'Barlow';font-style:normal;font-weight:600;font-display:swap;src:url(/fonts/barlow-600.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 @font-face{font-family:'Barlow';font-style:normal;font-weight:700 800;font-display:swap;src:url(/fonts/barlow-700.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
 @font-face{font-family:'Jost';font-style:normal;font-weight:100 900;font-display:swap;src:url(/fonts/jost-variable.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
-/* SoFlo UnderPressure — Quoti design system (shared) */
+/* SoFlo UnderPressure - Quoti design system (shared) */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --sky:#C6E8F7; --sky-soft:#EAF6FD; --navy:#1C2B3A; --navy-mid:#2D4156;
@@ -24,16 +24,16 @@ a{color:inherit;text-decoration:none}
   letter-spacing:.06em;text-transform:uppercase;font-size:1rem;padding:1.05rem 2rem;border-radius:var(--pill);
   min-height:52px;transition:transform .2s,box-shadow .2s,background .2s;cursor:pointer;border:none}
 .btn-primary{background:var(--navy);color:#fff}
-.btn-primary:hover{background:var(--peri-dk);transform:translateY(-3px);box-shadow:0 14px 34px rgba(68,84,176,.35)}
+@media (hover:hover) and (pointer:fine){.btn-primary:hover{background:var(--peri-dk);transform:translateY(-3px);box-shadow:0 14px 34px rgba(68,84,176,.35)}}
 .btn-yellow{background:var(--yellow);color:var(--navy);box-shadow:0 6px 20px rgba(255,216,77,.5)}
-.btn-yellow:hover{transform:translateY(-3px);background:#f5cc30}
+@media (hover:hover) and (pointer:fine){.btn-yellow:hover{transform:translateY(-3px);background:#f5cc30}}
 .btn-ghost{background:transparent;color:var(--navy);border:2.5px solid var(--navy)}
-.btn-ghost:hover{background:var(--navy);color:#fff}
+@media (hover:hover) and (pointer:fine){.btn-ghost:hover{background:var(--navy);color:#fff}}
 .eyebrow{font-family:var(--fd);font-weight:700;font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;color:var(--peri-dk);display:inline-flex;align-items:center;gap:.6rem}
 .eyebrow::before{content:"";width:26px;height:2px;background:var(--peri-dk)}
 :focus-visible{outline:3px solid var(--periwinkle);outline-offset:3px}
 
-/* NAV — floating pill */
+/* NAV - floating pill */
 .navbar{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem clamp(1rem,4vw,2rem);display:flex;justify-content:center}
 .nav{width:100%;max-width:1200px;display:flex;align-items:center;justify-content:space-between;
   background:rgba(255,255,255,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
@@ -43,7 +43,7 @@ a{color:inherit;text-decoration:none}
 .logo span{font-weight:700;font-size:1rem;color:var(--periwinkle);letter-spacing:.03em}
 .nav-links{display:flex;align-items:center;gap:1.8rem;list-style:none}
 .nav-links a{font-family:var(--fd);font-weight:700;font-size:.82rem;letter-spacing:.09em;text-transform:uppercase;color:var(--navy);opacity:.7;transition:opacity .2s}
-.nav-links a:hover{opacity:1}
+@media (hover:hover) and (pointer:fine){.nav-links a:hover{opacity:1}}
 .nav-cta{display:flex;gap:.5rem;align-items:center}
 .nav-call{font-family:var(--fd);font-weight:800;letter-spacing:.04em;color:var(--navy);padding:.7rem 1rem;font-size:.9rem}
 .nav .btn{padding:.8rem 1.4rem;font-size:.82rem;min-height:44px}
@@ -93,7 +93,7 @@ a{color:inherit;text-decoration:none}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
 .card{background:#fff;border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh);border:1px solid rgba(28,43,58,.05);
   transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
-.card:hover{transform:translateY(-6px);box-shadow:var(--sh-lg)}
+@media (hover:hover) and (pointer:fine){.card:hover{transform:translateY(-6px);box-shadow:var(--sh-lg)}}
 .card-img{width:100%;aspect-ratio:3/2;object-fit:cover;background:var(--sky-soft)}
 .card-body{padding:1.6rem 1.6rem 1.8rem}
 .card .tag{font-family:var(--fd);font-weight:700;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--peri-dk)}
@@ -144,7 +144,7 @@ footer{background:var(--navy);color:#fff;margin-top:4rem;border-radius:var(--r-x
 .fbrand p{color:rgba(255,255,255,.72);font-size:.9rem;margin-top:.8rem;max-width:30ch}
 .fcol h5{font-family:var(--fd);font-weight:800;letter-spacing:.1em;text-transform:uppercase;font-size:.8rem;color:rgba(255,255,255,.5);margin-bottom:1rem}
 .fcol a{display:block;color:rgba(255,255,255,.8);font-size:.92rem;padding:.3rem 0}
-.fcol a:hover{color:#fff}
+@media (hover:hover) and (pointer:fine){.fcol a:hover{color:#fff}}
 .fbot{border-top:1px solid rgba(255,255,255,.12);margin-top:2.5rem;padding-top:1.5rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;color:rgba(255,255,255,.72);font-size:.82rem}
 
 @media(max-width:960px){
@@ -166,7 +166,7 @@ footer{background:var(--navy);color:#fff;margin-top:4rem;border-radius:var(--r-x
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto}}
 
-/* ═══════════════ LEGACY RESKIN — overrides for existing page classes ═══════════════ */
+/* ═══════════════ LEGACY RESKIN - overrides for existing page classes ═══════════════ */
 body{background:var(--paper)!important}
 
 /* legacy nav -> floating pill (markup also swapped, this covers any left) */
@@ -195,7 +195,7 @@ nav#nav{position:fixed;top:1rem;left:50%;transform:translateX(-50%);width:calc(1
 .btn-secondary,.btn-hero-secondary{border-radius:var(--pill)!important;border:2.5px solid var(--navy)!important;
   color:var(--navy)!important;background:transparent!important;font-family:var(--fd)!important;font-weight:700!important;
   text-transform:uppercase!important;letter-spacing:.06em!important;padding:1rem 1.8rem!important;min-height:52px}
-.btn-primary:hover,.btn-hero-primary:hover{background:var(--peri-dk)!important;transform:translateY(-3px)}
+@media (hover:hover) and (pointer:fine){.btn-primary:hover,.btn-hero-primary:hover{background:var(--peri-dk)!important;transform:translateY(-3px)}}
 .nav-cta{background:var(--yellow)!important;color:var(--navy)!important;border-radius:var(--pill)!important}
 
 /* cards: service/svc/plan/value/article -> soft rounded */
@@ -228,7 +228,7 @@ footer{background:var(--navy)!important;border-radius:var(--r-xl) var(--r-xl) 0 
 .page-hero,.services-hero,.resources-hero,.quote-hero,.area-hero,.contract-hero{
   padding:8rem 0 1.5rem!important;max-width:1360px;margin:0 auto;
   padding-inline:clamp(1.25rem,4vw,3.5rem)!important}
-/* hero photo slot: not a giant dark 21:9 block — cap height, round it */
+/* hero photo slot: not a giant dark 21:9 block - cap height, round it */
 .page-photo,.slot.page-photo{aspect-ratio:auto!important;max-height:440px!important;height:clamp(240px,34vw,440px)!important;
   border-radius:var(--r-xl)!important;overflow:hidden;margin:1.5rem auto 0;max-width:1360px}
 .page-photo img,.slot.page-photo img{width:100%;height:100%;object-fit:cover;opacity:1!important;position:absolute;inset:0}
@@ -268,7 +268,7 @@ footer{background:var(--navy)!important;border-radius:var(--r-xl) var(--r-xl) 0 
   font-size:clamp(.78rem,1vw,.95rem);letter-spacing:.16em;text-transform:uppercase;color:var(--peri-dk);
   line-height:1.3;margin-bottom:.9rem;max-width:46ch}
 .h1-lead::before{content:"";flex:none;width:24px;height:2px;background:var(--peri-dk);margin-top:.55em}
-/* keyword lead IS the eyebrow — hide the redundant generic eyebrow in heroes */
+/* keyword lead IS the eyebrow - hide the redundant generic eyebrow in heroes */
 .page-hero .section-eyebrow,.services-hero .section-eyebrow,.quote-hero .section-eyebrow,
 .resources-hero .section-eyebrow,.hero-eyebrow{display:none!important}
 
@@ -287,7 +287,7 @@ footer{background:var(--navy)!important;border-radius:var(--r-xl) var(--r-xl) 0 
 }
 
 /* ════════════════════════════════════════════════════════════════
-   AMBIENT WATER BACKGROUND — drifting aqua mesh + rising bubbles
+   AMBIENT WATER BACKGROUND - drifting aqua mesh + rising bubbles
    pure CSS, on html/body pseudo-elements, every page gets it free
    ════════════════════════════════════════════════════════════════ */
 /* bubble layer (far, large, slow) */
@@ -341,7 +341,7 @@ body::before{
 .card,.svc-card{position:relative;isolation:isolate}
 .card::after,.svc-card::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;border-radius:inherit;
   background:linear-gradient(130deg,rgba(255,255,255,.5),transparent 42%);opacity:0;transition:opacity .3s}
-.card:hover::after,.svc-card:hover::after{opacity:1}
+@media (hover:hover) and (pointer:fine){.card:hover::after,.svc-card:hover::after{opacity:1}}
 
 /* ── scroll-reveal for ALL pages (progressive, no JS) ───────── */
 @supports (animation-timeline:view()){
@@ -377,11 +377,11 @@ body{background:var(--foam)!important}
 
 /* buttons */
 .btn-yellow{background:var(--yellow);color:var(--navy);box-shadow:0 4px 0 var(--yellow-dk),0 10px 26px rgba(17,34,51,.18)}
-.btn-yellow:hover{background:#ffdc5c;transform:translateY(-3px);box-shadow:0 7px 0 var(--yellow-dk),0 16px 30px rgba(17,34,51,.22)}
+@media (hover:hover) and (pointer:fine){.btn-yellow:hover{background:#ffdc5c;transform:translateY(-3px);box-shadow:0 7px 0 var(--yellow-dk),0 16px 30px rgba(17,34,51,.22)}}
 .btn-navy{background:var(--navy);color:#fff}
-.btn-navy:hover{background:var(--navy-2);transform:translateY(-3px)}
+@media (hover:hover) and (pointer:fine){.btn-navy:hover{background:var(--navy-2);transform:translateY(-3px)}}
 .btn-light{background:#fff;color:var(--navy)}
-.btn-light:hover{background:var(--aqua-lt);transform:translateY(-3px)}
+@media (hover:hover) and (pointer:fine){.btn-light:hover{background:var(--aqua-lt);transform:translateY(-3px)}}
 .nav-links a{font-size:.9rem;opacity:.8}
 
 /* ── HERO: full-bleed real job photo ── */
@@ -434,7 +434,7 @@ body{background:var(--foam)!important}
 
 /* service cards on aqua */
 .blk-aqua .card{border:3px solid var(--navy);box-shadow:6px 6px 0 var(--navy);border-radius:var(--r-lg)}
-.blk-aqua .card:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--navy)}
+@media (hover:hover) and (pointer:fine){.blk-aqua .card:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--navy)}}
 .blk-aqua .card h3{font-family:var(--fx);font-weight:900;letter-spacing:-.01em}
 .blk-aqua .card .tag{color:#1679A8}
 .blk-aqua .card .price{display:inline-block;background:var(--yellow);border-radius:var(--pill);padding:.25rem .8rem;margin-top:auto;align-self:flex-start}
@@ -537,9 +537,9 @@ header.hero .hero-lead,header.hero .hero-sub,header.hero p{color:rgba(255,255,25
 header.hero .hero-trust{color:rgba(255,255,255,.75)}
 header.hero .hero-trust span::before{background:var(--yellow)}
 header.hero .btn-primary{background:var(--yellow);color:var(--navy);box-shadow:0 4px 0 var(--yellow-dk)}
-header.hero .btn-primary:hover{background:#ffdc5c}
+@media (hover:hover) and (pointer:fine){header.hero .btn-primary:hover{background:#ffdc5c}}
 header.hero .btn-ghost{color:#fff;border-color:rgba(255,255,255,.7)}
-header.hero .btn-ghost:hover{background:#fff;color:var(--navy)}
+@media (hover:hover) and (pointer:fine){header.hero .btn-ghost:hover{background:#fff;color:var(--navy)}}
 header.hero .hero-media img.shot{border:4px solid #fff;box-shadow:12px 12px 0 var(--aqua)}
 header.hero .hero-media::before,header.hero .hero-media::after{display:none}
 header.hero .hero-badge{background:var(--yellow);color:var(--navy)}
@@ -574,7 +574,7 @@ header.hero .hero-badge b{color:var(--navy)}
 /* cards everywhere: bordered, offset shadow, like the homepage */
 .card,.svc-card,.service-card,.value-card,.article-card,.area-card,.review-card,.contact-card,.promise{
   border:3px solid var(--navy)!important;box-shadow:6px 6px 0 var(--navy)!important}
-.card:hover,.svc-card:hover,.article-card:hover,.area-card:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--navy)!important}
+@media (hover:hover) and (pointer:fine){.card:hover,.svc-card:hover,.article-card:hover,.area-card:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--navy)!important}}
 .card h3,.svc-name,.value-title{font-family:var(--fx)!important;font-weight:900!important;letter-spacing:-.01em}
 .plan-card{border:3px solid var(--navy)!important;box-shadow:6px 6px 0 var(--navy)!important}
 .plan-card.featured{background:var(--navy)!important;border-color:var(--navy)!important}
@@ -598,7 +598,7 @@ header.hero .hero-badge b{color:var(--navy)}
 }
 header.hero .btn-primary,.softwash-callout .btn-primary{background:var(--yellow)!important;color:var(--navy)!important;box-shadow:0 4px 0 var(--yellow-dk)!important}
 header.hero .btn-ghost{background:transparent!important;color:#fff!important;border:2.5px solid rgba(255,255,255,.7)!important}
-header.hero .btn-ghost:hover{background:#fff!important;color:var(--navy)!important}
+@media (hover:hover) and (pointer:fine){header.hero .btn-ghost:hover{background:#fff!important;color:var(--navy)!important}}
 header.hero .hero-lead{margin-top:1.2rem}
 .page-hero::after,.services-hero::after,.resources-hero::after,.quote-hero::after,.area-hero::after,.contract-hero::after{content:none!important}
 .page-hero,.services-hero,.resources-hero,.quote-hero,.area-hero,.contract-hero{
@@ -653,10 +653,10 @@ body{background:var(--sand)!important;color:var(--ink)}
 .btn-yellow,header.hero .btn-primary,.softwash-callout .btn-primary,.about-cta .btn-primary,.process-section .btn-primary,
 .page-hero .btn-primary,.services-hero .btn-primary,.resources-hero .btn-primary,.area-hero .btn-primary,.quote-hero .btn-primary{
   background:var(--coral)!important;color:#fff!important;box-shadow:0 10px 24px -8px rgba(194,74,51,.6)!important}
-.btn-yellow:hover,header.hero .btn-primary:hover{background:var(--coral-dk)!important;transform:translateY(-2px)}
+@media (hover:hover) and (pointer:fine){.btn-yellow:hover,header.hero .btn-primary:hover{background:var(--coral-dk)!important;transform:translateY(-2px)}}
 .btn-primary,.btn-navy{background:var(--navy)!important;color:#fff!important}
 .btn-light{background:var(--sand)!important;color:var(--navy)!important}
-.btn-light:hover{background:#fff!important}
+@media (hover:hover) and (pointer:fine){.btn-light:hover{background:#fff!important}}
 .btn-ghost,.btn-secondary{background:transparent!important;border:2px solid currentColor!important}
 
 /* ── nav: logo badge + dark glass pill ── */
@@ -665,7 +665,7 @@ body{background:var(--sand)!important;color:var(--ink)}
 .nav .logo::before{content:"";flex:none;width:44px;height:44px;border-radius:50%;background:var(--yellow) url(/Pictures/mascot-wave-220.png) 50% 70%/78% auto no-repeat;background:var(--yellow) image-set(url(/Pictures/mascot-wave-220.avif) type("image/avif"),url(/Pictures/mascot-wave-220.webp) type("image/webp"),url(/Pictures/mascot-wave-220.png) type("image/png")) 50% 70%/78% auto no-repeat;box-shadow:inset 0 0 0 3px var(--navy),0 0 0 2px var(--yellow)}
 .nav .logo b{color:#fff!important}.nav .logo span{color:var(--aqua)!important}
 .nav-links a{color:#fff!important;opacity:.78;font-family:var(--fd)!important;font-weight:700;font-size:.92rem!important;letter-spacing:.09em}
-.nav-links a:hover{opacity:1}
+@media (hover:hover) and (pointer:fine){.nav-links a:hover{opacity:1}}
 .nav-cta{background:transparent!important;gap:.45rem}
 .nav-call{background:var(--sand);color:var(--navy)!important;border-radius:var(--pill);padding:.7rem 1.1rem!important;font-family:var(--fb)!important;font-weight:800!important;font-size:.8rem!important;letter-spacing:.08em}
 .nav .btn{min-height:44px!important;padding:.75rem 1.3rem!important;font-size:.76rem!important}
@@ -684,7 +684,7 @@ body{background:var(--sand)!important;color:var(--ink)}
 /* ── surfaces: soft cards, no hard outlines ── */
 .card,.svc-card,.service-card,.value-card,.article-card,.area-card,.review-card,.contact-card,.promise,.plan-card,.faq-item,
 .blk-aqua .card,.blk-foam .promise{border:none!important;box-shadow:var(--card-sh)!important;border-radius:28px!important}
-.card:hover,.svc-card:hover,.article-card:hover,.area-card:hover,.blk-aqua .card:hover{transform:translateY(-6px)!important;box-shadow:0 1px 0 rgba(16,38,58,.04),0 24px 44px -14px rgba(16,38,58,.3)!important}
+@media (hover:hover) and (pointer:fine){.card:hover,.svc-card:hover,.article-card:hover,.area-card:hover,.blk-aqua .card:hover{transform:translateY(-6px)!important;box-shadow:0 1px 0 rgba(16,38,58,.04),0 24px 44px -14px rgba(16,38,58,.3)!important}}
 .faq-item{border-radius:20px!important}
 .band,.hoa-inner{box-shadow:var(--card-sh)!important;border:none!important}
 .post-cta{border:none!important;box-shadow:var(--card-sh)!important}
@@ -710,7 +710,7 @@ footer,footer.ft-flush{background:var(--navy)!important}
 /* compact service tiles */
 .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;max-width:1180px;margin:0 auto}
 .tile{display:block;background:var(--sand);border-radius:28px;overflow:hidden;box-shadow:var(--card-sh);transition:transform .25s,box-shadow .25s}
-.tile:hover{transform:translateY(-6px);box-shadow:0 24px 44px -14px rgba(16,38,58,.3)}
+@media (hover:hover) and (pointer:fine){.tile:hover{transform:translateY(-6px);box-shadow:0 24px 44px -14px rgba(16,38,58,.3)}}
 .tile img{width:100%;aspect-ratio:16/11;object-fit:cover;border-radius:28px 28px 0 0}
 .tile-l{display:flex;align-items:center;justify-content:space-between;gap:.8rem;padding:1.05rem 1.35rem 1.15rem}
 .tile-l b{font-family:var(--fd);font-weight:800;text-transform:uppercase;letter-spacing:.03em;font-size:1.25rem;color:var(--navy);line-height:1.1}
@@ -784,11 +784,11 @@ footer,footer.ft-flush{background:var(--navy)!important}
 }
 /* round 4: inner-page consistency */
 .btn-hoa{background:var(--coral)!important;color:#fff!important;box-shadow:0 10px 24px -8px rgba(194,74,51,.6)!important}
-.btn-hoa:hover{background:var(--coral-dk)!important}
+@media (hover:hover) and (pointer:fine){.btn-hoa:hover{background:var(--coral-dk)!important}}
 .service-link-grid{display:flex!important;flex-wrap:wrap;gap:.65rem;margin-top:1.2rem}
 .service-link-grid a{display:inline-flex;align-items:center;padding:.7rem 1.15rem!important;background:#fff!important;border-radius:var(--pill)!important;box-shadow:var(--card-sh)!important;
   font-family:var(--fd);font-weight:800;text-transform:uppercase;letter-spacing:.05em;font-size:.92rem;color:var(--navy)!important;border:none!important;transition:transform .2s,background .2s}
-.service-link-grid a:hover{transform:translateY(-2px);background:var(--yellow)!important}
+@media (hover:hover) and (pointer:fine){.service-link-grid a:hover{transform:translateY(-2px);background:var(--yellow)!important}}
 .service-link-grid a strong{color:var(--coral)}
 .faq-section .faq-group{max-width:820px;margin-inline:auto}
 .faq-group-title{font-family:var(--fx)!important;font-weight:900!important;color:var(--navy)!important;letter-spacing:-.01em}
@@ -819,7 +819,7 @@ a .ico,label .ico,button .ico{margin-right:.4em}
 .pc h3{font-size:clamp(1.5rem,2.3vw,1.9rem)!important;white-space:nowrap;letter-spacing:-.02em!important}
 
 /* ═══════════════════════════════════════════════════════════════
-   V5 (2026-10-05): calmer. Saul: "not everything all caps",
+   V5 (2026-10-05): calmer. Feedback: "not everything all caps",
    "too much rounding". Normal-case type, tight radius scale.
    ═══════════════════════════════════════════════════════════════ */
 /* 1. no all-caps anywhere; drop the wide tracking that only suited caps */
@@ -998,7 +998,7 @@ nav#nav,.nav{max-width:1340px!important}
 .sfwb p{margin:0;text-align:center}
 .sfwb a{font-weight:800;text-decoration:underline;text-underline-offset:3px;color:var(--navy,#10263A)}
 .sfwb-x{flex:0 0 auto;width:44px;height:44px;border:0;background:transparent;color:var(--navy,#10263A);font-size:1.6rem;line-height:1;cursor:pointer;border-radius:50%}
-.sfwb-x:hover,.sfwb-x:focus-visible{background:rgba(16,38,58,.08)}
+.sfwb-x:focus-visible{background:rgba(16,38,58,.08)}@media (hover:hover) and (pointer:fine){.sfwb-x:hover{background:rgba(16,38,58,.08)}}
 @media(max-width:760px){
   .sfbar{display:flex;gap:.6rem;position:fixed;left:0;right:0;bottom:0;z-index:90;background:var(--navy,#10263A);
     padding:.55rem .75rem calc(.55rem + env(safe-area-inset-bottom));box-shadow:0 -6px 22px rgba(16,38,58,.28)}
@@ -1045,3 +1045,23 @@ header.hero .eyebrow{color:var(--aqua)!important}header.hero .eyebrow::before{ba
 .svc-hero .breadcrumb,.svc-hero .breadcrumb a{color:var(--aqua)!important}
 .svc-hero .breadcrumb span{color:#fff!important}
 .post-cta [data-promo]{color:var(--navy)}
+
+/*mobile-native baseline (2026-11): why each line is here
+  tap highlight = the loudest "this is a website" tell; touch-action kills the double-tap delay; user-select on controls only;
+  :active gives press feedback because hover no longer fires on touch; env() insets only work with viewport-fit=cover */
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+a,button,[role="button"],summary,.btn,.ibtn,.opt,.plan-cta,.form-submit,.burger,.when button,.sfbar a,.sfmodal button,.sfwb-x{touch-action:manipulation}
+button,[role="button"],.btn,.btn-primary,.btn-yellow,.btn-ghost,.btn-navy,.btn-light,.btn-hoa,.btn-secondary,.btn-hero-primary,.ibtn,.opt,.plan-cta,.form-submit,.burger,.when button,.sfbar a,.sfmodal button,.sfwb-x{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.btn:active,.btn-primary:active,.btn-yellow:active,.btn-ghost:active,.btn-navy:active,.btn-light:active,.btn-hoa:active,.btn-secondary:active,.btn-hero-primary:active,.ibtn:active,.plan-cta:active,.form-submit:active,.sfbar a:active,.sfmodal button:active{transform:scale(.97)}
+.opt:active{transform:scale(.985)}
+button:disabled:active,.btn[disabled]:active,.ibtn[disabled]:active,.form-submit:disabled:active{transform:none}
+@media (pointer:coarse){input,textarea,select{font-size:16px}}
+.wrap{padding-left:max(clamp(1.25rem,4vw,3.5rem),env(safe-area-inset-left,0px));padding-right:max(clamp(1.25rem,4vw,3.5rem),env(safe-area-inset-right,0px))}
+.sfbar{padding-left:max(.75rem,env(safe-area-inset-left,0px));padding-right:max(.75rem,env(safe-area-inset-right,0px))}
+.sfwb{left:max(10px,env(safe-area-inset-left,0px))!important;right:max(10px,env(safe-area-inset-right,0px))!important}
+.sfmodal{padding:max(1rem,env(safe-area-inset-top,0px)) max(1rem,env(safe-area-inset-right,0px)) max(1rem,env(safe-area-inset-bottom,0px)) max(1rem,env(safe-area-inset-left,0px));overscroll-behavior:contain}
+.sfmodal-box,.sfmodal>div{max-height:100%;overflow-y:auto;overscroll-behavior:contain}
+@media (max-width:960px){
+  .navbar:has(.nav-toggle:checked) .nav:not(#_){max-height:calc(100dvh - 20px)!important;overflow-y:auto!important;overscroll-behavior:contain}
+  body:has(input:focus,textarea:focus,select:focus) .sfbar{display:none!important}
+}

@@ -30,7 +30,7 @@ input:focus,select:focus{outline:2px solid var(--coral);outline-offset:1px;borde
 <body>
 <main class="card">
   <h1>Contract link builder</h1>
-  <p class="sub">Owner tool. Builds the agreement link and the text to send.</p>
+  <p class="sub">Internal tool. Builds the agreement link and the text to send.</p>
 
   <label for="plan">Plan</label>
   <select id="plan">
@@ -132,7 +132,7 @@ input:focus,select:focus{outline:2px solid var(--coral);outline-offset:1px;borde
       var who = s.name ? 'Hi ' + s.name + ', ' : 'Hi, ';
       var sign = s.pay ? 'Sign on your phone, then tap Activate auto-pay.' : 'Sign on your phone.';
       msg = who + "here's your SoFlo UnderPressure agreement at $" + s.rate + ' a month: ' + url + ' ' +
-        sign + ' Text me with any questions. Saul';
+        sign + ' Text us with any questions. SoFlo UnderPressure';
     }
 
     cur.url = url;
