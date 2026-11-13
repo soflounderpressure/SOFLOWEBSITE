@@ -39,7 +39,7 @@ Production website for **SoFlo UnderPressure** — a Miami pressure-washing comp
 - American spelling (color, tire, aluminum), not British.
 - Client-facing copy = honest. **No fabricated reviews, no fake before/after, no invented stats.** AI/stock imagery OK on the website but NEVER on Google Business Profile and NEVER for before/after.
 - `caveman` mode governs how Claude talks to Saul (terse), NEVER client-facing copy (that uses full sentences / brand voice).
-- Copy: family-business framing, no personal naming (2026-11). Public copy says "family-owned", "a member of our family", "family on every job". Never name a person, never say "owner" about us, no headcounts, no family member names, no "since 19XX".
+- Copy: family-business framing, no personal naming (2026-11). Public copy says "family-owned", "a member of our family", "real people, real hard work". Never promise a specific person on every job (impossible). Never name a person, never say "owner" about us, no headcounts, no family member names, no "since 19XX".
 
 ## 3. Git + deploy workflow
 

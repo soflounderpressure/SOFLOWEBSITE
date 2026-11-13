@@ -25,3 +25,10 @@
 
 /*.js
   Cache-Control: public, max-age=31536000, immutable
+
+# Keep the free *.pages.dev copies of this site (and preview deploys) out of search results. sofloup.com is not matched.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
